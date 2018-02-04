@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include "ColorPalette.h"
+#include "Player.hpp"
 
 // OpenGL includes
 #include <GL/glew.h>
@@ -10,6 +11,7 @@
 namespace Engine
 {
 	ColorPalette colors;
+	Player ship;
 
 	const float DESIRED_FRAME_RATE = 60.0f;
 	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
@@ -86,6 +88,18 @@ namespace Engine
 		default:			
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
+		case SDL_SCANCODE_W:
+			ship.move(Vector2(0.0f, 5.0f));
+			break;
+		case SDL_SCANCODE_A:
+			ship.move(Vector2(-5.0f, 0.0f));
+			break;
+		case SDL_SCANCODE_S:
+			ship.move(Vector2(0.0f, -5.0f));
+			break;
+		case SDL_SCANCODE_D:
+			ship.move(Vector2(5.0f, 0.0f));
+			break;
 		}
 	}
 
@@ -127,15 +141,10 @@ namespace Engine
 
 	void App::Render()
 	{
-		glClearColor(colors.getSpringGreen().getColor()[0], colors.getSpringGreen().getColor()[1], colors.getIndigo().getColor()[2], colors.getSpringGreen().getColor()[3]);
+		glClearColor(colors.crimson.redValue, colors.crimson.greenValue, colors.crimson.blueValue, colors.crimson.alphaValue);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBegin(GL_LINE_LOOP);
-		glVertex2f(50.0, 50.0);
-		glVertex2f(50.0, -50.0);
-		glVertex2f(-50.0, -50.0);
-		glVertex2f(-50.0, 50.0);
-		glEnd();
+		ship.render();
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
