@@ -89,16 +89,16 @@ namespace Engine
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		case SDL_SCANCODE_W:
-			ship.move(Vector2(0.0f, 5.0f));
+			ship.move(Vector2(0.0f, 10.0f));
 			break;
 		case SDL_SCANCODE_A:
-			ship.move(Vector2(-5.0f, 0.0f));
+			ship.move(Vector2(-10.0f, 0.0f));
 			break;
 		case SDL_SCANCODE_S:
-			ship.move(Vector2(0.0f, -5.0f));
+			ship.move(Vector2(0.0f, -10.0f));
 			break;
 		case SDL_SCANCODE_D:
-			ship.move(Vector2(5.0f, 0.0f));
+			ship.move(Vector2(10.0f, 0.0f));
 			break;
 		}
 	}

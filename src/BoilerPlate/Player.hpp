@@ -11,9 +11,14 @@ public:
 
 	Player();
 
+	// public functions
 	void render();
 	void move(Vector2);
-	//void update();
+	void moveForward(Vector2);
+	void rotateLeft();
+	void rotateRight();
+
+	///void update();
 
 private:
 
