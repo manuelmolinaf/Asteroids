@@ -17,12 +17,14 @@ public:
 	void moveForward(Vector2);
 	void rotateLeft();
 	void rotateRight();
+	bool movingForward;
 
 	///void update();
 
 private:
 
 	Vector2 position;
+	void warp();
 
 
 

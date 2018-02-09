@@ -90,9 +90,11 @@ namespace Engine
 			break;
 		case SDL_SCANCODE_W:
 			ship.move(Vector2(0.0f, 10.0f));
+			ship.movingForward = true;
 			break;
 		case SDL_SCANCODE_A:
 			ship.move(Vector2(-10.0f, 0.0f));
+
 			break;
 		case SDL_SCANCODE_S:
 			ship.move(Vector2(0.0f, -10.0f));
@@ -109,6 +111,10 @@ namespace Engine
 		{
 		case SDL_SCANCODE_ESCAPE:
 			OnExit();
+			break;
+
+		case SDL_SCANCODE_W:
+			ship.movingForward = false;
 			break;
 		default:
 			//DO NOTHING

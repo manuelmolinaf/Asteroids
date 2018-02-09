@@ -7,26 +7,41 @@ using namespace std;
 Player::Player()
 {
 	position = Vector2(0.0f, 0.0f);
+	movingForward = false;
 }
 
 
 void Player::render()
 {
+	glLoadIdentity();
+	glTranslatef(position.x, position.y, 0.0f);
 	glBegin(GL_LINE_LOOP);
-	glVertex2f(20.0f + position.x, 0.0f + position.y);
-	glVertex2f(0.0f + position.x, 50.0f + position.y);
-	glVertex2f(-20.0f + position.x, 0.0f + position.y);
-	glVertex2f(0.0f + position.x, -25.0f + position.y);
+	glVertex2f(20.0f, 0.0f);
+	glVertex2f(0.0f, 50.0f);
+	glVertex2f(-20.0f, 0.0f);
+	glVertex2f(0.0f, 10.0f);
 	glEnd();
-	
+
+	if (movingForward)
+	{
+		glLoadIdentity();
+		glTranslatef(position.x, position.y, 0.0f);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(15.0f, -3.0f);
+		glVertex2f(-15.0f, -3.0f);
+		glVertex2f(-10.0f, -16.0f);
+		glVertex2f(0.0f, -9.0f);
+		glVertex2f(10.0f, -16.0f);
+		//glVertex2f(10.0f, -5.0f);
+		glEnd();
+	}
+
 
 }
 
-
-void Player::move(Vector2 vec)
+void Player::warp()
 {
-	position += vec;
-
+	
 	//warps in the 'x' axis
 
 	if (position.x >= 568)
@@ -43,4 +58,11 @@ void Player::move(Vector2 vec)
 
 	if (position.y <= -321)
 		position.y = 319;
+	
+}
+
+void Player::move(Vector2 vec)
+{
+	position += vec;
+	warp();
 }
