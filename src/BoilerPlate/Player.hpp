@@ -14,7 +14,7 @@ public:
 	// public functions
 	void render();
 	void move(Vector2);
-	void moveForward(Vector2);
+	void moveForward();
 	void rotateLeft();
 	void rotateRight();
 	bool movingForward;
@@ -24,10 +24,9 @@ public:
 private:
 
 	Vector2 position;
+	float maxHeight;
+	float maxWidth;
 	void warp();
-
-
-
 
 };
 

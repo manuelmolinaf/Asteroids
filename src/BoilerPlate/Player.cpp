@@ -8,6 +8,8 @@ Player::Player()
 {
 	position = Vector2(0.0f, 0.0f);
 	movingForward = false;
+	maxHeight = 640.0f;
+	maxWidth = 1136.0f;
 }
 
 
@@ -30,9 +32,10 @@ void Player::render()
 		glVertex2f(15.0f, -3.0f);
 		glVertex2f(-15.0f, -3.0f);
 		glVertex2f(-10.0f, -16.0f);
-		glVertex2f(0.0f, -9.0f);
+		glVertex2f(-6.0f, -10.0f);
+		glVertex2f(0.0f, -24.0f);
+		glVertex2f(6.0f, -10.0f);
 		glVertex2f(10.0f, -16.0f);
-		//glVertex2f(10.0f, -5.0f);
 		glEnd();
 	}
 
@@ -44,20 +47,20 @@ void Player::warp()
 	
 	//warps in the 'x' axis
 
-	if (position.x >= 568)
-		position.x = -568;
+	if (position.x >= maxWidth / 2)
+		position.x = -1 * (maxWidth / 2);
 
-	if (position.x <= -569)
-		position.x = 567;
+	if (position.x <= -1 * ((maxWidth / 2) + 1))
+		position.x = (maxWidth / 2) - 1;
 
 
 	//Warps in the 'y' axis
 
-	if (position.y >= 320)
-		position.y = -320;
+	if (position.y >= maxHeight / 2)
+		position.y = -1 * (maxHeight / 2);
 
-	if (position.y <= -321)
-		position.y = 319;
+	if (position.y <= -1 * ((maxHeight / 2) + 1))
+		position.y = (maxHeight / 2) - 1;
 	
 }
 
