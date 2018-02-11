@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MathUtilities.h"
+#include "MathUtilities.hpp"
 #include <math.h>
 
 #define PI 3.14159265359
@@ -105,13 +105,3 @@ float MathUtilities::angularDistance(float a, float b)
 
 
 }
-
-
-
-
-
-
-
-
-
-

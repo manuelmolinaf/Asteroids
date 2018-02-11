@@ -17,7 +17,7 @@ public:
 	void moveForward();
 	void rotateLeft();
 	void rotateRight();
-	bool movingForward;
+	void movingForward(bool);
 
 	///void update();
 
@@ -27,6 +27,7 @@ private:
 	float maxHeight;
 	float maxWidth;
 	void warp();
+	bool goingForward;
 
 };
 

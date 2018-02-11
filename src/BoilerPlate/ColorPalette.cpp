@@ -1,4 +1,4 @@
-#include "ColorPalette.h"
+#include "ColorPalette.hpp"
 
 ColorPalette::ColorPalette()
 {
@@ -10,4 +10,3 @@ ColorPalette::~ColorPalette()
 {
 	//dtor
 }
-

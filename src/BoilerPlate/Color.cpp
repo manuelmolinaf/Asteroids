@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "Color.hpp"
 
 Color::Color(float RED, float BLUE, float GREEN, float ALPHA)
 {

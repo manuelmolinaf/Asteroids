@@ -7,7 +7,7 @@ using namespace std;
 Player::Player()
 {
 	position = Vector2(0.0f, 0.0f);
-	movingForward = false;
+	goingForward = false;
 	maxHeight = 640.0f;
 	maxWidth = 1136.0f;
 }
@@ -24,7 +24,7 @@ void Player::render()
 	glVertex2f(0.0f, 10.0f);
 	glEnd();
 
-	if (movingForward)
+	if (goingForward)
 	{
 		glLoadIdentity();
 		glTranslatef(position.x, position.y, 0.0f);
@@ -68,4 +68,9 @@ void Player::move(Vector2 vec)
 {
 	position += vec;
 	warp();
+}
+
+void Player::movingForward(bool val)
+{
+	goingForward = val;
 }

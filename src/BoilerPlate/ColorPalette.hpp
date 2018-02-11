@@ -1,5 +1,5 @@
 #pragma once
-#include "Color.h"
+#include "Color.hpp"
 class ColorPalette
 {
 public:
@@ -12,9 +12,8 @@ public:
 	Color springGreen = Color(0.000f, 1.000f, 0.498f, 1.0f);
 	Color indigo = Color(0.294f, 0.000f, 0.510f, 1.0f);
 
-	
+
 
 
 
 };
-
