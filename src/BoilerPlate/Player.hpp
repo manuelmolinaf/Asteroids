@@ -4,6 +4,7 @@
 #define _PLAYER_H_
 
 #include "Vector2.hpp"
+#include <vector>
 
 class Player
 {
@@ -13,12 +14,10 @@ public:
 
 	// public functions
 	void render();
-	void move(Vector2);
 	void moveForward();
 	void rotateLeft();
 	void rotateRight();
-	void movingForward(bool);
-
+	void setMovingForward(bool);
 	///void update();
 
 private:
@@ -27,11 +26,13 @@ private:
 	float maxHeight;
 	float maxWidth;
 	void warp();
-	bool goingForward;
-
+	bool movingForward;
+	float rotationAngle;
+	float rotationUnitRate;
+	float forwardUnitRate;
+	float playerMass;
+	std::vector<Vector2> drawShip;
+	std::vector<Vector2> drawThruster;
 };
-
-
-
 
 #endif

@@ -4,6 +4,8 @@
 #include "ColorPalette.hpp"
 #include "Player.hpp"
 
+using namespace std;
+
 // OpenGL includes
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
@@ -89,18 +91,14 @@ namespace Engine
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		case SDL_SCANCODE_W:
-			ship.move(Vector2(0.0f, 10.0f));
-			ship.movingForward(true);
+			ship.moveForward();
+			ship.setMovingForward(true);
 			break;
 		case SDL_SCANCODE_A:
-			ship.move(Vector2(-10.0f, 0.0f));
-
-			break;
-		case SDL_SCANCODE_S:
-			ship.move(Vector2(0.0f, -10.0f));
+			ship.rotateLeft();
 			break;
 		case SDL_SCANCODE_D:
-			ship.move(Vector2(10.0f, 0.0f));
+			ship.rotateRight();
 			break;
 		}
 	}
@@ -114,7 +112,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			ship.movingForward(false);
+			ship.setMovingForward(false);
 			break;
 		default:
 			//DO NOTHING
@@ -147,8 +145,9 @@ namespace Engine
 
 	void App::Render()
 	{
-		glClearColor(colors.crimson.redValue, colors.crimson.greenValue, colors.crimson.blueValue, colors.crimson.alphaValue);
+		glClearColor(colors.indigo.redValue, colors.indigo.greenValue, colors.indigo.blueValue, colors.indigo.alphaValue);
 		glClear(GL_COLOR_BUFFER_BIT);
+
 
 		ship.render();
 

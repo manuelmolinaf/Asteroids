@@ -1,6 +1,7 @@
 #pragma once
 class MathUtilities
 {
+
 public:
 	MathUtilities();
 	~MathUtilities();
@@ -13,6 +14,8 @@ public:
 	bool isPowerOfTwo(long n);
 	float angularDistance(float a, float b);
 	float interpolate(float a, float b);
+	const static double PI;
+	
 
 	template <class number> number maxNum(number a, number b)
 	{

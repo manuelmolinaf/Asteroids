@@ -2,7 +2,7 @@
 #include "MathUtilities.hpp"
 #include <math.h>
 
-#define PI 3.14159265359
+
 
 
 using namespace std;
@@ -60,7 +60,7 @@ int MathUtilities::clamp(int num, int minRange, int maxRange)
 
 float MathUtilities::toRadians(int n)
 {
-	return (n*PI) / 180;
+	return (n*MathUtilities::PI) / 180;
 }
 
 float MathUtilities::toDegrees(int n)
@@ -105,3 +105,5 @@ float MathUtilities::angularDistance(float a, float b)
 
 
 }
+
+const double MathUtilities::PI = 3.14159265359;

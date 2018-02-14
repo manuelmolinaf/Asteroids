@@ -1,6 +1,6 @@
 #include "Color.hpp"
 
-Color::Color(float RED, float BLUE, float GREEN, float ALPHA)
+Color::Color(float RED, float GREEN, float BLUE, float ALPHA)
 {
 	color_value[0] = RED;
 	color_value[1] = BLUE;
