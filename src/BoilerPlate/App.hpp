@@ -10,6 +10,10 @@
 #include "SDLEvent.hpp"
 #include "TimeManager.hpp"
 
+//Entities
+#include "Player.hpp"
+#include "Asteroid.hpp"
+
 namespace Engine
 {
 	class App : public SDLEvent
@@ -67,6 +71,9 @@ namespace Engine
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
 
+		Player                              ship;
+		Asteroid                            asteroid;
+		
 	};
 }
 #endif /* GAME_HPP */

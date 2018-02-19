@@ -3,8 +3,6 @@
 #include <math.h>
 
 
-
-
 using namespace std;
 
 MathUtilities::MathUtilities()

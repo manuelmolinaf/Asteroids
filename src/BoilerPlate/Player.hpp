@@ -3,36 +3,40 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "Entity.hpp"
 #include "Vector2.hpp"
 #include <vector>
 
-class Player
+class Player: public Entity
 {
 public:
 
 	Player();
 
 	// public functions
-	void render();
+
+	virtual void render();
 	void moveForward();
 	void rotateLeft();
 	void rotateRight();
 	void setMovingForward(bool);
-	///void update();
 
 private:
 
-	Vector2 position;
-	float maxHeight;
-	float maxWidth;
-	void warp();
-	bool movingForward;
+	//private functions
+
 	float rotationAngle;
 	float rotationUnitRate;
 	float forwardUnitRate;
 	float playerMass;
-	std::vector<Vector2> drawShip;
-	std::vector<Vector2> drawThruster;
+	void pushThrusterVertices();
+	void drawThruster();
+	virtual void pushEntityVectors();
+
+	//private members
+
+	bool movingForward;
+	std::vector<Vector2> thrusterVertices;
 };
 
 #endif

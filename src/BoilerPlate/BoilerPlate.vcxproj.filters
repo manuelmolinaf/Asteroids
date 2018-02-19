@@ -27,6 +27,12 @@
     <ClCompile Include="ColorPalette.cpp">
       <Filter>Engine\Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>Engine\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Engine\Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TimeManager.hpp" />
@@ -51,6 +57,12 @@
       <Filter>Engine\Header files</Filter>
     </ClInclude>
     <ClInclude Include="ColorPalette.hpp">
+      <Filter>Engine\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroid.hpp">
+      <Filter>Engine\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
       <Filter>Engine\Header files</Filter>
     </ClInclude>
   </ItemGroup>

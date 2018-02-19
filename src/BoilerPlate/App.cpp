@@ -2,9 +2,6 @@
 #include <iostream>
 #include <algorithm>
 #include "ColorPalette.hpp"
-#include "Player.hpp"
-
-using namespace std;
 
 // OpenGL includes
 #include <GL/glew.h>
@@ -13,7 +10,7 @@ using namespace std;
 namespace Engine
 {
 	ColorPalette colors;
-	Player ship;
+	
 
 	const float DESIRED_FRAME_RATE = 60.0f;
 	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
@@ -28,6 +25,7 @@ namespace Engine
 	{
 		m_state = GameState::UNINITIALIZED;
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
+		asteroid = Asteroid(asteroid.BIG);
 	}
 
 	App::~App()
@@ -148,9 +146,10 @@ namespace Engine
 		glClearColor(colors.indigo.redValue, colors.indigo.greenValue, colors.indigo.blueValue, colors.indigo.alphaValue);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		asteroid.render();
 
 		ship.render();
-
+		
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 
