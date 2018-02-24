@@ -16,6 +16,7 @@ public:
 	// public functions
 
 	virtual void render();
+	void update(float);
 	void moveForward();
 	void rotateLeft();
 	void rotateRight();
@@ -28,15 +29,21 @@ private:
 	float rotationAngle;
 	float rotationUnitRate;
 	float forwardUnitRate;
-	float playerMass;
+	float currentSpeed;
+	float maxSpeed;
+	float frictionCoefficient;
 	void pushThrusterVertices();
 	void drawThruster();
+	void applyImpulse();
 	virtual void pushEntityVectors();
 
 	//private members
 
-	bool movingForward;
+	bool pressingForwardKey;
+	bool isMoving;
+	Vector2 friction;
 	std::vector<Vector2> thrusterVertices;
+	
 };
 
 #endif

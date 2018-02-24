@@ -6,6 +6,9 @@
 
 #include "Vector2.hpp"
 #include <vector>
+#include "MathUtilities.hpp"
+
+static MathUtilities math_tool;
 
 class Entity
 {
@@ -16,22 +19,34 @@ public:
 	// public functions
 
 	void render();
-	void update();
+	void update(float);
+	void updateFrameSize(float, float);
+	void toggleDebuggingMode();
+
 
 protected:
 	
 	//protected members
 
+	std::vector<Vector2> entityVertices; ///Contains the vector values that draw the entity
 	Vector2 position;
+	Vector2 velocity;
+	float mass;
+	float radius;
 	float height;
 	float width;
-	std::vector<Vector2> entityVertices; ///Contains the vector values that draw the entity
+	float hitRadius;
+	bool debuggingMode;
+	
 
 	//protected functions
-
+	
+	virtual void pushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
 	void warp();
-	void pushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
 	void drawEntity();
+	float calculateHitRadius();
+	void drawBoundingCircle();
+	
 
 	
 };

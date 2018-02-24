@@ -1,18 +1,26 @@
 #include "Player.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
-#include"MathUtilities.hpp"
+#include <iostream>
+
 
 Player::Player()
 {
+	Entity::Entity();
 	position = Vector2(0.0f, 0.0f);
-	movingForward = false;
+	pressingForwardKey = false;
+	isMoving = false;
 	rotationAngle = 0.0f;
-	rotationUnitRate = 8.0f;
-	forwardUnitRate = 10.0f;
-	playerMass = 1.0f;
+	rotationUnitRate = 10.0f;
+	forwardUnitRate = 15.0f;
+	mass = 1.0f;
+	maxSpeed = 450.0f;
+	frictionCoefficient = 0.99f;
 	pushEntityVectors();
 	pushThrusterVertices();
+	hitRadius = calculateHitRadius();
+	
+
 }
 
 
@@ -24,7 +32,7 @@ void Player::render()
 
 	drawEntity();
 
-	if (movingForward)
+	if (pressingForwardKey)
 	{
 		glLoadIdentity();
 		glTranslatef(position.x, position.y, 0.0f);
@@ -33,6 +41,35 @@ void Player::render()
 		drawThruster();
 	}
 
+
+}
+
+void Player::update(float deltaTime)
+{
+	
+	if (!isMoving)
+		pressingForwardKey = false;
+
+	float speed = abs(sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y)));
+
+	
+
+	if (speed > maxSpeed)
+	{
+		velocity.x = (velocity.x / speed) * maxSpeed;
+		velocity.y = (velocity.y / speed) * maxSpeed;
+	}
+	currentSpeed = speed;
+	
+
+	if (!isMoving)
+	{
+		velocity *= frictionCoefficient;
+	}
+
+
+
+	Entity::update(deltaTime);
 }
 
 void Player::rotateLeft()
@@ -45,19 +82,26 @@ void Player::rotateRight()
 	rotationAngle -= rotationUnitRate;
 }
 
-void Player::moveForward()
-{
-	MathUtilities math_tool;
-	position.y += forwardUnitRate * cos(math_tool.toRadians(rotationAngle));
-	position.x -= forwardUnitRate * sin(math_tool.toRadians(rotationAngle));
 
-	warp();
+void Player::applyImpulse()
+{
+	velocity.x -= (forwardUnitRate/mass) * sinf(math_tool.toRadians(rotationAngle));
+	velocity.y += (forwardUnitRate/mass) * cosf(math_tool.toRadians(rotationAngle));
 
 }
 
-void Player::setMovingForward(bool isMovingForward)
+void Player::moveForward()
 {
-	movingForward = isMovingForward;
+	pressingForwardKey = true;
+	isMoving = true;
+
+	applyImpulse();
+
+}
+
+void Player::setMovingForward(bool moving)
+{
+	isMoving = moving;
 }
 
 void Player::pushEntityVectors()

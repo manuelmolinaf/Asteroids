@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 #include "ColorPalette.hpp"
 
 // OpenGL includes
@@ -10,7 +11,7 @@
 namespace Engine
 {
 	ColorPalette colors;
-	
+
 
 	const float DESIRED_FRAME_RATE = 60.0f;
 	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
@@ -25,7 +26,10 @@ namespace Engine
 	{
 		m_state = GameState::UNINITIALIZED;
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
-		asteroid = Asteroid(asteroid.BIG);
+		ship = new Player();
+		asteroid = new Asteroid(asteroid->SMALL);
+		ship->updateFrameSize(m_height, m_width);
+		asteroid->updateFrameSize(m_height, m_width);
 	}
 
 	App::~App()
@@ -82,21 +86,24 @@ namespace Engine
 	}
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
-	{		
+	{
 		switch (keyBoardEvent.keysym.scancode)
 		{
-		default:			
+		default:
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		case SDL_SCANCODE_W:
-			ship.moveForward();
-			ship.setMovingForward(true);
+			ship->moveForward();
+			ship->setMovingForward(true);
 			break;
 		case SDL_SCANCODE_A:
-			ship.rotateLeft();
+			ship->rotateLeft();
 			break;
 		case SDL_SCANCODE_D:
-			ship.rotateRight();
+			ship->rotateRight();
+			break;
+		case SDL_SCANCODE_F:
+			Debug();
 			break;
 		}
 	}
@@ -110,7 +117,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			ship.setMovingForward(false);
+			ship->setMovingForward(false);
 			break;
 		default:
 			//DO NOTHING
@@ -124,6 +131,10 @@ namespace Engine
 
 		// Update code goes here
 		//
+
+		ship->update(DESIRED_FRAME_TIME);
+		asteroid->update(DESIRED_FRAME_TIME);
+
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
@@ -141,15 +152,22 @@ namespace Engine
 		m_nUpdates++;
 	}
 
+	void App::Debug()
+	{
+		ship->toggleDebuggingMode();
+		asteroid->toggleDebuggingMode();
+	}
+
 	void App::Render()
 	{
-		glClearColor(colors.indigo.redValue, colors.indigo.greenValue, colors.indigo.blueValue, colors.indigo.alphaValue);
+		glClearColor(colors.slateBlue.redValue, colors.slateBlue.greenValue, colors.slateBlue.blueValue, colors.slateBlue.alphaValue);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		asteroid.render();
-
-		ship.render();
+		asteroid->render();
+		ship->render();
 		
+		
+
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 
@@ -166,9 +184,9 @@ namespace Engine
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-		Uint32 flags =  SDL_WINDOW_OPENGL     | 
-						SDL_WINDOW_SHOWN      | 
-						SDL_WINDOW_RESIZABLE;
+		Uint32 flags = SDL_WINDOW_OPENGL |
+			SDL_WINDOW_SHOWN |
+			SDL_WINDOW_RESIZABLE;
 
 		m_mainWindow = SDL_CreateWindow(
 			m_title.c_str(),
@@ -248,6 +266,9 @@ namespace Engine
 		//
 		m_width = width;
 		m_height = height;
+
+		//ship->updateFrameSize(m_height, m_width);
+		//asteroid->updateFrameSize(m_height, m_width);
 
 		SetupViewport();
 	}

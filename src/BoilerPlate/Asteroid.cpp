@@ -1,19 +1,52 @@
 #include "Asteroid.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
+#include <iostream>
+#include <cstdlib>
+#include <time.h>
 
-
-Asteroid::Asteroid()
-{
-	
-}
 
 Asteroid::Asteroid(AsteroidSize size)
 {
+	Entity::Entity();
+	position = Vector2(0.0f, 0.0f);
 	asteroidSize = size;
-
+	mass = size;
+	rotationValue = 0.0f;
+	rotationRate = 50.0f;
+	movementAngle = randomMovemenAngle();
 	pushEntityVertices();
+	hitRadius = calculateHitRadius();
+	
 }
+
+void Asteroid::update(float deltaTime)
+{
+
+	rotationValue += rotationRate * deltaTime;
+
+	applyImpulse();
+
+	Entity::update(deltaTime);
+}
+
+void Asteroid::render()
+{
+	glLoadIdentity();
+	glTranslatef(position.x, position.y, 0.0f);
+	glRotatef(rotationValue, 0.0f, 0.0f, 1.0f);
+	drawEntity();
+}
+
+
+void Asteroid::applyImpulse()
+{
+	//MathUtilities math_tool;
+	velocity.x = (300.0f / mass) * -sinf(math_tool.toRadians(movementAngle));
+	velocity.y = (300.0f / mass) * cosf(math_tool.toRadians(movementAngle));
+
+}
+
 
 void Asteroid::pushEntityVertices()
 {
@@ -36,4 +69,12 @@ void Asteroid::pushEntityVertices()
 int Asteroid::getAsteroidSize()
 {
 	return asteroidSize;
+}
+
+float Asteroid::randomMovemenAngle()
+{
+	srand(time(0));
+	float returnValue = rand() % 361;
+
+	return returnValue;
 }

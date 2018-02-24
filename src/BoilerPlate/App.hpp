@@ -44,6 +44,7 @@ namespace Engine
 		bool Init							( );
 		void Update							( );
 		void Render							( );
+		void Debug                          ( );
 	private:
 		/* =============================================================
 		 * PRIVATE FUNCTIONS
@@ -56,7 +57,6 @@ namespace Engine
 		void OnExit							( ) override;
 		void OnKeyDown						( SDL_KeyboardEvent keyBoardEvent ) override;
 		void OnKeyUp						( SDL_KeyboardEvent keyBoardEvent ) override;
-
 
 		/* =============================================================
 		 * MEMBERS
@@ -71,8 +71,8 @@ namespace Engine
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
 
-		Player                              ship;
-		Asteroid                            asteroid;
+		Player*                             ship;
+		Asteroid*                           asteroid;
 		
 	};
 }
