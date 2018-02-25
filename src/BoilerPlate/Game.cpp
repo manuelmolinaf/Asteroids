@@ -24,14 +24,14 @@ void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 		break;
 	case SDL_SCANCODE_W:
-		ship.moveForward();
-		ship.setMovingForward(true);
+		ship.MoveForward();
+		ship.SetMovingForward(true);
 		break;
 	case SDL_SCANCODE_A:
-		ship.rotateLeft();
+		ship.RotateLeft();
 		break;
 	case SDL_SCANCODE_D:
-		ship.rotateRight();
+		ship.RotateRight();
 		break;
 	case SDL_SCANCODE_F:
 		ToggleDebuggingMode();
@@ -56,14 +56,14 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	switch (keyBoardEvent.keysym.scancode)
 	{
 	case SDL_SCANCODE_W:
-		ship.setMovingForward(false);
+		ship.SetMovingForward(false);
 		break;
 	}
 }
 
 void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 {
-	ship.update(deltaTime);
+	ship.Update(deltaTime);
 	ship.UpdateFrameSize(currentHeight, currentWidth);
 
 	for (int i = 0; i < asteroids.size(); i++)
@@ -88,7 +88,7 @@ void Game::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 
-	ship.render();
+	ship.Render();
 
 
 	for (int i = 0; i < asteroids.size(); i++)
@@ -109,7 +109,7 @@ void Game::UpdateFrameSize(float currentHeight, float currentWidth)
 
 void Game::ToggleDebuggingMode()
 {
-	ship.respawn();
+	ship.Respawn();
 
 	if (debuggingMode == false)
 	{
@@ -214,16 +214,16 @@ void Game::UpdateCollision()
 	{
 		if (DetectCollision(ship, asteroids[i]) && !debuggingMode)
 		{
-			ship.alive = false;
+			ship.SetAliveState(false);
 		}
 	}
 }
 
 void Game::RespawnShip()
 {
-	if (playerLife > 0 && !ship.alive)
+	if (playerLife > 0 && !ship.GetAliveState())
 	{
-		ship.respawn();
+		ship.Respawn();
 		playerLife--;
 	}
 }
@@ -239,7 +239,7 @@ void Game::PushAsteroids()
 void Game::ResetGame()
 {
 	playerLife = 3;
-	ship.respawn();
+	ship.Respawn();
 
 	asteroids.clear();
 

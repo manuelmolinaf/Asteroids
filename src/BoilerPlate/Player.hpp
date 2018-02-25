@@ -15,7 +15,7 @@ public:
 
 	//public members
 
-	bool alive;
+	//bool isAlive;
 
 	// public functions
 
@@ -25,8 +25,9 @@ public:
 	void RotateLeft();
 	void RotateRight();
 	void SetMovingForward(bool);
-	
-	void respawn();
+	void Respawn();
+	void SetAliveState(bool);
+	bool GetAliveState();
 
 private:
 
@@ -39,6 +40,7 @@ private:
 
 	//private members
 
+	bool isAlive;
 	float rotationAngle;
 	float rotationRate;
 	float forwardUnitRate;

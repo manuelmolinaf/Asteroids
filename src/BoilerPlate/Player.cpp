@@ -7,7 +7,7 @@
 Player::Player()
 {
 	Entity::Entity();
-	alive = true;
+	isAlive = true;
 	position = Vector2(0.0f, 0.0f);
 	pressingForwardKey = false;
 	isMoving = false;
@@ -17,17 +17,17 @@ Player::Player()
 	mass = 1.0f;
 	maxSpeed = 450.0f;
 	frictionCoefficient = 0.99f;
-	pushEntityVectors();
-	pushThrusterVertices();
+	PushEntityVectors();
+	PushThrusterVertices();
 	hitRadius = CalculateHitRadius();
 	
 
 }
 
 
-void Player::render()
+void Player::Render()
 {
-	if (alive)
+	if (isAlive)
 	{
 		glLoadIdentity();
 		glTranslatef(position.x, position.y, 0.0f);
@@ -41,14 +41,14 @@ void Player::render()
 			glTranslatef(position.x, position.y, 0.0f);
 			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
 
-			drawThruster();
+			DrawThruster();
 		}
 	}
 
 
 }
 
-void Player::update(float deltaTime)
+void Player::Update(float deltaTime)
 {
 	
 	if (!isMoving)
@@ -75,39 +75,39 @@ void Player::update(float deltaTime)
 	Entity::Update(deltaTime);
 }
 
-void Player::rotateLeft()
+void Player::RotateLeft()
 {
 	rotationAngle += rotationRate;
 }
 
-void Player::rotateRight()
+void Player::RotateRight()
 {
 	rotationAngle -= rotationRate;
 }
 
 
-void Player::applyImpulse()
+void Player::ApplyImpulse()
 {
 	velocity.x -= (forwardUnitRate/mass) * sinf(math_tool.toRadians(rotationAngle));
 	velocity.y += (forwardUnitRate/mass) * cosf(math_tool.toRadians(rotationAngle));
 
 }
 
-void Player::moveForward()
+void Player::MoveForward()
 {
 	pressingForwardKey = true;
 	isMoving = true;
 
-	applyImpulse();
+	ApplyImpulse();
 
 }
 
-void Player::setMovingForward(bool moving)
+void Player::SetMovingForward(bool moving)
 {
 	isMoving = moving;
 }
 
-void Player::pushEntityVectors()
+void Player::PushEntityVectors()
 {
 	entityVertices.push_back(Vector2(20.0f, -20.0f));
 	entityVertices.push_back(Vector2(0.0f, 30.0f));
@@ -115,7 +115,7 @@ void Player::pushEntityVectors()
 	entityVertices.push_back(Vector2(0.0f, -10.0f));
 }
 
-void Player::pushThrusterVertices()
+void Player::PushThrusterVertices()
 {
 	thrusterVertices.push_back(Vector2(15.0f, -23.0f));
 	thrusterVertices.push_back(Vector2(-15.0f, -23.0f));
@@ -126,7 +126,7 @@ void Player::pushThrusterVertices()
 	thrusterVertices.push_back(Vector2(10.0f, -36.0f));
 }
 
-void Player::drawThruster()
+void Player::DrawThruster()
 {
 	glBegin(GL_LINE_LOOP);
 
@@ -139,9 +139,18 @@ void Player::drawThruster()
 	glEnd();
 }
 
-void Player::respawn()
+void Player::Respawn()
 {
 	position = Vector2(0.0f, 0.0f);
 	velocity = Vector2(0.0f, 0.0f);
-	alive = true;
+	isAlive = true;
+}
+
+void Player::SetAliveState(bool newValue)
+{
+	isAlive = newValue;
+}
+bool Player::GetAliveState()
+{
+	return isAlive;
 }
