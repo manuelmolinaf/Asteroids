@@ -26,10 +26,23 @@ namespace Engine
 	{
 		m_state = GameState::UNINITIALIZED;
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
-		ship = new Player();
-		asteroid = new Asteroid(asteroid->SMALL);
-		ship->updateFrameSize(m_height, m_width);
-		asteroid->updateFrameSize(m_height, m_width);
+
+		m_ship = new Player();
+		m_ship->updateFrameSize(m_height, m_width);
+
+		m_asteroidCount = 10;
+
+		
+		for (int i = 0; i < m_asteroidCount; i++)
+		{
+			m_asteroids.push_back(new Asteroid());
+		}
+		
+		for (int i = 0; i < m_asteroids.size(); i++)
+		{
+			m_asteroids[i]->updateFrameSize(m_height, m_width);
+		}
+		
 	}
 
 	App::~App()
@@ -93,21 +106,27 @@ namespace Engine
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		case SDL_SCANCODE_W:
-			ship->moveForward();
-			ship->setMovingForward(true);
+			m_ship->moveForward();
+			m_ship->setMovingForward(true);
 			break;
 		case SDL_SCANCODE_A:
-			ship->rotateLeft();
+			m_ship->rotateLeft();
 			break;
 		case SDL_SCANCODE_D:
-			ship->rotateRight();
+			m_ship->rotateRight();
 			break;
 		case SDL_SCANCODE_F:
 			Debug();
 			break;
+		case SDL_SCANCODE_E:
+			IncreaseAsteroids();
+			break;
+		case SDL_SCANCODE_Q:
+			DecreaseAsteroids();
+			break;
 		}
 	}
-
+	
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	{
 		switch (keyBoardEvent.keysym.scancode)
@@ -117,7 +136,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			ship->setMovingForward(false);
+			m_ship->setMovingForward(false);
 			break;
 		default:
 			//DO NOTHING
@@ -132,9 +151,19 @@ namespace Engine
 		// Update code goes here
 		//
 
-		ship->update(DESIRED_FRAME_TIME);
-		asteroid->update(DESIRED_FRAME_TIME);
+		m_ship->update(DESIRED_FRAME_TIME);
+		
+		for (int i = 0; i < m_asteroids.size(); i++)
+		{
+			m_asteroids[i]->update(DESIRED_FRAME_TIME);
+		}
 
+		m_ship->updateFrameSize(m_height, m_width);
+
+		for (int i = 0; i < m_asteroids.size(); i++)
+		{
+			m_asteroids[i]->updateFrameSize(m_height, m_width);
+		}
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
@@ -152,10 +181,31 @@ namespace Engine
 		m_nUpdates++;
 	}
 
+	void App::IncreaseAsteroids()
+	{
+
+		m_asteroids.push_back(new Asteroid());
+		
+	}
+
+	void App::DecreaseAsteroids()
+	{
+		if(m_asteroids.size() != 0)
+			m_asteroids.pop_back();
+
+	}
+
 	void App::Debug()
 	{
-		ship->toggleDebuggingMode();
-		asteroid->toggleDebuggingMode();
+		m_ship->toggleDebuggingMode();
+
+		
+		for (int i = 0; i < m_asteroids.size(); i++)
+		{
+			m_asteroids[i]->toggleDebuggingMode();
+		}
+		
+		
 	}
 
 	void App::Render()
@@ -163,8 +213,14 @@ namespace Engine
 		glClearColor(colors.slateBlue.redValue, colors.slateBlue.greenValue, colors.slateBlue.blueValue, colors.slateBlue.alphaValue);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		asteroid->render();
-		ship->render();
+		
+		m_ship->render();
+
+		
+		for (int i = 0; i < m_asteroids.size(); i++)
+		{
+			m_asteroids[i]->render();
+		}
 		
 		
 
@@ -267,9 +323,7 @@ namespace Engine
 		m_width = width;
 		m_height = height;
 
-		//ship->updateFrameSize(m_height, m_width);
-		//asteroid->updateFrameSize(m_height, m_width);
-
+		
 		SetupViewport();
 	}
 

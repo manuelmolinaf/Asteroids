@@ -11,7 +11,7 @@ Player::Player()
 	pressingForwardKey = false;
 	isMoving = false;
 	rotationAngle = 0.0f;
-	rotationUnitRate = 10.0f;
+	rotationRate = 10.0f;
 	forwardUnitRate = 15.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
@@ -52,15 +52,12 @@ void Player::update(float deltaTime)
 
 	float speed = abs(sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y)));
 
-	
-
 	if (speed > maxSpeed)
 	{
 		velocity.x = (velocity.x / speed) * maxSpeed;
 		velocity.y = (velocity.y / speed) * maxSpeed;
 	}
 	currentSpeed = speed;
-	
 
 	if (!isMoving)
 	{
@@ -69,17 +66,18 @@ void Player::update(float deltaTime)
 
 
 
+
 	Entity::update(deltaTime);
 }
 
 void Player::rotateLeft()
 {
-	rotationAngle += rotationUnitRate;
+	rotationAngle += rotationRate;
 }
 
 void Player::rotateRight()
 {
-	rotationAngle -= rotationUnitRate;
+	rotationAngle -= rotationRate;
 }
 
 

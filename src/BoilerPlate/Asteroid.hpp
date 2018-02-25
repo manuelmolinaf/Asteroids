@@ -18,7 +18,7 @@ public:
 		MEDIUM = 2,
 		BIG = 3,
 	};
-
+	Asteroid();
 	Asteroid(AsteroidSize);
 
 
@@ -46,7 +46,6 @@ private:
 	//privete functions
 
 	virtual void pushEntityVertices();
-	float randomMovemenAngle(); // Returns a random number between 0 and 360
 };
 
 #endif

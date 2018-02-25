@@ -7,6 +7,7 @@ Entity::Entity()
 {
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
+	warp();
 }
 
 void Entity::updateFrameSize(float currentHeight, float currentWidth)
@@ -76,10 +77,10 @@ void Entity::drawBoundingCircle()
 	glBegin(GL_LINE_LOOP);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	for (int i = 0; i <= 1000; i++) 
+	for (int i = 0; i <= 100; i++) 
 	{
-		glVertex2f(position.x + (hitRadius * cos(i *  math_tool.PI*2 / 1000)),
-				   position.y + (hitRadius * sin(i * math_tool.PI*2 / 1000)));
+		glVertex2f(position.x + (hitRadius * cos(i *  math_tool.PI*2 / 100)),
+				   position.y + (hitRadius * sin(i * math_tool.PI*2 / 100)));
 	}
 	glEnd();
 }

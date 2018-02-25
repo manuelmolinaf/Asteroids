@@ -27,7 +27,7 @@ private:
 	//private functions
 
 	float rotationAngle;
-	float rotationUnitRate;
+	float rotationRate;
 	float forwardUnitRate;
 	float currentSpeed;
 	float maxSpeed;

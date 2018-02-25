@@ -3,18 +3,30 @@
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
 #include <cstdlib>
-#include <time.h>
+#include <ctime>
 
+Asteroid::Asteroid()
+{
+	Entity::Entity();
+	position = Vector2(rand(), rand());
+	asteroidSize = BIG;
+	mass = asteroidSize;
+	rotationValue = 0.0f;
+	rotationRate = 50.0f;
+	movementAngle = rand();
+	pushEntityVertices();
+	hitRadius = calculateHitRadius();
+}
 
 Asteroid::Asteroid(AsteroidSize size)
 {
 	Entity::Entity();
-	position = Vector2(0.0f, 0.0f);
+	position = Vector2(rand(), rand());
 	asteroidSize = size;
 	mass = size;
 	rotationValue = 0.0f;
 	rotationRate = 50.0f;
-	movementAngle = randomMovemenAngle();
+	movementAngle = rand();
 	pushEntityVertices();
 	hitRadius = calculateHitRadius();
 	
@@ -41,9 +53,10 @@ void Asteroid::render()
 
 void Asteroid::applyImpulse()
 {
-	//MathUtilities math_tool;
+
 	velocity.x = (300.0f / mass) * -sinf(math_tool.toRadians(movementAngle));
 	velocity.y = (300.0f / mass) * cosf(math_tool.toRadians(movementAngle));
+
 
 }
 
@@ -69,12 +82,4 @@ void Asteroid::pushEntityVertices()
 int Asteroid::getAsteroidSize()
 {
 	return asteroidSize;
-}
-
-float Asteroid::randomMovemenAngle()
-{
-	srand(time(0));
-	float returnValue = rand() % 361;
-
-	return returnValue;
 }
