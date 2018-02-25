@@ -93,14 +93,14 @@ namespace Engine
 			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		case SDL_SCANCODE_W:
-			m_game.ship->moveForward();
-			m_game.ship->setMovingForward(true);
+			m_game.ship.moveForward();
+			m_game.ship.setMovingForward(true);
 			break;
 		case SDL_SCANCODE_A:
-			m_game.ship->rotateLeft();
+			m_game.ship.rotateLeft();
 			break;
 		case SDL_SCANCODE_D:
-			m_game.ship->rotateRight();
+			m_game.ship.rotateRight();
 			break;
 		case SDL_SCANCODE_F:
 			m_game.toggleDebuggingMode();
@@ -123,7 +123,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			m_game.ship->setMovingForward(false);
+			m_game.ship.setMovingForward(false);
 			break;
 		default:
 			//DO NOTHING

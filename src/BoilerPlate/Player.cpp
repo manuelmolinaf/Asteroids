@@ -57,6 +57,7 @@ void Player::update(float deltaTime)
 		velocity.x = (velocity.x / speed) * maxSpeed;
 		velocity.y = (velocity.y / speed) * maxSpeed;
 	}
+
 	currentSpeed = speed;
 
 	if (!isMoving)

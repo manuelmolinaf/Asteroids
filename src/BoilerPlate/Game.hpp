@@ -28,8 +28,8 @@ public:
 	void increaseAsteroids();
 	void decreaseAsteroids();
 	void debug();
-	Player* ship;
-	std::vector<Asteroid*> asteroids;
+	Player ship;
+	std::vector<Asteroid> asteroids;
 
 private:
 
@@ -42,16 +42,19 @@ private:
 	bool debuggingMode;
 	ColorPalette colors;
 	void drawDebugCollisionLines();
-	//Player* ship;
-	//std::vector<Asteroid*> asteroids;
+	///Player* ship;
+	///std::vector<Asteroid*> asteroids;
 
 
 	//protected functions
-	//void debug();
-	//void increaseAsteroids();
-	//void decreaseAsteroids();
 
+	///void debug();
+	///void increaseAsteroids();
+	///void decreaseAsteroids();
 
+	float calculateDistance(Entity, Entity);
+	bool detectCollision(Entity, Entity);
+	void updateCollision();
 };
 
 #endif

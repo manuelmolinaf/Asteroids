@@ -23,7 +23,7 @@ public:
 	void toggleDebuggingMode();
 	void setDebuggingMode(bool);
 	Vector2 getPosition();
-	float getRadius();
+	float getHitRadius();
 
 protected:
 	
@@ -33,7 +33,6 @@ protected:
 	Vector2 position;
 	Vector2 velocity;
 	float mass;
-	float radius;
 	float height;
 	float width;
 	float hitRadius;

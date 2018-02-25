@@ -119,7 +119,7 @@ Vector2 Entity::getPosition()
 	return position;
 }
 
-float Entity::getRadius()
+float Entity::getHitRadius()
 {
-	return radius;
+	return hitRadius;
 }

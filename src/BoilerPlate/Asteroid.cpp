@@ -8,11 +8,11 @@
 Asteroid::Asteroid()
 {
 	Entity::Entity();
-	position = Vector2(rand(), rand());
+	position = Vector2(rand()%1136-1, rand()%640-1);
 	asteroidSize = BIG;
 	mass = asteroidSize;
 	rotationValue = 0.0f;
-	rotationRate = 50.0f;
+	rotationRate = rand()%130-1;
 	movementAngle = rand();
 	pushEntityVertices();
 	hitRadius = calculateHitRadius();
