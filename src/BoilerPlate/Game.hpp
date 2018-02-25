@@ -5,6 +5,7 @@
 
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
+#include "SDLEvent.hpp"
 #include <vector>
 #include "Vector2.hpp"
 #include "MathUtilities.hpp"
@@ -25,9 +26,15 @@ public:
 	void update(float, float, float);
 	void updateFrameSize(float, float);
 	void toggleDebuggingMode();
+	void onKeyUp(SDL_KeyboardEvent keyBoardEvent);
+	void onKeyDown(SDL_KeyboardEvent keyBoardEvent);
+
+
 	void increaseAsteroids();
 	void decreaseAsteroids();
-	void debug();
+	void toggleEntityDebug();
+	void respawnShip();
+	void resetGame();
 	Player ship;
 	std::vector<Asteroid> asteroids;
 
@@ -41,7 +48,9 @@ private:
 	float width;
 	bool debuggingMode;
 	ColorPalette colors;
-	void drawDebugCollisionLines();
+	int playerLife;
+	
+
 	///Player* ship;
 	///std::vector<Asteroid*> asteroids;
 
@@ -51,10 +60,13 @@ private:
 	///void debug();
 	///void increaseAsteroids();
 	///void decreaseAsteroids();
+	///void respawnShip();
 
 	float calculateDistance(Entity, Entity);
 	bool detectCollision(Entity, Entity);
+	void drawDebugCollisionLines();
 	void updateCollision();
+	void pushAsteroids();
 };
 
 #endif

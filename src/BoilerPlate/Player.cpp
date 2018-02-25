@@ -7,6 +7,7 @@
 Player::Player()
 {
 	Entity::Entity();
+	alive = true;
 	position = Vector2(0.0f, 0.0f);
 	pressingForwardKey = false;
 	isMoving = false;
@@ -26,19 +27,22 @@ Player::Player()
 
 void Player::render()
 {
-	glLoadIdentity();
-	glTranslatef(position.x, position.y, 0.0f);
-	glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
-
-	drawEntity();
-
-	if (pressingForwardKey)
+	if (alive)
 	{
 		glLoadIdentity();
 		glTranslatef(position.x, position.y, 0.0f);
 		glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
 
-		drawThruster();
+		drawEntity();
+
+		if (pressingForwardKey)
+		{
+			glLoadIdentity();
+			glTranslatef(position.x, position.y, 0.0f);
+			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
+
+			drawThruster();
+		}
 	}
 
 
@@ -133,4 +137,11 @@ void Player::drawThruster()
 		glVertex2f(thrusterVertices[i].x, thrusterVertices[i].y);
 	}
 	glEnd();
+}
+
+void Player::respawn()
+{
+	position = Vector2(0.0f, 0.0f);
+	velocity = Vector2(0.0f, 0.0f);
+	alive = true;
 }

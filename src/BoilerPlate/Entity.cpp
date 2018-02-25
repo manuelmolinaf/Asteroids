@@ -8,6 +8,7 @@ Entity::Entity()
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
 	warp();
+	position = Vector2(0.0f, 0.0f);
 }
 
 void Entity::updateFrameSize(float currentHeight, float currentWidth)
@@ -118,6 +119,7 @@ Vector2 Entity::getPosition()
 {
 	return position;
 }
+
 
 float Entity::getHitRadius()
 {

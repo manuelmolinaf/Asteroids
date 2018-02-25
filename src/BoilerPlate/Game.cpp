@@ -6,23 +6,59 @@ Game::Game(float currentHeight, float currentWidth)
 	height = currentHeight;
 	width = currentWidth;
 	debuggingMode = false;
-
+	playerLife = 3;
 	ship = Player();
 	ship.updateFrameSize(height, width);
 
-	asteroidCount = 10;
+	asteroidCount = 5;
+	pushAsteroids();
 
+}
 
-	for (int i = 0; i < asteroidCount; i++)
+void Game::onKeyDown(SDL_KeyboardEvent keyBoardEvent)
+{
+
+	switch (keyBoardEvent.keysym.scancode)
 	{
-		asteroids.push_back(Asteroid());
+	default:
+		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
+		break;
+	case SDL_SCANCODE_W:
+		ship.moveForward();
+		ship.setMovingForward(true);
+		break;
+	case SDL_SCANCODE_A:
+		ship.rotateLeft();
+		break;
+	case SDL_SCANCODE_D:
+		ship.rotateRight();
+		break;
+	case SDL_SCANCODE_F:
+		toggleDebuggingMode();
+		break;
+	case SDL_SCANCODE_E:
+		increaseAsteroids();
+		break;
+	case SDL_SCANCODE_Q:
+		decreaseAsteroids();
+		break;
+	case SDL_SCANCODE_R:
+		respawnShip();
+		break;
+	case SDL_SCANCODE_Z:
+		resetGame();
 	}
 
-	for (int i = 0; i < asteroids.size(); i++)
-	{
-		asteroids[i].updateFrameSize(height, width);
-	}
+}
 
+void Game::onKeyUp(SDL_KeyboardEvent keyBoardEvent)
+{
+	switch (keyBoardEvent.keysym.scancode)
+	{
+	case SDL_SCANCODE_W:
+		ship.setMovingForward(false);
+		break;
+	}
 }
 
 void Game::update(float deltaTime, float currentHeight, float currentWidth)
@@ -39,9 +75,9 @@ void Game::update(float deltaTime, float currentHeight, float currentWidth)
 	{
 		asteroids[i].updateFrameSize(currentHeight, currentWidth);
 	}
-	
 
 
+	updateCollision();
 }
 
 
@@ -73,13 +109,40 @@ void Game::updateFrameSize(float currentHeight, float currentWidth)
 
 void Game::toggleDebuggingMode()
 {
-	if (debuggingMode == false)
-		debuggingMode = true;
-	else
-		debuggingMode = false;
+	ship.respawn();
 
-	debug();
+	if (debuggingMode == false)
+	{
+		debuggingMode = true;
+		toggleEntityDebug();
+	}
+
+	else
+	{
+		debuggingMode = false;
+		toggleEntityDebug();
+		playerLife = 3;
+	}
+
+
+
+	if (debuggingMode)
+	{
+		ship.setDebuggingMode(true);
+	}
+
 }
+
+void Game::toggleEntityDebug()
+{
+	ship.toggleDebuggingMode();
+
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+		asteroids[i].toggleDebuggingMode();
+	}
+}
+
 
 void Game::increaseAsteroids()
 {
@@ -105,18 +168,6 @@ void Game::decreaseAsteroids()
 
 }
 
-void Game::debug()
-{
-	ship.toggleDebuggingMode();
-
-	for (int i = 0; i < asteroids.size(); i++)
-	{
-		asteroids[i].toggleDebuggingMode();
-	}
-
-
-}
-
 void Game::drawDebugCollisionLines()
 {
 
@@ -128,7 +179,7 @@ void Game::drawDebugCollisionLines()
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 
-		
+
 		if (calculateDistance(ship, asteroids[i]) <= ship.getHitRadius() * 2 + asteroids[i].getHitRadius())
 		{
 			glVertex2f(ship.getPosition().x, ship.getPosition().y);
@@ -161,9 +212,42 @@ void Game::updateCollision()
 {
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		if (detectCollision(ship, asteroids[i]))
+		if (detectCollision(ship, asteroids[i]) && !debuggingMode)
 		{
-
+			ship.alive = false;
 		}
 	}
 }
+
+void Game::respawnShip()
+{
+	if (playerLife > 0 && !ship.alive)
+	{
+		ship.respawn();
+		playerLife--;
+	}
+}
+void Game::pushAsteroids()
+{
+	for (int i = 0; i < asteroidCount; i++)
+	{
+		asteroids.push_back(Asteroid());
+		asteroids[i].updateFrameSize(height, width);
+	}
+}
+
+void Game::resetGame()
+{
+	playerLife = 3;
+	ship.respawn();
+
+	asteroids.clear();
+
+	for (int i = 0; i < asteroidCount; i++)
+	{
+		asteroids.push_back(Asteroid());
+		asteroids[i].updateFrameSize(height, width);
+	}
+	
+}
+

@@ -87,48 +87,24 @@ namespace Engine
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	{
-		switch (keyBoardEvent.keysym.scancode)
-		{
-		default:
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-			break;
-		case SDL_SCANCODE_W:
-			m_game.ship.moveForward();
-			m_game.ship.setMovingForward(true);
-			break;
-		case SDL_SCANCODE_A:
-			m_game.ship.rotateLeft();
-			break;
-		case SDL_SCANCODE_D:
-			m_game.ship.rotateRight();
-			break;
-		case SDL_SCANCODE_F:
-			m_game.toggleDebuggingMode();
-			break;
-		case SDL_SCANCODE_E:
-			m_game.increaseAsteroids();
-			break;
-		case SDL_SCANCODE_Q:
-			m_game.decreaseAsteroids();
-			break;
-		}
+		m_game.onKeyDown(keyBoardEvent);
 	}
 	
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	{
+
 		switch (keyBoardEvent.keysym.scancode)
 		{
 		case SDL_SCANCODE_ESCAPE:
 			OnExit();
 			break;
-
-		case SDL_SCANCODE_W:
-			m_game.ship.setMovingForward(false);
-			break;
 		default:
 			//DO NOTHING
 			break;
 		}
+
+		m_game.onKeyUp(keyBoardEvent);
+
 	}
 
 	void App::Update()

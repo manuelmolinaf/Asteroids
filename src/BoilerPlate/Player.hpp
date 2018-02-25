@@ -13,6 +13,10 @@ public:
 
 	Player();
 
+	//public members
+
+	bool alive;
+
 	// public functions
 
 	virtual void render();
@@ -21,6 +25,8 @@ public:
 	void rotateLeft();
 	void rotateRight();
 	void setMovingForward(bool);
+	
+	void respawn();
 
 private:
 
