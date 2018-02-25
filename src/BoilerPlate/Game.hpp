@@ -37,7 +37,7 @@ private:
 
 	//protected members
 
-	Player ship;
+	Player player;
 	std::vector<Asteroid> asteroids;
 	float deltaTime;
 	int asteroidCount;

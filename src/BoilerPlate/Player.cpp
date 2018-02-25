@@ -7,10 +7,11 @@
 Player::Player()
 {
 	Entity::Entity();
-	isAlive = true;
 	position = Vector2(0.0f, 0.0f);
+	isAlive = true;
 	pressingForwardKey = false;
 	isMoving = false;
+	shooting = false;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
 	forwardUnitRate = 15.0f;
@@ -21,7 +22,7 @@ Player::Player()
 	PushThrusterVertices();
 	hitRadius = CalculateHitRadius();
 	
-
+	
 }
 
 
@@ -43,6 +44,12 @@ void Player::Render()
 
 			DrawThruster();
 		}
+
+	}
+
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].Render();
 	}
 
 
@@ -70,8 +77,12 @@ void Player::Update(float deltaTime)
 	}
 
 
-
-
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].Update(deltaTime);
+		bullets[i].UpdateFrameSize(height, width);
+	}
+	
 	Entity::Update(deltaTime);
 }
 
@@ -154,3 +165,24 @@ bool Player::GetAliveState()
 {
 	return isAlive;
 }
+
+float Player::GetRotationAngle()
+{
+	return rotationAngle;
+}
+/*
+std::vector<Bullet> Player::GetBullets()
+{
+	return bullets;
+}
+*/
+void Player::Shoot()
+{
+	if (isAlive)
+	{
+		bullets.push_back(Bullet(rotationAngle, position));
+		
+	}
+	
+}
+

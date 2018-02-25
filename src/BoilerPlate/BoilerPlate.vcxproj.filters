@@ -36,6 +36,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Engine\Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Engine\Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TimeManager.hpp" />
@@ -69,6 +72,9 @@
       <Filter>Engine\Header files</Filter>
     </ClInclude>
     <ClInclude Include="Game.hpp">
+      <Filter>Engine\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.hpp">
       <Filter>Engine\Header files</Filter>
     </ClInclude>
   </ItemGroup>

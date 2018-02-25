@@ -4,6 +4,7 @@
 #define _PLAYER_H_
 
 #include "Entity.hpp"
+#include "Bullet.hpp"
 #include "Vector2.hpp"
 #include <vector>
 
@@ -12,10 +13,6 @@ class Player: public Entity
 public:
 
 	Player();
-
-	//public members
-
-	//bool isAlive;
 
 	// public functions
 
@@ -28,6 +25,8 @@ public:
 	void Respawn();
 	void SetAliveState(bool);
 	bool GetAliveState();
+	float GetRotationAngle();
+	void Shoot();
 
 private:
 
@@ -49,6 +48,8 @@ private:
 	float frictionCoefficient;
 	bool pressingForwardKey;
 	bool isMoving;
+	bool shooting;
+	std::vector<Bullet> bullets;
 	std::vector<Vector2> thrusterVertices;
 	
 };

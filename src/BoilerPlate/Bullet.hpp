@@ -1,42 +1,31 @@
 #pragma once
 
-#ifndef _ASTEROID_H_
-#define _ASTEROID_H_
+#ifndef _BULLET_H_
+#define _BULLET_H_
 
 #include "Entity.hpp"
 #include "Vector2.hpp"
 #include <vector>
 
 
-class Asteroid : public Entity
+class Bullet : public Entity
 {
 public:
 
-	static enum AsteroidSize
-	{
-		SMALL = 1,
-		MEDIUM = 2,
-		BIG = 3,
-	};
-	Asteroid();
+	Bullet(float, Vector2);
 
-	Asteroid(AsteroidSize);
 
 	// public functions
 
 	virtual void Render();
 	void Update(float deltaTime);
 	void ApplyImpulse();
-	int GetAsteroidSize();
-
-
 
 
 private:
 
 	// private members
 
-	int asteroidSize;
 	float movementAngle;
 	float rotationRate;
 	float rotationValue;

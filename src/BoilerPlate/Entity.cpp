@@ -5,10 +5,11 @@
 
 Entity::Entity()
 {
+	position = Vector2(0.0f, 0.0f);
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
 	Warp();
-	position = Vector2(0.0f, 0.0f);
+	
 }
 
 void Entity::UpdateFrameSize(float currentHeight, float currentWidth)
