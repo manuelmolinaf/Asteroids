@@ -9,9 +9,9 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 {
 	Entity::Entity();
 	position = shipPosition;
-	mass = 4;
+	mass = 0.5f;
 	rotationValue = 0.0f;
-	rotationRate = 0.0f;
+	rotationRate = 100.0f;
 	movementAngle = rotationAngle;
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();

@@ -79,8 +79,8 @@ void Player::Update(float deltaTime)
 
 	for (int i = 0; i < bullets.size(); i++)
 	{
-		bullets[i].Update(deltaTime);
 		bullets[i].UpdateFrameSize(height, width);
+		bullets[i].Update(deltaTime);
 	}
 	
 	Entity::Update(deltaTime);
@@ -154,6 +154,7 @@ void Player::Respawn()
 {
 	position = Vector2(0.0f, 0.0f);
 	velocity = Vector2(0.0f, 0.0f);
+	bullets.clear();
 	isAlive = true;
 }
 
@@ -170,12 +171,7 @@ float Player::GetRotationAngle()
 {
 	return rotationAngle;
 }
-/*
-std::vector<Bullet> Player::GetBullets()
-{
-	return bullets;
-}
-*/
+
 void Player::Shoot()
 {
 	if (isAlive)
