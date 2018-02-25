@@ -11,9 +11,8 @@
 #include "SDLEvent.hpp"
 #include "TimeManager.hpp"
 
-//Entities
-#include "Player.hpp"
-#include "Asteroid.hpp"
+// Game
+#include "Game.hpp"
 
 namespace Engine
 {
@@ -59,8 +58,6 @@ namespace Engine
 		void OnExit							( ) override;
 		void OnKeyDown						( SDL_KeyboardEvent keyBoardEvent ) override;
 		void OnKeyUp						( SDL_KeyboardEvent keyBoardEvent ) override;
-		void IncreaseAsteroids              ( );
-		void DecreaseAsteroids              ( );
 
 		/* =============================================================
 		 * MEMBERS
@@ -75,9 +72,7 @@ namespace Engine
 		SDL_GLContext						m_context;
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
-
-		Player*                             m_ship;
-		std::vector<Asteroid*>               m_asteroids;
+		Game                                m_game;
 		
 	};
 }
