@@ -14,8 +14,8 @@ Asteroid::Asteroid()
 	rotationValue = 0.0f;
 	rotationRate = rand()%130-1;
 	movementAngle = rand();
-	pushEntityVertices();
-	hitRadius = calculateHitRadius();
+	PushEntityVertices();
+	hitRadius = CalculateHitRadius();
 }
 
 Asteroid::Asteroid(AsteroidSize size)
@@ -27,31 +27,31 @@ Asteroid::Asteroid(AsteroidSize size)
 	rotationValue = 0.0f;
 	rotationRate = 50.0f;
 	movementAngle = rand();
-	pushEntityVertices();
-	hitRadius = calculateHitRadius();
+	PushEntityVertices();
+	hitRadius = CalculateHitRadius();
 	
 }
 
-void Asteroid::update(float deltaTime)
+void Asteroid::Update(float deltaTime)
 {
 
 	rotationValue += rotationRate * deltaTime;
 
-	applyImpulse();
+	ApplyImpulse();
 
-	Entity::update(deltaTime);
+	Entity::Update(deltaTime);
 }
 
-void Asteroid::render()
+void Asteroid::Render()
 {
 	glLoadIdentity();
 	glTranslatef(position.x, position.y, 0.0f);
 	glRotatef(rotationValue, 0.0f, 0.0f, 1.0f);
-	drawEntity();
+	DrawEntity();
 }
 
 
-void Asteroid::applyImpulse()
+void Asteroid::ApplyImpulse()
 {
 
 	velocity.x = (300.0f / mass) * -sinf(math_tool.toRadians(movementAngle));
@@ -61,7 +61,7 @@ void Asteroid::applyImpulse()
 }
 
 
-void Asteroid::pushEntityVertices()
+void Asteroid::PushEntityVertices()
 {
 	entityVertices.push_back(Vector2(-5.0f * asteroidSize, 20.0f * asteroidSize));
 	entityVertices.push_back(Vector2(10.0f * asteroidSize, 23.0f * asteroidSize));
@@ -79,7 +79,7 @@ void Asteroid::pushEntityVertices()
 
 }
 
-int Asteroid::getAsteroidSize()
+int Asteroid::GetAsteroidSize()
 {
 	return asteroidSize;
 }

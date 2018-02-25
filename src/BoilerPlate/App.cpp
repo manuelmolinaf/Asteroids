@@ -87,7 +87,7 @@ namespace Engine
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	{
-		m_game.onKeyDown(keyBoardEvent);
+		m_game.OnKeyDown(keyBoardEvent);
 	}
 	
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
@@ -103,7 +103,7 @@ namespace Engine
 			break;
 		}
 
-		m_game.onKeyUp(keyBoardEvent);
+		m_game.OnKeyUp(keyBoardEvent);
 
 	}
 
@@ -114,7 +114,7 @@ namespace Engine
 		// Update code goes here
 		//
 
-		m_game.update(DESIRED_FRAME_TIME, m_height, m_width);
+		m_game.Update(DESIRED_FRAME_TIME, m_height, m_width);
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
@@ -134,7 +134,7 @@ namespace Engine
 	
 	void App::Render()
 	{
-		m_game.render();
+		m_game.Render();
 		
 		
 

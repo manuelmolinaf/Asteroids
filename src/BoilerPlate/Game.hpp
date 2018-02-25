@@ -22,26 +22,23 @@ public:
 
 	// public functions
 
-	void render();
-	void update(float, float, float);
-	void updateFrameSize(float, float);
-	void toggleDebuggingMode();
-	void onKeyUp(SDL_KeyboardEvent keyBoardEvent);
-	void onKeyDown(SDL_KeyboardEvent keyBoardEvent);
+	void Render();
+	void Update(float, float, float);
+	void UpdateFrameSize(float, float);
+	void ToggleDebuggingMode();
+	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
+	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
 
 
-	void increaseAsteroids();
-	void decreaseAsteroids();
-	void toggleEntityDebug();
-	void respawnShip();
-	void resetGame();
-	Player ship;
-	std::vector<Asteroid> asteroids;
+	
+	
 
 private:
 
 	//protected members
 
+	Player ship;
+	std::vector<Asteroid> asteroids;
 	float deltaTime;
 	int asteroidCount;
 	float height;
@@ -51,22 +48,19 @@ private:
 	int playerLife;
 	
 
-	///Player* ship;
-	///std::vector<Asteroid*> asteroids;
-
 
 	//protected functions
 
-	///void debug();
-	///void increaseAsteroids();
-	///void decreaseAsteroids();
-	///void respawnShip();
-
-	float calculateDistance(Entity, Entity);
-	bool detectCollision(Entity, Entity);
-	void drawDebugCollisionLines();
-	void updateCollision();
-	void pushAsteroids();
+	void IncreaseAsteroids();
+	void DecreaseAsteroids();
+	void ToggleEntityDebug();
+	void RespawnShip();
+	void ResetGame();
+	float CalculateDistance(Entity, Entity);
+	bool DetectCollision(Entity, Entity);
+	void DrawDebugCollisionLines();
+	void UpdateCollision();
+	void PushAsteroids();
 };
 
 #endif

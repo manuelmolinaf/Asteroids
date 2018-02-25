@@ -19,6 +19,7 @@ public:
 		BIG = 3,
 	};
 	Asteroid();
+
 	Asteroid(AsteroidSize);
 
 
@@ -27,10 +28,10 @@ public:
 
 	// public functions
 
-	virtual void render();
-	void update(float deltaTime);
-	void applyImpulse();
-	int getAsteroidSize();
+	virtual void Render();
+	void Update(float deltaTime);
+	void ApplyImpulse();
+	int GetAsteroidSize();
 
 
 
@@ -43,9 +44,10 @@ private:
 	float movementAngle;
 	float rotationRate;
 	float rotationValue;
+
 	//privete functions
 
-	virtual void pushEntityVertices();
+	virtual void PushEntityVertices();
 };
 
 #endif

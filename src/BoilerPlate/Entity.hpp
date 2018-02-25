@@ -17,13 +17,13 @@ public:
 
 	// public functions
 
-	void render();
-	void update(float);
-	void updateFrameSize(float, float);
-	void toggleDebuggingMode();
-	void setDebuggingMode(bool);
-	Vector2 getPosition();
-	float getHitRadius();
+	void Render();
+	void Update(float);
+	void UpdateFrameSize(float, float);
+	void ToggleDebuggingMode();
+	void SetDebuggingMode(bool);
+	Vector2 GetPosition();
+	float GetHitRadius();
 
 protected:
 	
@@ -41,11 +41,11 @@ protected:
 
 	//protected functions
 	
-	virtual void pushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
-	void warp();
-	void drawEntity();
-	float calculateHitRadius();
-	void drawBoundingCircle();
+	virtual void PushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
+	void Warp();
+	void DrawEntity();
+	float CalculateHitRadius();
+	void DrawBoundingCircle();
 	
 
 	

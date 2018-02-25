@@ -7,32 +7,32 @@ Entity::Entity()
 {
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
-	warp();
+	Warp();
 	position = Vector2(0.0f, 0.0f);
 }
 
-void Entity::updateFrameSize(float currentHeight, float currentWidth)
+void Entity::UpdateFrameSize(float currentHeight, float currentWidth)
 {
 	height = currentHeight;
 	width = currentWidth;
 }
 
-void Entity::update(float deltaTime)
+void Entity::Update(float deltaTime)
 {
 	
 	position.x += velocity.x * static_cast<float>(deltaTime);
 	position.y += velocity.y * static_cast<float>(deltaTime);
-	warp();
+	Warp();
 }
 
-void Entity::render()
+void Entity::Render()
 {
 	glLoadIdentity();
-	drawEntity();
+	DrawEntity();
 }
 
 
-void Entity::warp()
+void Entity::Warp()
 {
 	//warps in the 'x' axis
 
@@ -52,9 +52,9 @@ void Entity::warp()
 		position.y = (height / 2) - 1;
 }
 
-void Entity::pushEntityVertices(){} // Meant to be overidden!
+void Entity::PushEntityVertices(){} // Meant to be overidden!
 
-void Entity::drawEntity()
+void Entity::DrawEntity()
 {
 
 	glBegin(GL_LINE_LOOP);
@@ -68,10 +68,10 @@ void Entity::drawEntity()
 	glEnd();
 
 	if (debuggingMode)
-		drawBoundingCircle();
+		DrawBoundingCircle();
 
 }
-void Entity::drawBoundingCircle()
+void Entity::DrawBoundingCircle()
 {
 	glLoadIdentity();
 
@@ -86,7 +86,7 @@ void Entity::drawBoundingCircle()
 	glEnd();
 }
 
-float Entity::calculateHitRadius()
+float Entity::CalculateHitRadius()
 {
 	float returnValue = 0.0f;
 
@@ -102,7 +102,7 @@ float Entity::calculateHitRadius()
 	return returnValue;
 }
 
-void Entity::toggleDebuggingMode()
+void Entity::ToggleDebuggingMode()
 {
 	if (debuggingMode == false)
 		debuggingMode = true;
@@ -110,18 +110,18 @@ void Entity::toggleDebuggingMode()
 		debuggingMode = false;
 }
 
-void Entity::setDebuggingMode(bool newValue)
+void Entity::SetDebuggingMode(bool newValue)
 {
 	debuggingMode = newValue;
 }
 
-Vector2 Entity::getPosition()
+Vector2 Entity::GetPosition()
 {
 	return position;
 }
 
 
-float Entity::getHitRadius()
+float Entity::GetHitRadius()
 {
 	return hitRadius;
 }

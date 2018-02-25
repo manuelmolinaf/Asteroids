@@ -8,14 +8,14 @@ Game::Game(float currentHeight, float currentWidth)
 	debuggingMode = false;
 	playerLife = 3;
 	ship = Player();
-	ship.updateFrameSize(height, width);
+	ship.UpdateFrameSize(height, width);
 
 	asteroidCount = 5;
-	pushAsteroids();
+	PushAsteroids();
 
 }
 
-void Game::onKeyDown(SDL_KeyboardEvent keyBoardEvent)
+void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 {
 
 	switch (keyBoardEvent.keysym.scancode)
@@ -34,24 +34,24 @@ void Game::onKeyDown(SDL_KeyboardEvent keyBoardEvent)
 		ship.rotateRight();
 		break;
 	case SDL_SCANCODE_F:
-		toggleDebuggingMode();
+		ToggleDebuggingMode();
 		break;
 	case SDL_SCANCODE_E:
-		increaseAsteroids();
+		IncreaseAsteroids();
 		break;
 	case SDL_SCANCODE_Q:
-		decreaseAsteroids();
+		DecreaseAsteroids();
 		break;
 	case SDL_SCANCODE_R:
-		respawnShip();
+		RespawnShip();
 		break;
 	case SDL_SCANCODE_Z:
-		resetGame();
+		ResetGame();
 	}
 
 }
 
-void Game::onKeyUp(SDL_KeyboardEvent keyBoardEvent)
+void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 {
 	switch (keyBoardEvent.keysym.scancode)
 	{
@@ -61,27 +61,27 @@ void Game::onKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	}
 }
 
-void Game::update(float deltaTime, float currentHeight, float currentWidth)
+void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 {
 	ship.update(deltaTime);
-	ship.updateFrameSize(currentHeight, currentWidth);
+	ship.UpdateFrameSize(currentHeight, currentWidth);
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		asteroids[i].update(deltaTime);
+		asteroids[i].Update(deltaTime);
 	}
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		asteroids[i].updateFrameSize(currentHeight, currentWidth);
+		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
 	}
 
 
-	updateCollision();
+	UpdateCollision();
 }
 
 
-void Game::render()
+void Game::Render()
 {
 	glClearColor(colors.slateBlue.redValue, colors.slateBlue.greenValue,
 		colors.slateBlue.blueValue, colors.slateBlue.alphaValue);
@@ -93,34 +93,34 @@ void Game::render()
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		asteroids[i].render();
+		asteroids[i].Render();
 	}
 
 	if (debuggingMode)
-		drawDebugCollisionLines();
+		DrawDebugCollisionLines();
 
 }
 
-void Game::updateFrameSize(float currentHeight, float currentWidth)
+void Game::UpdateFrameSize(float currentHeight, float currentWidth)
 {
 	height = currentHeight;
 	width = currentWidth;
 }
 
-void Game::toggleDebuggingMode()
+void Game::ToggleDebuggingMode()
 {
 	ship.respawn();
 
 	if (debuggingMode == false)
 	{
 		debuggingMode = true;
-		toggleEntityDebug();
+		ToggleEntityDebug();
 	}
 
 	else
 	{
 		debuggingMode = false;
-		toggleEntityDebug();
+		ToggleEntityDebug();
 		playerLife = 3;
 	}
 
@@ -128,23 +128,23 @@ void Game::toggleDebuggingMode()
 
 	if (debuggingMode)
 	{
-		ship.setDebuggingMode(true);
+		ship.SetDebuggingMode(true);
 	}
 
 }
 
-void Game::toggleEntityDebug()
+void Game::ToggleEntityDebug()
 {
-	ship.toggleDebuggingMode();
+	ship.ToggleDebuggingMode();
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		asteroids[i].toggleDebuggingMode();
+		asteroids[i].ToggleDebuggingMode();
 	}
 }
 
 
-void Game::increaseAsteroids()
+void Game::IncreaseAsteroids()
 {
 	if (debuggingMode)
 	{
@@ -153,12 +153,12 @@ void Game::increaseAsteroids()
 
 	if (debuggingMode)
 	{
-		asteroids[asteroids.size() - 1].setDebuggingMode(true);
+		asteroids[asteroids.size() - 1].SetDebuggingMode(true);
 	}
 
 }
 
-void Game::decreaseAsteroids()
+void Game::DecreaseAsteroids()
 {
 	if (debuggingMode)
 	{
@@ -168,7 +168,7 @@ void Game::decreaseAsteroids()
 
 }
 
-void Game::drawDebugCollisionLines()
+void Game::DrawDebugCollisionLines()
 {
 
 	glLoadIdentity();
@@ -180,27 +180,27 @@ void Game::drawDebugCollisionLines()
 	{
 
 
-		if (calculateDistance(ship, asteroids[i]) <= ship.getHitRadius() * 2 + asteroids[i].getHitRadius())
+		if (CalculateDistance(ship, asteroids[i]) <= ship.GetHitRadius() * 2 + asteroids[i].GetHitRadius())
 		{
-			glVertex2f(ship.getPosition().x, ship.getPosition().y);
-			glVertex2f(asteroids[i].getPosition().x, asteroids[i].getPosition().y);
+			glVertex2f(ship.GetPosition().x, ship.GetPosition().y);
+			glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 		}
 	}
 	glEnd();
 
 }
 
-float Game::calculateDistance(Entity entity1, Entity entity2)
+float Game::CalculateDistance(Entity entity1, Entity entity2)
 {
-	float distance = sqrtf(((entity2.getPosition().x - entity1.getPosition().x)*(entity2.getPosition().x - entity1.getPosition().x)) +
-		((entity2.getPosition().y - entity1.getPosition().y)*(entity2.getPosition().y - entity1.getPosition().y)));
+	float distance = sqrtf(((entity2.GetPosition().x - entity1.GetPosition().x)*(entity2.GetPosition().x - entity1.GetPosition().x)) +
+		((entity2.GetPosition().y - entity1.GetPosition().y)*(entity2.GetPosition().y - entity1.GetPosition().y)));
 
 	return distance;
 }
 
-bool Game::detectCollision(Entity entity1, Entity entity2)
+bool Game::DetectCollision(Entity entity1, Entity entity2)
 {
-	if (calculateDistance(entity1, entity2) <= entity1.getHitRadius() + entity2.getHitRadius())
+	if (CalculateDistance(entity1, entity2) <= entity1.GetHitRadius() + entity2.GetHitRadius())
 	{
 		return true;
 	}
@@ -208,18 +208,18 @@ bool Game::detectCollision(Entity entity1, Entity entity2)
 		return false;
 }
 
-void Game::updateCollision()
+void Game::UpdateCollision()
 {
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		if (detectCollision(ship, asteroids[i]) && !debuggingMode)
+		if (DetectCollision(ship, asteroids[i]) && !debuggingMode)
 		{
 			ship.alive = false;
 		}
 	}
 }
 
-void Game::respawnShip()
+void Game::RespawnShip()
 {
 	if (playerLife > 0 && !ship.alive)
 	{
@@ -227,16 +227,16 @@ void Game::respawnShip()
 		playerLife--;
 	}
 }
-void Game::pushAsteroids()
+void Game::PushAsteroids()
 {
 	for (int i = 0; i < asteroidCount; i++)
 	{
 		asteroids.push_back(Asteroid());
-		asteroids[i].updateFrameSize(height, width);
+		asteroids[i].UpdateFrameSize(height, width);
 	}
 }
 
-void Game::resetGame()
+void Game::ResetGame()
 {
 	playerLife = 3;
 	ship.respawn();
@@ -246,7 +246,7 @@ void Game::resetGame()
 	for (int i = 0; i < asteroidCount; i++)
 	{
 		asteroids.push_back(Asteroid());
-		asteroids[i].updateFrameSize(height, width);
+		asteroids[i].UpdateFrameSize(height, width);
 	}
 	
 }

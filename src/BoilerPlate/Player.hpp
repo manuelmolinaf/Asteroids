@@ -19,12 +19,12 @@ public:
 
 	// public functions
 
-	virtual void render();
-	void update(float);
-	void moveForward();
-	void rotateLeft();
-	void rotateRight();
-	void setMovingForward(bool);
+	virtual void Render();
+	void Update(float);
+	void MoveForward();
+	void RotateLeft();
+	void RotateRight();
+	void SetMovingForward(bool);
 	
 	void respawn();
 
@@ -32,22 +32,21 @@ private:
 
 	//private functions
 
+	void PushThrusterVertices();
+	void DrawThruster();
+	void ApplyImpulse();
+	virtual void PushEntityVectors();
+
+	//private members
+
 	float rotationAngle;
 	float rotationRate;
 	float forwardUnitRate;
 	float currentSpeed;
 	float maxSpeed;
 	float frictionCoefficient;
-	void pushThrusterVertices();
-	void drawThruster();
-	void applyImpulse();
-	virtual void pushEntityVectors();
-
-	//private members
-
 	bool pressingForwardKey;
 	bool isMoving;
-	Vector2 friction;
 	std::vector<Vector2> thrusterVertices;
 	
 };

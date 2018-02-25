@@ -19,7 +19,7 @@ Player::Player()
 	frictionCoefficient = 0.99f;
 	pushEntityVectors();
 	pushThrusterVertices();
-	hitRadius = calculateHitRadius();
+	hitRadius = CalculateHitRadius();
 	
 
 }
@@ -33,7 +33,7 @@ void Player::render()
 		glTranslatef(position.x, position.y, 0.0f);
 		glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
 
-		drawEntity();
+		DrawEntity();
 
 		if (pressingForwardKey)
 		{
@@ -72,7 +72,7 @@ void Player::update(float deltaTime)
 
 
 
-	Entity::update(deltaTime);
+	Entity::Update(deltaTime);
 }
 
 void Player::rotateLeft()
