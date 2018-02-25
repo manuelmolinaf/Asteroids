@@ -125,7 +125,7 @@ void Player::drawThruster()
 {
 	glBegin(GL_LINE_LOOP);
 
-	glColor3f(1.0f, 0.0f, 0.0f);
+	glColor3f(1.0f, 0.271, 0.0f);
 
 	for (int i = 0; i < thrusterVertices.size(); i++)
 	{

@@ -44,7 +44,6 @@ namespace Engine
 		bool Init							( );
 		void Update							( );
 		void Render							( );
-		void Debug                          ( );
 
 	private:
 		/* =============================================================

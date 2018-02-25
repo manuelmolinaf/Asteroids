@@ -1,9 +1,11 @@
 #include "Game.hpp"
+#include <iostream>
 
 Game::Game(float currentHeight, float currentWidth )
 {
 	height = currentHeight;
 	width = currentWidth;
+	debuggingMode = false;
 
 	ship = new Player();
 	ship->updateFrameSize(height, width);
@@ -37,6 +39,7 @@ void Game::update(float deltaTime, float currentHeight, float currentWidth)
 	{
 		asteroids[i]->updateFrameSize(currentHeight, currentWidth);
 	}
+	//debug();
 }
 
 
@@ -54,6 +57,9 @@ void Game::render()
 	{
 		asteroids[i]->render();
 	}
+	
+	if(debuggingMode)
+		drawDebugCollisionLines();
 
 }
 
@@ -69,26 +75,65 @@ void Game::toggleDebuggingMode()
 		debuggingMode = true;
 	else
 		debuggingMode = false;
+
+	debug();
 }
 
 void Game::increaseAsteroids()
 {
-	asteroids.push_back(new Asteroid());
+	if (debuggingMode)
+	{
+		asteroids.push_back(new Asteroid());
+	}
+
+	if (debuggingMode)
+	{
+		asteroids[asteroids.size() - 1]->setDebuggingMode(true);
+	}
+	
 }
 
 void Game::decreaseAsteroids()
 {
-	if (asteroids.size() != 0)
-		asteroids.pop_back();
+	if (debuggingMode)
+	{
+		if (asteroids.size() != 0)
+			asteroids.pop_back();
+	}
+
 }
 
 void Game::debug()
 {
 	ship->toggleDebuggingMode();
 
-
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 		asteroids[i]->toggleDebuggingMode();
 	}
+
+	
+}
+
+void Game::drawDebugCollisionLines()
+{
+	float debugLineRadius = 250.0f;
+	float distance;
+	glLoadIdentity();
+
+	glBegin(GL_LINE_LOOP);
+	glColor3f(1.0f, 1.0f, 0.0f);
+
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+			
+		if ((sqrtf(((asteroids[i]->getPosition().x - ship->getPosition().x)*(asteroids[i]->getPosition().x - ship->getPosition().x))
+			+ ((asteroids[i]->getPosition().y - ship->getPosition().y)*(asteroids[i]->getPosition().y - ship->getPosition().y)))) <= debugLineRadius)
+		{
+			glVertex2f(ship->getPosition().x, ship->getPosition().y);
+			glVertex2f(asteroids[i]->getPosition().x, asteroids[i]->getPosition().y);
+		}
+	}
+	glEnd();
+	
 }

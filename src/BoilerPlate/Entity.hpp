@@ -21,7 +21,9 @@ public:
 	void update(float);
 	void updateFrameSize(float, float);
 	void toggleDebuggingMode();
-
+	void setDebuggingMode(bool);
+	Vector2 getPosition();
+	float getRadius();
 
 protected:
 	

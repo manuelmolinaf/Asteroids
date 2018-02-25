@@ -41,6 +41,7 @@ private:
 	float width;
 	bool debuggingMode;
 	ColorPalette colors;
+	void drawDebugCollisionLines();
 	//Player* ship;
 	//std::vector<Asteroid*> asteroids;
 

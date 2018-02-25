@@ -103,7 +103,7 @@ namespace Engine
 			m_game.ship->rotateRight();
 			break;
 		case SDL_SCANCODE_F:
-			Debug();
+			m_game.toggleDebuggingMode();
 			break;
 		case SDL_SCANCODE_E:
 			m_game.increaseAsteroids();
@@ -148,8 +148,7 @@ namespace Engine
 			// Spin lock
 			endTime = m_timer->GetElapsedTimeInSeconds();
 		}
-
-		//double elapsedTime = endTime - startTime;        
+       
 
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
 
@@ -157,14 +156,6 @@ namespace Engine
 	}
 
 	
-
-	void App::Debug()
-	{
-		m_game.debug();
-		
-		
-	}
-
 	void App::Render()
 	{
 		m_game.render();

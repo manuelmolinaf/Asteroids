@@ -108,3 +108,18 @@ void Entity::toggleDebuggingMode()
 	else
 		debuggingMode = false;
 }
+
+void Entity::setDebuggingMode(bool newValue)
+{
+	debuggingMode = newValue;
+}
+
+Vector2 Entity::getPosition()
+{
+	return position;
+}
+
+float Entity::getRadius()
+{
+	return radius;
+}
