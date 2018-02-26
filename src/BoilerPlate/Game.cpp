@@ -13,9 +13,12 @@ Game::Game(float currentHeight, float currentWidth)
 	asteroidCount = 5;
 	PushAsteroids();
 
+	InitializeDeltaArray();
+	
+
 }
 
-void Game::Update(float deltaTime, float currentHeight, float currentWidth)
+void Game::Update(float currentHeight, float currentWidth)
 {
 	ManageInput();
 
@@ -23,15 +26,15 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 	{
 		inputLimiter--;
 	}
-	
 
-	player.Update(deltaTime);
+
+	player.Update(DESIRED_FRAME_TIME);
 	player.UpdateFrameSize(currentHeight, currentWidth);
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
-		asteroids[i].Update(deltaTime);
+		asteroids[i].Update(DESIRED_FRAME_TIME);
 	}
 
 
@@ -41,7 +44,7 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 	{
 		PushAsteroids();
 	}
-	
+
 }
 
 
@@ -61,7 +64,11 @@ void Game::Render()
 	}
 
 	if (debuggingMode)
+	{
 		DrawDebugCollisionLines();
+		DrawFrameRateMeter();
+	}
+
 
 }
 
@@ -405,4 +412,51 @@ void Game::ManageInput()
 void Game::ResetLimiter()
 {
 	inputLimiter = 10;
+}
+
+void Game::InitializeDeltaArray()
+{
+	for (int i = 0; i < FRAME_LIMIT; i++)
+	{
+		frames[i] = Vector2((float)i, 0.0);
+	}
+
+	framePosition = 0;
+	deltaTime = DESIRED_FRAME_TIME;
+
+}
+
+void Game::UpdateFrame()
+{
+	frames[framePosition] = Vector2((float)framePosition, (float)deltaTime);
+	framePosition++;
+
+	if (framePosition >= FRAME_LIMIT)
+	{
+		framePosition = 0;
+	}
+}
+
+void Game::UpdateFrameRate(float endTime, float startTime)
+{
+	deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
+	UpdateFrame();
+}
+
+void Game::DrawFrameRateMeter()
+{
+	float scaleX= 20.0f, scaleY = 10000.0f;
+
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, 0.0f);
+	glBegin(GL_LINE_STRIP);
+	glColor3f(1.0f, 1.0f, 0.0f);
+
+	for (int i = 0; i < FRAME_LIMIT; i++)
+	{
+		glVertex2f(scaleX*frames[i].x, scaleY*(DESIRED_FRAME_TIME - frames[i].y));
+
+		std::cout << scaleX * frames[i].x <<"       "<<scaleY * (DESIRED_FRAME_TIME - frames[i].y)<<std::endl;
+	}
+	glEnd();
 }

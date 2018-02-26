@@ -14,8 +14,7 @@ namespace Engine
 	ColorPalette colors;
 
 
-	const float DESIRED_FRAME_RATE = 60.0f;
-	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
+	
 
 	App::App(const std::string& title, const int width, const int height)
 		: m_title(title)
@@ -169,10 +168,13 @@ namespace Engine
 		// Update code goes here
 		//
 
-		m_game.Update(DESIRED_FRAME_TIME, m_height, m_width);
+		m_game.Update(m_height, m_width);
+		
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
+
+		m_game.UpdateFrameRate(endTime, startTime);
 
 		while (endTime < nextTimeFrame)
 		{
