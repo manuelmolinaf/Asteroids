@@ -32,6 +32,20 @@ Asteroid::Asteroid(AsteroidSize size)
 	
 }
 
+Asteroid::Asteroid(AsteroidSize size, Vector2 spawnPosition)
+{
+	Entity::Entity();
+	position = Vector2(spawnPosition.x, spawnPosition.y);
+	asteroidSize = size;
+	mass = size;
+	rotationValue = 0.0f;
+	rotationRate = 50.0f;
+	movementAngle = rand();
+	PushEntityVertices();
+	hitRadius = CalculateHitRadius();
+
+}
+
 void Asteroid::Update(float deltaTime)
 {
 

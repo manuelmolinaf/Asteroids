@@ -59,8 +59,10 @@ private:
 	float CalculateDistance(Entity, Entity);
 	bool DetectCollision(Entity, Entity);
 	void DrawDebugCollisionLines();
-	void UpdateCollision();
+	void UpdateCollisionEvents();
 	void PushAsteroids();
+	void PlayerAsteroidCollision();
+	void BulletAsteroidCollision();
 };
 
 #endif

@@ -27,6 +27,8 @@ public:
 	bool GetAliveState();
 	float GetRotationAngle();
 	void Shoot();
+	void destroyBullet(int);
+	std::vector<Bullet> GetBullets();
 
 private:
 
@@ -35,7 +37,8 @@ private:
 	void PushThrusterVertices();
 	void DrawThruster();
 	void ApplyImpulse();
-	virtual void PushEntityVectors();
+	void PushEntityVectors();
+	
 
 	//private members
 

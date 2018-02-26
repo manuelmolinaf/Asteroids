@@ -22,6 +22,8 @@ public:
 
 	Asteroid(AsteroidSize);
 
+	Asteroid(AsteroidSize, Vector2);
+
 	// public functions
 
 	virtual void Render();

@@ -48,10 +48,6 @@ void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	case SDL_SCANCODE_Z:
 		ResetGame();
 		break;
-	case SDL_SCANCODE_SPACE:
-		player.Shoot();
-
-		break;
 	}
 	
 
@@ -64,6 +60,9 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	case SDL_SCANCODE_W:
 		player.SetMovingForward(false);
 		break;
+	case SDL_SCANCODE_SPACE:
+		player.Shoot();
+		break;
 	}
 }
 
@@ -74,12 +73,12 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		asteroids[i].Update(deltaTime);
 		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
+		asteroids[i].Update(deltaTime);
 	}
 
 
-	UpdateCollision();
+	UpdateCollisionEvents();
 }
 
 
@@ -192,17 +191,17 @@ void Game::DrawDebugCollisionLines()
 
 }
 
-float Game::CalculateDistance(Entity entity1, Entity entity2)
+float Game::CalculateDistance(Entity firstEntity, Entity entity2)
 {
-	float distance = sqrtf(((entity2.GetPosition().x - entity1.GetPosition().x)*(entity2.GetPosition().x - entity1.GetPosition().x)) +
-		((entity2.GetPosition().y - entity1.GetPosition().y)*(entity2.GetPosition().y - entity1.GetPosition().y)));
+	float distance = sqrtf(((entity2.GetPosition().x - firstEntity.GetPosition().x)*(entity2.GetPosition().x - firstEntity.GetPosition().x)) +
+		((entity2.GetPosition().y - firstEntity.GetPosition().y)*(entity2.GetPosition().y - firstEntity.GetPosition().y)));
 
 	return distance;
 }
 
-bool Game::DetectCollision(Entity entity1, Entity entity2)
+bool Game::DetectCollision(Entity firstEntity, Entity secondEntity)
 {
-	if (CalculateDistance(entity1, entity2) <= entity1.GetHitRadius() + entity2.GetHitRadius())
+	if (CalculateDistance(firstEntity, secondEntity) <= firstEntity.GetHitRadius() + secondEntity.GetHitRadius())
 	{
 		return true;
 	}
@@ -210,15 +209,10 @@ bool Game::DetectCollision(Entity entity1, Entity entity2)
 		return false;
 }
 
-void Game::UpdateCollision()
+void Game::UpdateCollisionEvents()
 {
-	for (int i = 0; i < asteroids.size(); i++)
-	{
-		if (DetectCollision(player, asteroids[i]) && !debuggingMode)
-		{
-			player.SetAliveState(false);
-		}
-	}
+	PlayerAsteroidCollision();
+	BulletAsteroidCollision();
 }
 
 void Game::RespawnShip()
@@ -241,6 +235,8 @@ void Game::PushAsteroids()
 void Game::ResetGame()
 {
 	playerLife = 3;
+	player.SetDebuggingMode(false);
+	debuggingMode = false;
 	player.Respawn();
 
 	asteroids.clear();
@@ -253,3 +249,47 @@ void Game::ResetGame()
 	
 }
 
+void Game::PlayerAsteroidCollision()
+{
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+		if (DetectCollision(player, asteroids[i]) && !debuggingMode)
+		{
+			player.SetAliveState(false);
+		}
+	}
+}
+
+void Game::BulletAsteroidCollision()
+{
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+		for (int j = 0; j < player.GetBullets().size(); j++)
+		{
+			if (DetectCollision(asteroids[i], player.GetBullets()[j]))
+			{
+				if (asteroids[i].GetAsteroidSize() == 3)
+				{
+					asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
+					asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
+					asteroids.erase(asteroids.begin() + i);
+					player.destroyBullet(j);
+
+				}
+				else if (asteroids[i].GetAsteroidSize() == 2)
+				{
+					asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
+					asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
+					asteroids.erase(asteroids.begin() + i);
+					player.destroyBullet(j);
+				}
+				else if (asteroids[i].GetAsteroidSize() == 1)
+				{
+					asteroids.erase(asteroids.begin() + i);
+					player.destroyBullet(j);
+				}
+
+			}
+		}
+	}
+}
