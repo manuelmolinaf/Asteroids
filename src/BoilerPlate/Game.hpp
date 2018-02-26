@@ -4,8 +4,6 @@
 #define _GAME_H_
 
 #include <GL/glew.h>
-#include <SDL2/SDL_opengl.h>
-#include "SDLEvent.hpp"
 #include <vector>
 #include "Vector2.hpp"
 #include "MathUtilities.hpp"
@@ -19,6 +17,7 @@ class Game
 public:
 
 	Game(float, float);
+
 	InputManager inputManager;
 
 	// public functions
@@ -27,16 +26,14 @@ public:
 	void Update(float, float, float);
 	void UpdateFrameSize(float, float);
 	void ToggleDebuggingMode();
-	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
-	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
-
-
+	
+	
 	
 	
 
 private:
 
-	//protected members
+	//private members
 
 	Player player;
 	std::vector<Asteroid> asteroids;
@@ -45,13 +42,15 @@ private:
 	float height;
 	float width;
 	bool debuggingMode;
-	ColorPalette colors;
 	int playerLife;
 	float bulletLife;
+	int inputLimiter;
+	ColorPalette colors;
+	
 	
 
 
-	//protected functions
+	//private functions
 
 	void IncreaseAsteroids();
 	void DecreaseAsteroids();
@@ -66,6 +65,7 @@ private:
 	void PlayerAsteroidCollision();
 	void BulletAsteroidCollision();
 	void ManageInput();
+	void ResetLimiter();
 };
 
 #endif

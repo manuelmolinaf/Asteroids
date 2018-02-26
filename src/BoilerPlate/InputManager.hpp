@@ -37,6 +37,7 @@ public:
 	bool GetZ();
 	bool GetSpace();
 
+
 private:
 
 	bool W_KEY;
@@ -49,6 +50,8 @@ private:
 	bool R_KEY;
 	bool Z_KEY;
 	bool SPACE_KEY;
+
+	
 
 };
 

@@ -9,7 +9,7 @@ Game::Game(float currentHeight, float currentWidth)
 	playerLife = 3;
 	player = Player();
 	player.UpdateFrameSize(height, width);
-
+	ResetLimiter();
 	asteroidCount = 5;
 	PushAsteroids();
 
@@ -18,6 +18,12 @@ Game::Game(float currentHeight, float currentWidth)
 void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 {
 	ManageInput();
+
+	if (inputLimiter != 0)
+	{
+		inputLimiter--;
+	}
+	
 
 	player.Update(deltaTime);
 	player.UpdateFrameSize(currentHeight, currentWidth);
@@ -29,9 +35,12 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 	}
 
 
-
 	UpdateCollisionEvents();
 
+	if (asteroids.size() == 0 && !debuggingMode)
+	{
+		PushAsteroids();
+	}
 	
 }
 
@@ -327,6 +336,7 @@ void Game::BulletAsteroidCollision()
 	}
 }
 
+
 void Game::ManageInput()
 {
 	if (inputManager.GetW())
@@ -350,19 +360,25 @@ void Game::ManageInput()
 		player.RotateRight();
 	}
 
-	if (inputManager.GetQ())
+	if (inputManager.GetQ() && inputLimiter == 0)
 	{
 		DecreaseAsteroids();
+
+		ResetLimiter();
 	}
 
-	if (inputManager.GetE())
+	if (inputManager.GetE() && inputLimiter == 0)
 	{
 		IncreaseAsteroids();
+
+		ResetLimiter();
 	}
 
-	if (inputManager.GetF())
+	if (inputManager.GetF() && inputLimiter == 0)
 	{
 		ToggleDebuggingMode();
+
+		ResetLimiter();
 	}
 
 	if (inputManager.GetR())
@@ -370,14 +386,23 @@ void Game::ManageInput()
 		RespawnShip();
 	}
 
-	if (inputManager.GetZ())
+	if (inputManager.GetZ() && inputLimiter == 0)
 	{
 		ResetGame();
+		
+		ResetLimiter();
 	}
 
-	if (inputManager.GetSpace())
+	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
 		player.Shoot();
+
+		ResetLimiter();
 	}
 
+}
+
+void Game::ResetLimiter()
+{
+	inputLimiter = 10;
 }

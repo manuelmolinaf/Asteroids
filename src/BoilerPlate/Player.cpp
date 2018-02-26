@@ -184,13 +184,18 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		bullets.push_back(Bullet(rotationAngle, position));
-		
-
-		if (debuggingMode)
+		if (bullets.size() < 4)
 		{
-			bullets[bullets.size() - 1].ToggleDebuggingMode();
+			bullets.push_back(Bullet(rotationAngle, position));
+
+
+			if (debuggingMode)
+			{
+				bullets[bullets.size() - 1].ToggleDebuggingMode();
+			}
 		}
+
+		
 			
 	}
 	
