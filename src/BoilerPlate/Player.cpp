@@ -82,6 +82,7 @@ void Player::Update(float deltaTime)
 		if (bullets[i].GetBulletLife() == 0)
 		{
 			bullets.erase(bullets.begin() + i);
+			break;
 		}
 		else
 		{
@@ -184,7 +185,7 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		if (bullets.size() < 4)
+		if (true)
 		{
 			bullets.push_back(Bullet(rotationAngle, position));
 
@@ -195,8 +196,6 @@ void Player::Shoot()
 			}
 		}
 
-		
-			
 	}
 	
 }

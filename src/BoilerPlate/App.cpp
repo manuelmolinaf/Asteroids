@@ -164,17 +164,22 @@ namespace Engine
 	void App::Update()
 	{
 		double startTime = m_timer->GetElapsedTimeInSeconds();
+		double cEndTime = m_timer->GetElapsedTimeInSeconds();
 
 		// Update code goes here
 		//
 
-		m_game.Update(m_height, m_width);
+		m_game.Update(m_height, m_width, m_game.UpdateFrameRate(cEndTime, startTime));
+		
+
+		//m_game.Update(m_height, m_width);
 		
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
 
-		m_game.UpdateFrameRate(endTime, startTime);
+		m_game.UpdateFrame(endTime, startTime);
+		
 
 		while (endTime < nextTimeFrame)
 		{

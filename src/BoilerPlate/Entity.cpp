@@ -9,7 +9,7 @@ Entity::Entity()
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
 	isColliding = false;
-	Warp();
+	//Warp();
 	
 }
 

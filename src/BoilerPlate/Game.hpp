@@ -28,11 +28,11 @@ public:
 	// public functions
 
 	void Render();
-	void Update(float, float);
+	void Update(float, float, float);
 	void UpdateFrameSize(float, float);
 	void ToggleDebuggingMode();
-	void UpdateFrameRate(float, float);
-	
+	float UpdateFrameRate(double, double);
+	void UpdateFrame(double, double);
 	
 	
 
@@ -42,7 +42,7 @@ private:
 
 	Player player;
 	std::vector<Asteroid> asteroids;
-	float deltaTime;
+	//float deltaTime;
 	int asteroidCount;
 	float height;
 	float width;
@@ -74,7 +74,6 @@ private:
 	void ManageInput();
 	void ResetLimiter();
 	void InitializeDeltaArray();
-	void UpdateFrame();
 	void DrawFrameRateMeter();
 };
 

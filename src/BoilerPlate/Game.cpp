@@ -18,9 +18,12 @@ Game::Game(float currentHeight, float currentWidth)
 
 }
 
-void Game::Update(float currentHeight, float currentWidth)
+void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 {
 	ManageInput();
+
+	UpdateCollisionEvents();
+
 
 	if (inputLimiter != 0)
 	{
@@ -28,17 +31,15 @@ void Game::Update(float currentHeight, float currentWidth)
 	}
 
 
-	player.Update(DESIRED_FRAME_TIME);
+	player.Update(deltaTime);
 	player.UpdateFrameSize(currentHeight, currentWidth);
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
-		asteroids[i].Update(DESIRED_FRAME_TIME);
+		asteroids[i].Update(deltaTime);
 	}
 
-
-	UpdateCollisionEvents();
 
 	if (asteroids.size() == 0 && !debuggingMode)
 	{
@@ -333,10 +334,9 @@ void Game::BulletAsteroidCollision()
 
 						finish = true;
 					}
-
+					break;
 				}
 
-				break;
 			}
 			if (finish) break;
 		}
@@ -400,7 +400,7 @@ void Game::ManageInput()
 		ResetLimiter();
 	}
 
-	if (inputManager.GetSpace() && inputLimiter == 0)
+	if (inputManager.GetSpace() /*&& inputLimiter == 0*/)
 	{
 		player.Shoot();
 
@@ -416,18 +416,19 @@ void Game::ResetLimiter()
 
 void Game::InitializeDeltaArray()
 {
+	framePosition = 0;
+
 	for (int i = 0; i < FRAME_LIMIT; i++)
 	{
-		frames[i] = Vector2((float)i, 0.0);
+		frames[i] = Vector2((float)i, DESIRED_FRAME_TIME);
 	}
-
-	framePosition = 0;
-	deltaTime = DESIRED_FRAME_TIME;
 
 }
 
-void Game::UpdateFrame()
+void Game::UpdateFrame(double endTime, double startTime)
 {
+	float deltaTime = UpdateFrameRate(endTime, startTime);
+
 	frames[framePosition] = Vector2((float)framePosition, (float)deltaTime);
 	framePosition++;
 
@@ -437,26 +438,26 @@ void Game::UpdateFrame()
 	}
 }
 
-void Game::UpdateFrameRate(float endTime, float startTime)
+float Game::UpdateFrameRate(double endTime, double startTime)
 {
-	deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
-	UpdateFrame();
+	float deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
+	return deltaTime;
 }
 
 void Game::DrawFrameRateMeter()
 {
-	float scaleX= 20.0f, scaleY = 10000.0f;
+	float scaleX= 20.0f, scaleY = 150000.0f;
 
+	
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, 0.0f);
+	glTranslatef(200.0f, -300.0f, 0.0f);
 	glBegin(GL_LINE_STRIP);
-	glColor3f(1.0f, 1.0f, 0.0f);
+	glColor3f(1.000, 0.498, 0.314);
 
 	for (int i = 0; i < FRAME_LIMIT; i++)
 	{
 		glVertex2f(scaleX*frames[i].x, scaleY*(DESIRED_FRAME_TIME - frames[i].y));
 
-		std::cout << scaleX * frames[i].x <<"       "<<scaleY * (DESIRED_FRAME_TIME - frames[i].y)<<std::endl;
 	}
 	glEnd();
 }
