@@ -8,6 +8,7 @@ Entity::Entity()
 	position = Vector2(0.0f, 0.0f);
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
+	isColliding = false;
 	Warp();
 	
 }
@@ -69,22 +70,44 @@ void Entity::DrawEntity()
 	glEnd();
 
 	if (debuggingMode)
+	{
 		DrawBoundingCircle();
+	}
+		
 
 }
 void Entity::DrawBoundingCircle()
 {
-	glLoadIdentity();
-
-	glBegin(GL_LINE_LOOP);
-	glColor3f(1.0f, 1.0f, 1.0f);
-
-	for (int i = 0; i <= 100; i++) 
+	if (isColliding)
 	{
-		glVertex2f(position.x + (hitRadius * cos(i *  math_tool.PI*2 / 100)),
-				   position.y + (hitRadius * sin(i * math_tool.PI*2 / 100)));
+		glLoadIdentity();
+
+		glBegin(GL_LINE_LOOP);
+		glColor3f(1.0f, 0.0f, 0.0f);
+
+		for (int i = 0; i <= 100; i++)
+		{
+			glVertex2f(position.x + (hitRadius * cos(i *  math_tool.PI * 2 / 100)),
+				position.y + (hitRadius * sin(i * math_tool.PI * 2 / 100)));
+		}
+		glEnd();
 	}
-	glEnd();
+	else
+	{
+		glLoadIdentity();
+
+		glBegin(GL_LINE_LOOP);
+		glColor3f(1.0f, 1.0f, 1.0f);
+
+		for (int i = 0; i <= 100; i++)
+		{
+			glVertex2f(position.x + (hitRadius * cos(i *  math_tool.PI * 2 / 100)),
+				position.y + (hitRadius * sin(i * math_tool.PI * 2 / 100)));
+		}
+		glEnd();
+	}
+
+	
 }
 
 float Entity::CalculateHitRadius()
@@ -125,4 +148,9 @@ Vector2 Entity::GetPosition()
 float Entity::GetHitRadius()
 {
 	return hitRadius;
+}
+
+void Entity::setIsColliding(bool value)
+{
+	isColliding = value;
 }

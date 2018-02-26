@@ -15,6 +15,7 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 	movementAngle = rotationAngle;
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
+	bulletLife = 60;
 }
 
 
@@ -25,6 +26,11 @@ void Bullet::Update(float deltaTime)
 	rotationValue += rotationRate * deltaTime;
 
 	ApplyImpulse();
+
+	if (bulletLife != 0)
+	{
+		bulletLife--;
+	}
 
 	Entity::Update(deltaTime);
 }
@@ -51,10 +57,15 @@ void Bullet::ApplyImpulse()
 
 void Bullet::PushEntityVertices()
 {
-	entityVertices.push_back(Vector2(0.0f, 10.0f));
-	entityVertices.push_back(Vector2(10.0f, 0.0f));
-	entityVertices.push_back(Vector2(0.0f, -10.0f));
-	entityVertices.push_back(Vector2(-10.0f, 0.0f));
+	entityVertices.push_back(Vector2(0.0f, 3.0f));
+	entityVertices.push_back(Vector2(3.0f, 0.0f));
+	entityVertices.push_back(Vector2(0.0f, -3.0f));
+	entityVertices.push_back(Vector2(-3.0f, 0.0f));
 	
 
+}
+
+int Bullet::GetBulletLife()
+{
+	return bulletLife;
 }

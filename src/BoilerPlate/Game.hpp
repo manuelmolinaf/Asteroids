@@ -47,6 +47,7 @@ private:
 	ColorPalette colors;
 	int playerLife;
 	
+	
 
 
 	//protected functions

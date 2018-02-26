@@ -21,7 +21,7 @@ void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	switch (keyBoardEvent.keysym.scancode)
 	{
 	default:
-		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
+		//SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 		break;
 	case SDL_SCANCODE_W:
 		player.MoveForward();
@@ -76,6 +76,7 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
 		asteroids[i].Update(deltaTime);
 	}
+
 
 
 	UpdateCollisionEvents();
@@ -180,17 +181,39 @@ void Game::DrawDebugCollisionLines()
 	{
 
 
-		if (CalculateDistance(player, asteroids[i]) <= player.GetHitRadius() * 2 + asteroids[i].GetHitRadius())
+		if (CalculateDistance(player, asteroids[i]) <= player.GetHitRadius() + asteroids[i].GetHitRadius())
 		{
 			glLoadIdentity();
 
 			glBegin(GL_LINE_LOOP);
-			glColor3f(0.863, 0.078f, 0.235f);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex2f(player.GetPosition().x, player.GetPosition().y);
+			glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
+			glEnd();
+
+			asteroids[i].setIsColliding(true);
+			player.setIsColliding(true);
+
+		}
+		else if (CalculateDistance(player, asteroids[i]) <= player.GetHitRadius()*2 + asteroids[i].GetHitRadius())
+		{
+			glLoadIdentity();
+
+			glBegin(GL_LINE_LOOP);
+			glColor3f(0.0f, 1.0f, 0.f);
 			glVertex2f(player.GetPosition().x, player.GetPosition().y);
 			glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 			glEnd();
 
 		}
+
+		if (CalculateDistance(player, asteroids[i]) > player.GetHitRadius() + asteroids[i].GetHitRadius())
+		{
+			asteroids[i].setIsColliding(false);
+			player.setIsColliding(false);
+		}
+
+
 	}
 
 
@@ -200,15 +223,32 @@ void Game::DrawDebugCollisionLines()
 	{
 		for (int j = 0; j < player.GetBullets().size(); j++)
 		{
-			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() * 2 + asteroids[i].GetHitRadius())
+			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() + asteroids[i].GetHitRadius())
 			{
 				glLoadIdentity();
 
 				glBegin(GL_LINE_LOOP);
-				glColor3f(0.863, 0.078f, 0.235f);
+				glColor3f(1.0f, 0.0f, 0.0f);
 				glVertex2f(player.GetBullets()[j].GetPosition().x, player.GetBullets()[j].GetPosition().y);
 				glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 				glEnd();
+
+				//asteroids[i].setIsColliding(true);
+			}
+			else if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() * 2 + asteroids[i].GetHitRadius())
+			{
+				glLoadIdentity();
+
+				glBegin(GL_LINE_LOOP);
+				glColor3f(0.0f, 1.0f, 0.0f);
+				glVertex2f(player.GetBullets()[j].GetPosition().x, player.GetBullets()[j].GetPosition().y);
+				glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
+				glEnd();
+			}
+
+			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) > player.GetBullets()[j].GetHitRadius() + asteroids[i].GetHitRadius())
+			{
+				//asteroids[i].setIsColliding(false);
 			}
 		}
 

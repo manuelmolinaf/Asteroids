@@ -22,6 +22,7 @@ public:
 	void UpdateFrameSize(float, float);
 	void ToggleDebuggingMode();
 	void SetDebuggingMode(bool);
+	void setIsColliding(bool);
 	Vector2 GetPosition();
 	float GetHitRadius();
 
@@ -37,6 +38,7 @@ protected:
 	float width;
 	float hitRadius;
 	bool debuggingMode;
+	bool isColliding;
 	
 
 	//protected functions

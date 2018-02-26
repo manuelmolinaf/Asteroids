@@ -79,8 +79,16 @@ void Player::Update(float deltaTime)
 
 	for (int i = 0; i < bullets.size(); i++)
 	{
-		bullets[i].UpdateFrameSize(height, width);
-		bullets[i].Update(deltaTime);
+		if (bullets[i].GetBulletLife() == 0)
+		{
+			bullets.erase(bullets.begin() + i);
+		}
+		else
+		{
+			bullets[i].UpdateFrameSize(height, width);
+			bullets[i].Update(deltaTime);
+		}
+
 	}
 	
 	Entity::Update(deltaTime);

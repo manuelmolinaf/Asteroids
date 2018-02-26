@@ -20,6 +20,7 @@ public:
 	virtual void Render();
 	void Update(float deltaTime);
 	void ApplyImpulse();
+	int GetBulletLife();
 
 
 private:
@@ -29,6 +30,7 @@ private:
 	float movementAngle;
 	float rotationRate;
 	float rotationValue;
+	int bulletLife;
 
 	//privete functions
 
