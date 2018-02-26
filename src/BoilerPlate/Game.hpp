@@ -46,7 +46,7 @@ private:
 	bool debuggingMode;
 	ColorPalette colors;
 	int playerLife;
-	
+	float bulletLife;
 	
 
 

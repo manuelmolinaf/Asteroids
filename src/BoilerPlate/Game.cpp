@@ -372,7 +372,4 @@ void Game::BulletAsteroidCollision()
 			if (finish) break;
 		}
 	}
-
-	
-
 }

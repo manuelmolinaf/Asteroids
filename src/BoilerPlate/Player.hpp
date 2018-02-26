@@ -38,7 +38,7 @@ private:
 	void DrawThruster();
 	void ApplyImpulse();
 	void PushEntityVectors();
-	
+	Vector2 CurrentShipFront();
 
 	//private members
 

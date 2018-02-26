@@ -14,13 +14,13 @@ Player::Player()
 	shooting = false;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
-	forwardUnitRate = 15.0f;
+	forwardUnitRate = 30.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
 	frictionCoefficient = 0.99f;
 	PushEntityVectors();
 	PushThrusterVertices();
-	hitRadius = CalculateHitRadius();
+	hitRadius = 20.0f;
 	
 	
 }
@@ -184,15 +184,12 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		if (bullets.size() <= 3)
+		bullets.push_back(Bullet(rotationAngle, position));
+		
+
+		if (debuggingMode)
 		{
-			bullets.push_back(Bullet(rotationAngle, position));
-
-			if (debuggingMode)
-			{
-				bullets[bullets.size() - 1].ToggleDebuggingMode();
-			}
-
+			bullets[bullets.size() - 1].ToggleDebuggingMode();
 		}
 			
 	}
@@ -208,4 +205,15 @@ void Player::DestroyBullet(int position)
 {
 	
 	bullets.erase(bullets.begin() + position);
+}
+
+Vector2 Player::CurrentShipFront()
+{
+	Vector2 front = Vector2();
+
+	front.x = CalculateHitRadius() + -sinf(math_tool.toRadians(CalculateHitRadius()));
+
+	front.y = CalculateHitRadius() + cosf(math_tool.toRadians(CalculateHitRadius()));
+
+	return front;
 }

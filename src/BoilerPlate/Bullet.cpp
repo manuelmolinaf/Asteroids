@@ -15,7 +15,7 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 	movementAngle = rotationAngle;
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
-	bulletLife = 60;
+	bulletLife = 80;
 }
 
 
