@@ -35,6 +35,7 @@ void Bullet::Render()
 	glTranslatef(position.x, position.y, 0.0f);
 	glRotatef(rotationValue, 0.0f, 0.0f, 1.0f);
 	DrawEntity();
+
 }
 
 
@@ -50,10 +51,10 @@ void Bullet::ApplyImpulse()
 
 void Bullet::PushEntityVertices()
 {
-	entityVertices.push_back(Vector2(0.0f, 3.0f));
-	entityVertices.push_back(Vector2(3.0f, 0.0f));
-	entityVertices.push_back(Vector2(0.0f, -3.0f));
-	entityVertices.push_back(Vector2(-3.0f, 0.0f));
+	entityVertices.push_back(Vector2(0.0f, 10.0f));
+	entityVertices.push_back(Vector2(10.0f, 0.0f));
+	entityVertices.push_back(Vector2(0.0f, -10.0f));
+	entityVertices.push_back(Vector2(-10.0f, 0.0f));
 	
 
 }

@@ -27,7 +27,7 @@ public:
 	bool GetAliveState();
 	float GetRotationAngle();
 	void Shoot();
-	void destroyBullet(int);
+	void DestroyBullet(int);
 	std::vector<Bullet> GetBullets();
 
 private:

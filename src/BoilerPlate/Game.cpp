@@ -142,6 +142,8 @@ void Game::ToggleEntityDebug()
 	{
 		asteroids[i].ToggleDebuggingMode();
 	}
+
+
 }
 
 
@@ -172,10 +174,7 @@ void Game::DecreaseAsteroids()
 void Game::DrawDebugCollisionLines()
 {
 
-	glLoadIdentity();
 
-	glBegin(GL_LINE_LOOP);
-	glColor3f(0.863, 0.078f, 0.235f);
 
 	for (int i = 0; i < asteroids.size(); i++)
 	{
@@ -183,11 +182,38 @@ void Game::DrawDebugCollisionLines()
 
 		if (CalculateDistance(player, asteroids[i]) <= player.GetHitRadius() * 2 + asteroids[i].GetHitRadius())
 		{
+			glLoadIdentity();
+
+			glBegin(GL_LINE_LOOP);
+			glColor3f(0.863, 0.078f, 0.235f);
 			glVertex2f(player.GetPosition().x, player.GetPosition().y);
 			glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
+			glEnd();
+
 		}
 	}
-	glEnd();
+
+
+	
+
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+		for (int j = 0; j < player.GetBullets().size(); j++)
+		{
+			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() * 2 + asteroids[i].GetHitRadius())
+			{
+				glLoadIdentity();
+
+				glBegin(GL_LINE_LOOP);
+				glColor3f(0.863, 0.078f, 0.235f);
+				glVertex2f(player.GetBullets()[j].GetPosition().x, player.GetBullets()[j].GetPosition().y);
+				glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
+				glEnd();
+			}
+		}
+
+	}
+	
 
 }
 
@@ -262,34 +288,51 @@ void Game::PlayerAsteroidCollision()
 
 void Game::BulletAsteroidCollision()
 {
-	for (int i = 0; i < asteroids.size(); i++)
+
+	if (!debuggingMode)
 	{
-		for (int j = 0; j < player.GetBullets().size(); j++)
+		bool finish = false;
+
+		for (int i = 0; i < asteroids.size(); i++)
 		{
-			if (DetectCollision(asteroids[i], player.GetBullets()[j]))
+			for (int j = 0; j < player.GetBullets().size(); j++)
 			{
-				if (asteroids[i].GetAsteroidSize() == 3)
+				if (DetectCollision(asteroids[i], player.GetBullets()[j]))
 				{
-					asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
-					asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
-					asteroids.erase(asteroids.begin() + i);
-					player.destroyBullet(j);
+					if (asteroids[i].GetAsteroidSize() == 3)
+					{
+						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
+						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
+						asteroids.erase(asteroids.begin() + i);
+						player.DestroyBullet(j);
+
+						finish = true;
+					}
+					else if (asteroids[i].GetAsteroidSize() == 2)
+					{
+						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
+						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
+						asteroids.erase(asteroids.begin() + i);
+						player.DestroyBullet(j);
+
+						finish = true;
+					}
+					else if (asteroids[i].GetAsteroidSize() == 1)
+					{
+						asteroids.erase(asteroids.begin() + i);
+						player.DestroyBullet(j);
+
+						finish = true;
+					}
 
 				}
-				else if (asteroids[i].GetAsteroidSize() == 2)
-				{
-					asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
-					asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
-					asteroids.erase(asteroids.begin() + i);
-					player.destroyBullet(j);
-				}
-				else if (asteroids[i].GetAsteroidSize() == 1)
-				{
-					asteroids.erase(asteroids.begin() + i);
-					player.destroyBullet(j);
-				}
 
+				break;
 			}
+			if (finish) break;
 		}
 	}
+
+	
+
 }

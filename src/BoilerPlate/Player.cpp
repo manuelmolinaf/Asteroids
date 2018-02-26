@@ -176,9 +176,15 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		if (bullets.size() <= 4)
+		if (bullets.size() <= 3)
 		{
 			bullets.push_back(Bullet(rotationAngle, position));
+
+			if (debuggingMode)
+			{
+				bullets[bullets.size() - 1].ToggleDebuggingMode();
+			}
+
 		}
 			
 	}
@@ -190,7 +196,7 @@ std::vector<Bullet> Player::GetBullets()
 	return bullets;
 }
 
-void Player::destroyBullet(int position)
+void Player::DestroyBullet(int position)
 {
 	
 	bullets.erase(bullets.begin() + position);
