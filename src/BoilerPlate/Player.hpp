@@ -45,7 +45,6 @@ private:
 	bool isAlive;
 	float rotationAngle;
 	float rotationRate;
-	float forwardUnitRate;
 	float currentSpeed;
 	float maxSpeed;
 	float frictionCoefficient;

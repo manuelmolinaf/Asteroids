@@ -14,7 +14,7 @@ Player::Player()
 	shooting = false;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
-	forwardUnitRate = 30.0f;
+	movementRate = 30.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
 	frictionCoefficient = 0.95f;
@@ -107,8 +107,8 @@ void Player::RotateRight()
 
 void Player::ApplyImpulse()
 {
-	velocity.x -= (forwardUnitRate/mass) * sinf(math_tool.toRadians(rotationAngle));
-	velocity.y += (forwardUnitRate/mass) * cosf(math_tool.toRadians(rotationAngle));
+	velocity.x -= (movementRate/mass) * sinf(math_tool.toRadians(rotationAngle));
+	velocity.y += (movementRate/mass) * cosf(math_tool.toRadians(rotationAngle));
 
 }
 

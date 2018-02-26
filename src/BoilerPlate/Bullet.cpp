@@ -16,6 +16,7 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
 	bulletLife = 80;
+	movementRate = 500.0f;
 }
 
 
@@ -48,7 +49,7 @@ void Bullet::Render()
 void Bullet::ApplyImpulse()
 {
 
-	velocity.x = (500.0f / mass) * -sinf(math_tool.toRadians(movementAngle));
+	velocity.x = (500.0f/ mass) * -sinf(math_tool.toRadians(movementAngle));
 	velocity.y = (500.0f / mass) * cosf(math_tool.toRadians(movementAngle));
 
 

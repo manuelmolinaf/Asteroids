@@ -42,8 +42,9 @@ private:
 	float movementAngle;
 	float rotationRate;
 	float rotationValue;
+	//float movementRate;
 
-	//privete functions
+	//private functions
 
 	virtual void PushEntityVertices();
 };

@@ -31,6 +31,7 @@ private:
 	float rotationRate;
 	float rotationValue;
 	int bulletLife;
+	float movementRate;
 
 	//privete functions
 
