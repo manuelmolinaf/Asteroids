@@ -17,7 +17,7 @@ Player::Player()
 	forwardUnitRate = 30.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
-	frictionCoefficient = 0.99f;
+	frictionCoefficient = 0.95f;
 	PushEntityVectors();
 	PushThrusterVertices();
 	hitRadius = 20.0f;

@@ -15,59 +15,10 @@ Game::Game(float currentHeight, float currentWidth)
 
 }
 
-void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
-{
-
-	switch (keyBoardEvent.keysym.scancode)
-	{
-	default:
-		//SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-		break;
-	case SDL_SCANCODE_W:
-		player.MoveForward();
-		player.SetMovingForward(true);
-		break;
-	case SDL_SCANCODE_A:
-		player.RotateLeft();
-		break;
-	case SDL_SCANCODE_D:
-		player.RotateRight();
-		break;
-	case SDL_SCANCODE_F:
-		ToggleDebuggingMode();
-		break;
-	case SDL_SCANCODE_E:
-		IncreaseAsteroids();
-		break;
-	case SDL_SCANCODE_Q:
-		DecreaseAsteroids();
-		break;
-	case SDL_SCANCODE_R:
-		RespawnShip();
-		break;
-	case SDL_SCANCODE_Z:
-		ResetGame();
-		break;
-	}
-	
-
-}
-
-void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
-{
-	switch (keyBoardEvent.keysym.scancode)
-	{
-	case SDL_SCANCODE_W:
-		player.SetMovingForward(false);
-		break;
-	case SDL_SCANCODE_SPACE:
-		player.Shoot();
-		break;
-	}
-}
-
 void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 {
+	ManageInput();
+
 	player.Update(deltaTime);
 	player.UpdateFrameSize(currentHeight, currentWidth);
 
@@ -80,6 +31,8 @@ void Game::Update(float deltaTime, float currentHeight, float currentWidth)
 
 
 	UpdateCollisionEvents();
+
+	
 }
 
 
@@ -372,4 +325,59 @@ void Game::BulletAsteroidCollision()
 			if (finish) break;
 		}
 	}
+}
+
+void Game::ManageInput()
+{
+	if (inputManager.GetW())
+	{
+		player.MoveForward();
+		player.SetMovingForward(true);
+	}
+	else
+	{
+		player.SetMovingForward(false);
+	}
+
+
+	if (inputManager.GetA())
+	{
+		player.RotateLeft();
+	}
+
+	if (inputManager.GetD())
+	{
+		player.RotateRight();
+	}
+
+	if (inputManager.GetQ())
+	{
+		DecreaseAsteroids();
+	}
+
+	if (inputManager.GetE())
+	{
+		IncreaseAsteroids();
+	}
+
+	if (inputManager.GetF())
+	{
+		ToggleDebuggingMode();
+	}
+
+	if (inputManager.GetR())
+	{
+		RespawnShip();
+	}
+
+	if (inputManager.GetZ())
+	{
+		ResetGame();
+	}
+
+	if (inputManager.GetSpace())
+	{
+		player.Shoot();
+	}
+
 }

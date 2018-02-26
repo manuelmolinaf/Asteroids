@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
+
 namespace Engine
 {
 	ColorPalette colors;
@@ -87,7 +88,39 @@ namespace Engine
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	{
-		m_game.OnKeyDown(keyBoardEvent);
+		switch (keyBoardEvent.keysym.scancode)
+		{
+		default:
+			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
+			break;
+		case SDL_SCANCODE_W:
+			m_game.inputManager.SetW(true);
+			break;
+		case SDL_SCANCODE_A:
+			m_game.inputManager.SetA(true);
+			break;
+		case SDL_SCANCODE_D:
+			m_game.inputManager.SetD(true);
+			break;
+		case SDL_SCANCODE_F:
+			m_game.inputManager.SetF(true);
+			break;
+		case SDL_SCANCODE_E:
+			m_game.inputManager.SetE(true);
+			break;
+		case SDL_SCANCODE_Q:
+			m_game.inputManager.SetQ(true);
+			break;
+		case SDL_SCANCODE_R:
+			m_game.inputManager.SetR(true);
+			break;
+		case SDL_SCANCODE_Z:
+			m_game.inputManager.SetZ(true);
+			break;
+		case SDL_SCANCODE_SPACE:
+			m_game.inputManager.SetSpace(true);
+			break;
+		}
 	}
 	
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
@@ -95,15 +128,37 @@ namespace Engine
 
 		switch (keyBoardEvent.keysym.scancode)
 		{
-		case SDL_SCANCODE_ESCAPE:
-			OnExit();
-			break;
 		default:
-			//DO NOTHING
+			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
+			break;
+		case SDL_SCANCODE_W:
+			m_game.inputManager.SetW(false);
+			break;
+		case SDL_SCANCODE_A:
+			m_game.inputManager.SetA(false);
+			break;
+		case SDL_SCANCODE_D:
+			m_game.inputManager.SetD(false);
+			break;
+		case SDL_SCANCODE_F:
+			m_game.inputManager.SetF(false);
+			break;
+		case SDL_SCANCODE_E:
+			m_game.inputManager.SetE(false);
+			break;
+		case SDL_SCANCODE_Q:
+			m_game.inputManager.SetQ(false);
+			break;
+		case SDL_SCANCODE_R:
+			m_game.inputManager.SetR(false);
+			break;
+		case SDL_SCANCODE_Z:
+			m_game.inputManager.SetZ(false);
+			break;
+		case SDL_SCANCODE_SPACE:
+			m_game.inputManager.SetSpace(false);
 			break;
 		}
-
-		m_game.OnKeyUp(keyBoardEvent);
 
 	}
 

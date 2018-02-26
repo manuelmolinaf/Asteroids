@@ -12,13 +12,14 @@
 #include "ColorPalette.hpp"
 #include "Player.hpp"
 #include "Asteroid.hpp"
-
+#include "InputManager.hpp"
 
 class Game
 {
 public:
 
 	Game(float, float);
+	InputManager inputManager;
 
 	// public functions
 
@@ -64,6 +65,7 @@ private:
 	void PushAsteroids();
 	void PlayerAsteroidCollision();
 	void BulletAsteroidCollision();
+	void ManageInput();
 };
 
 #endif
