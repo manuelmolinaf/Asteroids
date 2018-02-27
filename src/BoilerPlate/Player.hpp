@@ -42,7 +42,6 @@ private:
 
 	//private members
 
-	bool isAlive;
 	float rotationAngle;
 	float rotationRate;
 	float currentSpeed;
@@ -51,6 +50,8 @@ private:
 	bool pressingForwardKey;
 	bool isMoving;
 	bool shooting;
+	bool isAlive;
+	int bulletLimit;
 	std::vector<Bullet> bullets;
 	std::vector<Vector2> thrusterVertices;
 	

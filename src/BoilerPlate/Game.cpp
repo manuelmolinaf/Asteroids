@@ -81,19 +81,16 @@ void Game::UpdateFrameSize(float currentHeight, float currentWidth)
 
 void Game::ToggleDebuggingMode()
 {
-	player.Respawn();
 
 	if (debuggingMode == false)
 	{
 		debuggingMode = true;
 		ToggleEntityDebug();
 	}
-
 	else
 	{
 		debuggingMode = false;
 		ToggleEntityDebug();
-		playerLife = 3;
 	}
 
 
@@ -107,6 +104,7 @@ void Game::ToggleDebuggingMode()
 
 void Game::ToggleEntityDebug()
 {
+
 	player.ToggleDebuggingMode();
 
 	for (int i = 0; i < asteroids.size(); i++)
@@ -203,7 +201,7 @@ void Game::DrawDebugCollisionLines()
 				glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 				glEnd();
 
-				//asteroids[i].setIsColliding(true);
+				asteroids[i].setIsColliding(true);
 			}
 			else if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() * 2 + asteroids[i].GetHitRadius())
 			{
@@ -218,7 +216,7 @@ void Game::DrawDebugCollisionLines()
 
 			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) > player.GetBullets()[j].GetHitRadius() + asteroids[i].GetHitRadius())
 			{
-				//asteroids[i].setIsColliding(false);
+				asteroids[i].setIsColliding(false);
 			}
 		}
 
@@ -261,6 +259,7 @@ void Game::RespawnShip()
 }
 void Game::PushAsteroids()
 {
+	asteroids.clear();
 	for (int i = 0; i < asteroidCount; i++)
 	{
 		asteroids.push_back(Asteroid());
@@ -275,13 +274,7 @@ void Game::ResetGame()
 	debuggingMode = false;
 	player.Respawn();
 
-	asteroids.clear();
-
-	for (int i = 0; i < asteroidCount; i++)
-	{
-		asteroids.push_back(Asteroid());
-		asteroids[i].UpdateFrameSize(height, width);
-	}
+	PushAsteroids();
 	
 }
 
@@ -400,7 +393,7 @@ void Game::ManageInput()
 		ResetLimiter();
 	}
 
-	if (inputManager.GetSpace() /*&& inputLimiter == 0*/)
+	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
 		player.Shoot();
 

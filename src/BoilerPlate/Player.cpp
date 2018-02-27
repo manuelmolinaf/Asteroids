@@ -21,6 +21,7 @@ Player::Player()
 	PushEntityVectors();
 	PushThrusterVertices();
 	hitRadius = 20.0f;
+	bulletLimit = 4;
 	
 	
 }
@@ -185,9 +186,9 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		if (true)
+		if (bullets.size() <bulletLimit)
 		{
-			bullets.push_back(Bullet(rotationAngle, position));
+			bullets.push_back(Bullet(rotationAngle, position + CurrentShipFront()));
 
 
 			if (debuggingMode)
@@ -215,9 +216,9 @@ Vector2 Player::CurrentShipFront()
 {
 	Vector2 front = Vector2();
 
-	front.x = CalculateHitRadius() + -sinf(math_tool.toRadians(CalculateHitRadius()));
+	front.x = 30* -sinf(math_tool.toRadians(rotationAngle));
 
-	front.y = CalculateHitRadius() + cosf(math_tool.toRadians(CalculateHitRadius()));
+	front.y = 30*cosf(math_tool.toRadians(rotationAngle));
 
 	return front;
 }
