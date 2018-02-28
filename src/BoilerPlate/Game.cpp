@@ -491,7 +491,7 @@ void Game::RenderLives()
 		glLoadIdentity();
 		glTranslatef((-(width / 2.0f) + 50.0f) + lifePosition, ((height / 2.0f) - 50.0f), 0.0f);
 		glBegin(GL_LINE_LOOP);
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
 
 		for (int i = 0; i < player.GetEntityVertices().size(); i++)
 		{
