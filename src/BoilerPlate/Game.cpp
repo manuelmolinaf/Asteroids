@@ -11,8 +11,8 @@ Game::Game(float currentHeight, float currentWidth)
 	player.UpdateFrameSize(height, width);
 	ResetLimiter();
 	asteroidCount = 4;
+	asteroidLevel =  0;
 	PushAsteroids();
-	asteroidLevel = 0;
 	lifePosition = 0;
 
 	InitializeDeltaArray();
@@ -23,8 +23,9 @@ Game::Game(float currentHeight, float currentWidth)
 void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 {
 	ManageInput();
-
-
+	//pos cambialo
+	//el que?
+	//terminaste? q fresco
 	UpdateCollisionEvents();
 
 	
@@ -275,11 +276,14 @@ void Game::RespawnShip()
 void Game::PushAsteroids()
 {
 	asteroids.clear();
+	//que utiliza asteroidCount y asteroidLevel ._.
+	//que valores tienen???
 	for (int i = 0; i < asteroidCount+asteroidLevel; i++)
 	{
-		asteroids.push_back(Asteroid());
-		asteroids[i].UpdateFrameSize(height, width);
+		asteroids.push_back(Asteroid());//<-
+		asteroids[i].UpdateFrameSize(height, width);//<-
 	}
+	//cuanto apostar de seguro por tar haciendo loqueras como esa
 }
 
 void Game::ResetGame()

@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
 	assert(_CrtCheckMemory());
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-
 	// Create Game Object
 	//
 	Engine::App* app = new Engine::App("Boiler Plate!", WIDTH, HEIGHT);
