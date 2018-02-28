@@ -31,7 +31,7 @@ public:
 	void ToggleGodMode(); /// Grants the player unlimited power and destruction!
 	bool GetGodMode();
 	std::vector<Bullet> GetBullets();
-
+	
 
 private:
 

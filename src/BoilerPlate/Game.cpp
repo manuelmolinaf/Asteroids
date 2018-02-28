@@ -13,6 +13,7 @@ Game::Game(float currentHeight, float currentWidth)
 	asteroidCount = 5;
 	PushAsteroids();
 	asteroidLevel = 0;
+	lifePosition = 0;
 
 	InitializeDeltaArray();
 	
@@ -26,7 +27,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 
 	UpdateCollisionEvents();
 
-
+	
 	if (inputLimiter != 0)
 	{
 		inputLimiter--;
@@ -55,25 +56,38 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 
 void Game::Render()
 {
+	//===========================================================================
 	glClearColor(colors.slateBlue.redValue, colors.slateBlue.greenValue,
 		colors.slateBlue.blueValue, colors.slateBlue.alphaValue);
 	glClear(GL_COLOR_BUFFER_BIT);
+	//===========================================================================
 
 
+	//===========================================================================
 	player.Render();
+	//===========================================================================
 
 
+	//===========================================================================
+	RenderLives();
+	//===========================================================================
+
+
+	//===========================================================================
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 		asteroids[i].Render();
 	}
+	//===========================================================================
 
+
+	//===========================================================================
 	if (debuggingMode)
 	{
 		DrawDebugCollisionLines();
 		DrawFrameRateMeter();
 	}
-
+	//===========================================================================
 
 }
 
@@ -252,7 +266,7 @@ void Game::UpdateCollisionEvents()
 
 void Game::RespawnShip()
 {
-	if (playerLife > 1 && !player.GetAliveState())
+	if (playerLife > 0 && !player.GetAliveState())
 	{
 		player.Respawn();
 		playerLife--;
@@ -384,9 +398,11 @@ void Game::ManageInput()
 		ResetLimiter();
 	}
 
-	if (inputManager.GetR())
+	if (inputManager.GetR() && inputLimiter == 0)
 	{
 		RespawnShip();
+
+		ResetLimiter();
 	}
 
 	if (inputManager.GetZ() && inputLimiter == 0)
@@ -463,4 +479,27 @@ void Game::DrawFrameRateMeter()
 
 	}
 	glEnd();
+}
+
+void Game::RenderLives()
+{
+	
+	lifePosition = 0;
+
+	for (int i = 0; i < playerLife; i++)
+	{
+		glLoadIdentity();
+		glTranslatef((-(width / 2.0f) + 50.0f) + lifePosition, ((height / 2.0f) - 50.0f), 0.0f);
+		glBegin(GL_LINE_LOOP);
+		glColor3f(1.0f, 1.0f, 1.0f);
+
+		for (int i = 0; i < player.GetEntityVertices().size(); i++)
+		{
+			glVertex2f(player.GetEntityVertices()[i].x, player.GetEntityVertices()[i].y);
+		}
+
+		glEnd();
+
+		lifePosition += 50.0f;
+	}
 }

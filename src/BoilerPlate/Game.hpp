@@ -53,6 +53,7 @@ private:
 	Vector2 frames[15];
 	int framePosition;
 	int asteroidLevel;
+	float lifePosition;
 	
 
 
@@ -74,6 +75,7 @@ private:
 	void ResetLimiter();
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
+	void RenderLives();
 	
 };
 
