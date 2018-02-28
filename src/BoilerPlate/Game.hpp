@@ -31,8 +31,8 @@ public:
 	void Update(float, float, float);
 	void UpdateFrameSize(float, float);
 	void ToggleDebuggingMode();
-	float UpdateFrameRate(double, double);
-	void UpdateFrame(double, double);
+	float StartingFrameRate(double, double);
+	void EndingFrameRate(double, double);
 	
 	
 

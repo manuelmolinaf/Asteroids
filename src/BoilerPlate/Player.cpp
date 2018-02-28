@@ -283,3 +283,4 @@ bool Player::GetGodMode()
 {
 	return godMode;
 }
+

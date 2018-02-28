@@ -10,7 +10,7 @@ Game::Game(float currentHeight, float currentWidth)
 	player = Player();
 	player.UpdateFrameSize(height, width);
 	ResetLimiter();
-	asteroidCount = 5;
+	asteroidCount = 4;
 	PushAsteroids();
 	asteroidLevel = 0;
 	lifePosition = 0;
@@ -443,9 +443,9 @@ void Game::InitializeDeltaArray()
 
 }
 
-void Game::UpdateFrame(double endTime, double startTime)
+void Game::EndingFrameRate(double endTime, double startTime)
 {
-	float deltaTime = UpdateFrameRate(endTime, startTime);
+	float deltaTime = StartingFrameRate(endTime, startTime);
 
 	frames[framePosition] = Vector2((float)framePosition, (float)deltaTime);
 	framePosition++;
@@ -456,9 +456,9 @@ void Game::UpdateFrame(double endTime, double startTime)
 	}
 }
 
-float Game::UpdateFrameRate(double endTime, double startTime)
+float Game::StartingFrameRate(double desiredEndTime, double startTime)
 {
-	float deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
+	float deltaTime = DESIRED_FRAME_TIME - (desiredEndTime - startTime);
 	return deltaTime;
 }
 

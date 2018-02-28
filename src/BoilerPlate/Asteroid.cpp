@@ -22,7 +22,7 @@ Asteroid::Asteroid()
 Asteroid::Asteroid(AsteroidSize size)
 {
 	Entity::Entity();
-	position = Vector2(rand(), rand());
+	position = Vector2(rand() % 1136 - 1, rand() % 640 - 1);
 	asteroidSize = size;
 	mass = size;
 	rotationValue = 0.0f;

@@ -30,6 +30,7 @@ public:
 	void DestroyBullet(int);
 	void ToggleGodMode(); /// Grants the player unlimited power and destruction!
 	bool GetGodMode();
+	void SetInvulnerability(bool);
 	std::vector<Bullet> GetBullets();
 	
 
@@ -57,6 +58,7 @@ private:
 	bool shooting;
 	bool isAlive;
 	bool godMode;
+	bool invulnerable;
 	int bulletLimit;
 	int godModeBulletLimit;
 	std::vector<Bullet> bullets;
