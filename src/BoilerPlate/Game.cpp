@@ -14,7 +14,7 @@ Game::Game(float currentHeight, float currentWidth)
 	asteroidLevel =  0;
 	PushAsteroids();
 	lifePosition = 0;
-
+	liveVertices = player.GetEntityVertices();
 	InitializeDeltaArray();
 	
 
@@ -23,9 +23,7 @@ Game::Game(float currentHeight, float currentWidth)
 void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 {
 	ManageInput();
-	//pos cambialo
-	//el que?
-	//terminaste? q fresco
+
 	UpdateCollisionEvents();
 
 	
@@ -289,7 +287,7 @@ void Game::PushAsteroids()
 void Game::ResetGame()
 {
 	playerLife = 3;
-	if (player.GetGodMode()) player.ToggleGodMode();
+	if (player.IsGodMode()) player.ToggleGodMode();
 	player.SetDebuggingMode(false);
 	debuggingMode = false;
 	player.Respawn();
@@ -303,7 +301,7 @@ void Game::PlayerAsteroidCollision()
 {
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		if (DetectCollision(player, asteroids[i]) && !debuggingMode && !player.GetGodMode())
+		if (DetectCollision(player, asteroids[i]) && !debuggingMode && !player.IsGodMode() && !player.IsInvulnerable())
 		{
 			player.SetAliveState(false);
 		}
@@ -426,7 +424,7 @@ void Game::ManageInput()
 	{
 		player.Shoot();
 
-		if(!player.GetGodMode())ResetLimiter();
+		if(!player.IsGodMode())ResetLimiter();
 	}
 
 }
@@ -495,11 +493,11 @@ void Game::RenderLives()
 		glLoadIdentity();
 		glTranslatef((-(width / 2.0f) + 50.0f) + lifePosition, ((height / 2.0f) - 50.0f), 0.0f);
 		glBegin(GL_LINE_LOOP);
-		glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
 
 		for (int i = 0; i < player.GetEntityVertices().size(); i++)
 		{
-			glVertex2f(player.GetEntityVertices()[i].x, player.GetEntityVertices()[i].y);
+			glVertex2f(liveVertices[i].x * 0.7f, liveVertices[i].y * 0.7f);
 		}
 
 		glEnd();

@@ -259,6 +259,7 @@ namespace Engine
 		{
 			std::cerr << "Failed to create window!" << std::endl;
 			SDL_Quit();
+			TTF_Quit();
 			return false;
 		}
 

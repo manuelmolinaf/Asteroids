@@ -127,10 +127,7 @@ float Entity::CalculateHitRadius()
 
 void Entity::ToggleDebuggingMode()
 {
-	if (debuggingMode == false)
-		debuggingMode = true;
-	else
-		debuggingMode = false;
+	debuggingMode = !debuggingMode;
 }
 
 void Entity::SetDebuggingMode(bool newValue)

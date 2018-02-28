@@ -29,8 +29,9 @@ public:
 	void Shoot();
 	void DestroyBullet(int);
 	void ToggleGodMode(); /// Grants the player unlimited power and destruction!
-	bool GetGodMode();
-	void SetInvulnerability(bool);
+	bool IsGodMode();
+	void ToggleInvulnerability();
+	bool IsInvulnerable();
 	std::vector<Bullet> GetBullets();
 	
 
@@ -40,10 +41,11 @@ private:
 
 	void PushThrusterVertices();
 	void PushGodlyVertices();
+	void PushEntityVectors();
 	void DrawThruster();
 	void DrawGodlyPresence();
+	void DrawInvulnerability();
 	void ApplyImpulse();
-	void PushEntityVectors();
 	Vector2 CurrentShipFront();
 
 	//private members
@@ -59,6 +61,7 @@ private:
 	bool isAlive;
 	bool godMode;
 	bool invulnerable;
+	int invulnerabilityTime;
 	int bulletLimit;
 	int godModeBulletLimit;
 	std::vector<Bullet> bullets;

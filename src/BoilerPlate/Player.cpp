@@ -13,6 +13,7 @@ Player::Player()
 	isMoving = false;
 	shooting = false;
 	godMode = false;
+	invulnerable = true;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
 	movementRate = 30.0f;
@@ -25,6 +26,7 @@ Player::Player()
 	hitRadius = 20.0f;
 	bulletLimit = 4;
 	godModeBulletLimit = 15;
+	invulnerabilityTime = 100;
 	
 	
 }
@@ -50,13 +52,22 @@ void Player::Render()
 			DrawThruster();
 		}
 
-		if (godMode)
+		if (godMode && !invulnerable)
 		{
 			glLoadIdentity();
 			glTranslatef(position.x, position.y, 0.0f);
 			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
 
 			DrawGodlyPresence();
+		}
+
+		if (invulnerable)
+		{
+			glLoadIdentity();
+			glTranslatef(position.x, position.y, 0.0f);
+			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
+
+			DrawInvulnerability();
 		}
 
 	}
@@ -73,12 +84,32 @@ void Player::Render()
 
 }
 
-void Player::Update(float deltaTime)
+	void Player::Update(float deltaTime)
 {
 	//===========================================================================
 	if (!isMoving)
+	{
 		pressingForwardKey = false;
+	}
+	//===========================================================================
 
+
+	//===========================================================================
+	if (invulnerable)
+	{
+		invulnerabilityTime--;
+	}
+	
+	if (invulnerabilityTime == 0)
+	{
+		invulnerabilityTime = 100;
+		invulnerable = false;
+	}
+
+	//===========================================================================
+
+
+	//===========================================================================
 	float speed = abs(sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y)));
 
 	if (speed > maxSpeed)
@@ -172,10 +203,10 @@ void Player::PushThrusterVertices()
 
 void Player::PushGodlyVertices()
 {
-	godlyVertices.push_back(Vector2(20.0f, -20.0f));
-	godlyVertices.push_back(Vector2(0.0f, 30.0f));
-	godlyVertices.push_back(Vector2(-20.0f, -20.0f));
-	godlyVertices.push_back(Vector2(0.0f, -10.0f));
+	godlyVertices.push_back(Vector2(20.0f*1.3, -20.0f*1.3));
+	godlyVertices.push_back(Vector2(0.0f*1.3, 30.0f*1.3));
+	godlyVertices.push_back(Vector2(-20.0f*1.3, -20.0f*1.3));
+	godlyVertices.push_back(Vector2(0.0f*1.3, -10.0f*1.3));
 }
 
 void Player::DrawThruster()
@@ -210,6 +241,7 @@ void Player::Respawn()
 	velocity = Vector2(0.0f, 0.0f);
 	rotationAngle = 0.0f;
 	bullets.clear();
+	invulnerable = true;
 	isAlive = true;
 }
 
@@ -229,7 +261,7 @@ float Player::GetRotationAngle()
 
 void Player::Shoot()
 {
-	if (isAlive)
+	if (isAlive && !invulnerable)
 	{
 		if ((bullets.size() <bulletLimit) ||( godMode && bullets.size() < godModeBulletLimit))
 		{
@@ -269,18 +301,34 @@ Vector2 Player::CurrentShipFront()
 }
 void Player::ToggleGodMode()
 {
-	if (godMode == false)
-	{
-		godMode = true;
-	}
-	else
-	{
-		godMode = false;
-	}
+	godMode = !godMode;
+
 }
 
-bool Player::GetGodMode()
+bool Player::IsGodMode()
 {
 	return godMode;
 }
 
+void Player::ToggleInvulnerability()
+{
+	invulnerable = !invulnerable;
+}
+
+bool Player::IsInvulnerable()
+{
+	return invulnerable;
+}
+
+void Player::DrawInvulnerability()
+{
+	glBegin(GL_LINE_LOOP);
+
+	glColor3f(0.000, 1.000, 1.000);
+
+	for (int i = 0; i < godlyVertices.size(); i++)
+	{
+		glVertex2f(entityVertices[i].x, entityVertices[i].y);
+	}
+	glEnd();
+}

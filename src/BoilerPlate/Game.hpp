@@ -42,6 +42,7 @@ private:
 
 	Player player;
 	std::vector<Asteroid> asteroids;
+	std::vector<Vector2> liveVertices;
 	int asteroidCount;
 	float height;
 	float width;
@@ -76,6 +77,7 @@ private:
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
 	void RenderLives();
+	
 	
 };
 
