@@ -42,7 +42,6 @@ private:
 
 	Player player;
 	std::vector<Asteroid> asteroids;
-	//float deltaTime;
 	int asteroidCount;
 	float height;
 	float width;
@@ -53,7 +52,7 @@ private:
 	ColorPalette colors;
 	Vector2 frames[15];
 	int framePosition;
-	
+	int asteroidLevel;
 	
 
 
@@ -75,6 +74,7 @@ private:
 	void ResetLimiter();
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
+	
 };
 
 #endif

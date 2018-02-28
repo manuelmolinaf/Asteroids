@@ -25,6 +25,7 @@ public:
 	void setIsColliding(bool);
 	Vector2 GetPosition();
 	float GetHitRadius();
+	std::vector<Vector2> GetEntityVertices();
 
 protected:
 	
@@ -44,7 +45,7 @@ protected:
 
 	//protected functions
 	
-	virtual void PushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
+	void PushEntityVertices(); /// Initializes the entityVertices vector pushing in the desired values
 	void Warp();
 	void DrawEntity();
 	float CalculateHitRadius();

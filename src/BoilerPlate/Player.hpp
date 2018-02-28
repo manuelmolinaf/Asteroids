@@ -28,14 +28,19 @@ public:
 	float GetRotationAngle();
 	void Shoot();
 	void DestroyBullet(int);
+	void ToggleGodMode(); /// Grants the player unlimited power and destruction!
+	bool GetGodMode();
 	std::vector<Bullet> GetBullets();
+
 
 private:
 
 	//private functions
 
 	void PushThrusterVertices();
+	void PushGodlyVertices();
 	void DrawThruster();
+	void DrawGodlyPresence();
 	void ApplyImpulse();
 	void PushEntityVectors();
 	Vector2 CurrentShipFront();
@@ -51,9 +56,12 @@ private:
 	bool isMoving;
 	bool shooting;
 	bool isAlive;
+	bool godMode;
 	int bulletLimit;
+	int godModeBulletLimit;
 	std::vector<Bullet> bullets;
 	std::vector<Vector2> thrusterVertices;
+	std::vector<Vector2> godlyVertices;
 	
 };
 

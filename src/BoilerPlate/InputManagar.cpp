@@ -11,6 +11,7 @@ InputManager::InputManager()
 	F_KEY = false;
 	R_KEY = false;
 	Z_KEY = false;
+	G_KEY = false;
 	SPACE_KEY = false;
 }
 
@@ -57,6 +58,11 @@ void InputManager::SetR(bool value)
 void InputManager::SetZ(bool value)
 {
 	Z_KEY = value;
+}
+
+void InputManager::SetG(bool value)
+{
+	G_KEY = value;
 }
 
 void InputManager::SetSpace(bool value)
@@ -110,6 +116,11 @@ bool InputManager::GetR()
 bool InputManager::GetZ()
 {
 	return Z_KEY;
+}
+
+bool InputManager::GetG()
+{
+	return G_KEY;
 }
 
 bool InputManager::GetSpace()

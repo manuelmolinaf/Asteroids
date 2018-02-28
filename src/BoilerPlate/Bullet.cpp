@@ -9,13 +9,13 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 {
 	Entity::Entity();
 	position = shipPosition;
-	mass = 0.8f;
+	mass = 0.5f;
 	rotationValue = 0.0f;
-	rotationRate = 0.0f;
+	rotationRate = 800.0f;
 	movementAngle = rotationAngle;
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
-	bulletLife = 80;
+	bulletLife = 50;
 	movementRate = 500.0f;
 }
 
@@ -58,10 +58,15 @@ void Bullet::ApplyImpulse()
 
 void Bullet::PushEntityVertices()
 {
+	
 	entityVertices.push_back(Vector2(0.0f, 3.0f));
+	entityVertices.push_back(Vector2(2.0f, 2.0f));
 	entityVertices.push_back(Vector2(3.0f, 0.0f));
+	entityVertices.push_back(Vector2(2.0f, -2.0f));
 	entityVertices.push_back(Vector2(0.0f, -3.0f));
+	entityVertices.push_back(Vector2(-2.0f, -2.0f));
 	entityVertices.push_back(Vector2(-3.0f, 0.0f));
+	entityVertices.push_back(Vector2(-2.0f, 2.0f));
 	
 
 }

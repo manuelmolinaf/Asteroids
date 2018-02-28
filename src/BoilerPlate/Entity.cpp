@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
-
+#include <iostream>
 
 Entity::Entity()
 {
@@ -9,7 +9,6 @@ Entity::Entity()
 	velocity = Vector2(0.0f, 0.0f);
 	debuggingMode = false;
 	isColliding = false;
-	//Warp();
 	
 }
 
@@ -153,4 +152,9 @@ float Entity::GetHitRadius()
 void Entity::setIsColliding(bool value)
 {
 	isColliding = value;
+}
+
+std::vector<Vector2> Entity::GetEntityVertices()
+{
+	return entityVertices;
 }

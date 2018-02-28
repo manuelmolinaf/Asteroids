@@ -24,6 +24,7 @@ public:
 	void SetF(bool);
 	void SetR(bool);
 	void SetZ(bool);
+	void SetG(bool);
 	void SetSpace(bool);
 
 	bool GetW();
@@ -35,6 +36,7 @@ public:
 	bool GetF();
 	bool GetR();
 	bool GetZ();
+	bool GetG();
 	bool GetSpace();
 
 
@@ -49,6 +51,7 @@ private:
 	bool F_KEY;
 	bool R_KEY;
 	bool Z_KEY;
+	bool G_KEY;
 	bool SPACE_KEY;
 
 	

@@ -116,6 +116,9 @@ namespace Engine
 		case SDL_SCANCODE_Z:
 			m_game.inputManager.SetZ(true);
 			break;
+		case SDL_SCANCODE_G:
+			m_game.inputManager.SetG(true);
+			break;
 		case SDL_SCANCODE_SPACE:
 			m_game.inputManager.SetSpace(true);
 			break;
@@ -153,6 +156,9 @@ namespace Engine
 			break;
 		case SDL_SCANCODE_Z:
 			m_game.inputManager.SetZ(false);
+			break;
+		case SDL_SCANCODE_G:
+			m_game.inputManager.SetG(false);
 			break;
 		case SDL_SCANCODE_SPACE:
 			m_game.inputManager.SetSpace(false);

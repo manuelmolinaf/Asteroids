@@ -12,6 +12,7 @@ Game::Game(float currentHeight, float currentWidth)
 	ResetLimiter();
 	asteroidCount = 5;
 	PushAsteroids();
+	asteroidLevel = 0;
 
 	InitializeDeltaArray();
 	
@@ -22,6 +23,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 {
 	ManageInput();
 
+
 	UpdateCollisionEvents();
 
 
@@ -30,6 +32,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 		inputLimiter--;
 	}
 
+	UpdateFrameSize(currentHeight, currentWidth);
 
 	player.Update(deltaTime);
 	player.UpdateFrameSize(currentHeight, currentWidth);
@@ -43,6 +46,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 
 	if (asteroids.size() == 0 && !debuggingMode)
 	{
+		asteroidLevel++;
 		PushAsteroids();
 	}
 
@@ -79,12 +83,15 @@ void Game::UpdateFrameSize(float currentHeight, float currentWidth)
 	width = currentWidth;
 }
 
+
+
 void Game::ToggleDebuggingMode()
 {
 
 	if (debuggingMode == false)
 	{
 		debuggingMode = true;
+		player.Respawn();
 		ToggleEntityDebug();
 	}
 	else
@@ -111,10 +118,7 @@ void Game::ToggleEntityDebug()
 	{
 		asteroids[i].ToggleDebuggingMode();
 	}
-
-
 }
-
 
 void Game::IncreaseAsteroids()
 {
@@ -144,7 +148,6 @@ void Game::DrawDebugCollisionLines()
 {
 
 
-
 	for (int i = 0; i < asteroids.size(); i++)
 	{
 
@@ -161,7 +164,7 @@ void Game::DrawDebugCollisionLines()
 
 			asteroids[i].setIsColliding(true);
 			player.setIsColliding(true);
-
+			break;
 		}
 		else if (CalculateDistance(player, asteroids[i]) <= player.GetHitRadius()*2 + asteroids[i].GetHitRadius())
 		{
@@ -172,19 +175,16 @@ void Game::DrawDebugCollisionLines()
 			glVertex2f(player.GetPosition().x, player.GetPosition().y);
 			glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 			glEnd();
-
-		}
-
-		if (CalculateDistance(player, asteroids[i]) > player.GetHitRadius() + asteroids[i].GetHitRadius())
+			
+		}	
+		else if (CalculateDistance(player, asteroids[i]) > player.GetHitRadius() + asteroids[i].GetHitRadius())
 		{
 			asteroids[i].setIsColliding(false);
 			player.setIsColliding(false);
+
 		}
 
-
 	}
-
-
 	
 
 	for (int i = 0; i < asteroids.size(); i++)
@@ -202,6 +202,8 @@ void Game::DrawDebugCollisionLines()
 				glEnd();
 
 				asteroids[i].setIsColliding(true);
+				break;
+
 			}
 			else if (CalculateDistance(player.GetBullets()[j], asteroids[i]) <= player.GetBullets()[j].GetHitRadius() * 2 + asteroids[i].GetHitRadius())
 			{
@@ -213,8 +215,7 @@ void Game::DrawDebugCollisionLines()
 				glVertex2f(asteroids[i].GetPosition().x, asteroids[i].GetPosition().y);
 				glEnd();
 			}
-
-			if (CalculateDistance(player.GetBullets()[j], asteroids[i]) > player.GetBullets()[j].GetHitRadius() + asteroids[i].GetHitRadius())
+			else if (CalculateDistance(player.GetBullets()[j], asteroids[i]) > player.GetBullets()[j].GetHitRadius() + asteroids[i].GetHitRadius())
 			{
 				asteroids[i].setIsColliding(false);
 			}
@@ -251,7 +252,7 @@ void Game::UpdateCollisionEvents()
 
 void Game::RespawnShip()
 {
-	if (playerLife > 0 && !player.GetAliveState())
+	if (playerLife > 1 && !player.GetAliveState())
 	{
 		player.Respawn();
 		playerLife--;
@@ -260,7 +261,7 @@ void Game::RespawnShip()
 void Game::PushAsteroids()
 {
 	asteroids.clear();
-	for (int i = 0; i < asteroidCount; i++)
+	for (int i = 0; i < asteroidCount+asteroidLevel; i++)
 	{
 		asteroids.push_back(Asteroid());
 		asteroids[i].UpdateFrameSize(height, width);
@@ -270,10 +271,12 @@ void Game::PushAsteroids()
 void Game::ResetGame()
 {
 	playerLife = 3;
+	if (player.GetGodMode()) player.ToggleGodMode();
 	player.SetDebuggingMode(false);
 	debuggingMode = false;
 	player.Respawn();
 
+	asteroidLevel = 0;
 	PushAsteroids();
 	
 }
@@ -282,7 +285,7 @@ void Game::PlayerAsteroidCollision()
 {
 	for (int i = 0; i < asteroids.size(); i++)
 	{
-		if (DetectCollision(player, asteroids[i]) && !debuggingMode)
+		if (DetectCollision(player, asteroids[i]) && !debuggingMode && !player.GetGodMode())
 		{
 			player.SetAliveState(false);
 		}
@@ -393,11 +396,17 @@ void Game::ManageInput()
 		ResetLimiter();
 	}
 
+	if (inputManager.GetG() && inputLimiter == 0)
+	{
+		player.ToggleGodMode();
+		ResetLimiter();
+	}
+
 	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
 		player.Shoot();
 
-		ResetLimiter();
+		if(!player.GetGodMode())ResetLimiter();
 	}
 
 }
@@ -439,13 +448,14 @@ float Game::UpdateFrameRate(double endTime, double startTime)
 
 void Game::DrawFrameRateMeter()
 {
-	float scaleX= 20.0f, scaleY = 150000.0f;
+	float scaleX= 20.0f, scaleY = 99999.0f;
 
 	
 	glLoadIdentity();
-	glTranslatef(200.0f, -300.0f, 0.0f);
+	glTranslatef(0.0f + ((width / 2)-300), 0.0f - (height / 2), 0.0f);
+	
 	glBegin(GL_LINE_STRIP);
-	glColor3f(1.000, 0.498, 0.314);
+	glColor3f(1.000f, 0.647f, 0.000f);
 
 	for (int i = 0; i < FRAME_LIMIT; i++)
 	{

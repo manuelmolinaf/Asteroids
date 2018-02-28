@@ -12,16 +12,19 @@ Player::Player()
 	pressingForwardKey = false;
 	isMoving = false;
 	shooting = false;
+	godMode = false;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
 	movementRate = 30.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
-	frictionCoefficient = 0.95f;
+	frictionCoefficient = 0.97f;
 	PushEntityVectors();
 	PushThrusterVertices();
+	PushGodlyVertices();
 	hitRadius = 20.0f;
 	bulletLimit = 4;
+	godModeBulletLimit = 15;
 	
 	
 }
@@ -44,6 +47,15 @@ void Player::Render()
 			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
 
 			DrawThruster();
+		}
+
+		if (godMode)
+		{
+			glLoadIdentity();
+			glTranslatef(position.x, position.y, 0.0f);
+			glRotatef(rotationAngle, 0.0f, 0.0f, 1.0f);
+
+			DrawGodlyPresence();
 		}
 
 	}
@@ -147,6 +159,14 @@ void Player::PushThrusterVertices()
 	thrusterVertices.push_back(Vector2(10.0f, -36.0f));
 }
 
+void Player::PushGodlyVertices()
+{
+	godlyVertices.push_back(Vector2(20.0f, -20.0f));
+	godlyVertices.push_back(Vector2(0.0f, 30.0f));
+	godlyVertices.push_back(Vector2(-20.0f, -20.0f));
+	godlyVertices.push_back(Vector2(0.0f, -10.0f));
+}
+
 void Player::DrawThruster()
 {
 	glBegin(GL_LINE_LOOP);
@@ -160,10 +180,24 @@ void Player::DrawThruster()
 	glEnd();
 }
 
+void Player::DrawGodlyPresence()
+{
+	glBegin(GL_LINE_LOOP);
+
+	glColor3f(1.000f, 0.843f, 0.000f);
+
+	for (int i = 0; i < godlyVertices.size(); i++)
+	{
+		glVertex2f(godlyVertices[i].x, godlyVertices[i].y);
+	}
+	glEnd();
+}
+
 void Player::Respawn()
 {
 	position = Vector2(0.0f, 0.0f);
 	velocity = Vector2(0.0f, 0.0f);
+	rotationAngle = 0.0f;
 	bullets.clear();
 	isAlive = true;
 }
@@ -186,7 +220,7 @@ void Player::Shoot()
 {
 	if (isAlive)
 	{
-		if (bullets.size() <bulletLimit)
+		if ((bullets.size() <bulletLimit) ||( godMode && bullets.size() < godModeBulletLimit))
 		{
 			bullets.push_back(Bullet(rotationAngle, position + CurrentShipFront()));
 
@@ -221,4 +255,20 @@ Vector2 Player::CurrentShipFront()
 	front.y = 30*cosf(math_tool.toRadians(rotationAngle));
 
 	return front;
+}
+void Player::ToggleGodMode()
+{
+	if (godMode == false)
+	{
+		godMode = true;
+	}
+	else
+	{
+		godMode = false;
+	}
+}
+
+bool Player::GetGodMode()
+{
+	return godMode;
 }
