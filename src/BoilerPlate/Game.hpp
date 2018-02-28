@@ -31,8 +31,8 @@ public:
 	void Update(float, float, float);
 	void UpdateFrameSize(float, float);
 	void ToggleDebuggingMode();
-	float StartingFrameRate(double, double);
-	void EndingFrameRate(double, double);
+	float CalculateDeltaTime(double, double);
+	void CalculateFrameRate(double, double);
 	
 	
 

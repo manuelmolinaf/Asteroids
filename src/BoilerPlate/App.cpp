@@ -173,7 +173,7 @@ namespace Engine
 		double desiredEndTime = m_timer->GetElapsedTimeInSeconds();
 		
 		//===========================================================================
-		m_game.Update(m_height, m_width, m_game.StartingFrameRate(desiredEndTime, startTime));
+		m_game.Update(m_height, m_width, m_game.CalculateDeltaTime(desiredEndTime, startTime));
 		//===========================================================================
 		
 
@@ -181,7 +181,7 @@ namespace Engine
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
 
 		//===========================================================================
-		m_game.EndingFrameRate(endTime, startTime);
+		m_game.CalculateFrameRate(endTime, startTime);
 		//===========================================================================
 
 		while (endTime < nextTimeFrame)

@@ -443,9 +443,9 @@ void Game::InitializeDeltaArray()
 
 }
 
-void Game::EndingFrameRate(double endTime, double startTime)
+void Game::CalculateFrameRate(double endTime, double startTime)
 {
-	float deltaTime = StartingFrameRate(endTime, startTime);
+	float deltaTime = CalculateDeltaTime(endTime, startTime);
 
 	frames[framePosition] = Vector2((float)framePosition, (float)deltaTime);
 	framePosition++;
@@ -456,7 +456,7 @@ void Game::EndingFrameRate(double endTime, double startTime)
 	}
 }
 
-float Game::StartingFrameRate(double desiredEndTime, double startTime)
+float Game::CalculateDeltaTime(double desiredEndTime, double startTime)
 {
 	float deltaTime = DESIRED_FRAME_TIME - (desiredEndTime - startTime);
 	return deltaTime;
