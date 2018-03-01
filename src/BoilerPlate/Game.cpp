@@ -7,7 +7,7 @@ Game::Game(float currentHeight, float currentWidth)
 	height = currentHeight;
 	width = currentWidth;
 	debuggingMode = false;
-	playerLife = 0;
+	playerLife = 3;
 	extraLifeMeter = 1;
 
 	textRenderer.TextRenderInit();

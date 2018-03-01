@@ -102,7 +102,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="8-BIT WONDER.TTF" />
     <Font Include="From Cartoon Blocks.ttf" />
+    <Font Include="8-BIT WONDER.TTF" />
   </ItemGroup>
 </Project>
