@@ -7,7 +7,7 @@
 #include <string>
 #include <list>
 
-// Asteroids
+// SDL
 #include "SDLEvent.hpp"
 #include "TimeManager.hpp"
 
@@ -57,6 +57,7 @@ namespace Engine
 		void OnExit							( ) override;
 		void OnKeyDown						( SDL_KeyboardEvent keyBoardEvent ) override;
 		void OnKeyUp						( SDL_KeyboardEvent keyBoardEvent ) override;
+		void ToggleFullScreen               (SDL_Window* Window);
 
 		/* =============================================================
 		 * MEMBERS

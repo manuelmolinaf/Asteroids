@@ -324,7 +324,7 @@ void Player::DrawInvulnerability()
 {
 	glBegin(GL_LINE_LOOP);
 
-	glColor3f(0.000, 1.000, 1.000);
+	glColor3f(0.000, 0.980, 0.604);
 
 	for (int i = 0; i < godlyVertices.size(); i++)
 	{

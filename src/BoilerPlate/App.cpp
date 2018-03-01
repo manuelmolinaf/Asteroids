@@ -142,6 +142,9 @@ namespace Engine
 		case SDL_SCANCODE_G:
 			m_game.inputManager.SetG(true);
 			break;
+		case SDL_SCANCODE_M:
+			ToggleFullScreen(m_mainWindow);
+			break;
 		case SDL_SCANCODE_SPACE:
 			m_game.inputManager.SetSpace(true);
 			break;
@@ -223,9 +226,7 @@ namespace Engine
 	void App::Render()
 	{
 		m_game.Render();
-		
-		
-
+	
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 
@@ -244,7 +245,7 @@ namespace Engine
 
 		Uint32 flags = SDL_WINDOW_OPENGL |
 			SDL_WINDOW_SHOWN |
-			SDL_WINDOW_RESIZABLE;
+			SDL_WINDOW_RESIZABLE ;
 
 		m_mainWindow = SDL_CreateWindow(
 			m_title.c_str(),
@@ -325,8 +326,7 @@ namespace Engine
 		//
 		m_width = width;
 		m_height = height;
-
-		
+	
 		SetupViewport();
 	}
 
@@ -340,4 +340,13 @@ namespace Engine
 		//
 		CleanupSDL();
 	}
+
+	void App::ToggleFullScreen(SDL_Window* Window)
+	{
+		Uint32 FullscreenFlag = SDL_WINDOW_FULLSCREEN;
+		bool IsFullscreen = SDL_GetWindowFlags(Window) & FullscreenFlag;
+		SDL_SetWindowFullscreen(Window, IsFullscreen ? 0 : FullscreenFlag);
+		SDL_ShowCursor(IsFullscreen);
+	}
 }
+

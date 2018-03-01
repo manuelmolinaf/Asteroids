@@ -42,7 +42,7 @@ private:
 
 	Player player;
 	std::vector<Asteroid> asteroids;
-	std::vector<Vector2> liveVertices;
+	std::vector<Vector2> lifeVertices;
 	int asteroidCount;
 	float height;
 	float width;
@@ -55,6 +55,11 @@ private:
 	int framePosition;
 	int asteroidLevel;
 	float lifePosition;
+	int score;
+	int bigAsteroidScoreValue;
+	int mediumAsteroidScoreValue;
+	int smallAsteroidScoreValue;
+	int maxLife;
 	
 
 

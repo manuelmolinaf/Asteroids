@@ -7,6 +7,11 @@ Game::Game(float currentHeight, float currentWidth)
 	width = currentWidth;
 	debuggingMode = false;
 	playerLife = 3;
+	bigAsteroidScoreValue = 20;
+	mediumAsteroidScoreValue = 50;
+	smallAsteroidScoreValue = 100;
+	score = 0;
+	maxLife = 5;
 	player = Player();
 	player.UpdateFrameSize(height, width);
 	ResetLimiter();
@@ -14,7 +19,7 @@ Game::Game(float currentHeight, float currentWidth)
 	asteroidLevel =  0;
 	PushAsteroids();
 	lifePosition = 0;
-	liveVertices = player.GetEntityVertices();
+	lifeVertices = player.GetEntityVertices();
 	InitializeDeltaArray();
 	
 
@@ -47,7 +52,14 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 	if (asteroids.size() == 0 && !debuggingMode)
 	{
 		asteroidLevel++;
+
+		if(playerLife < maxLife) playerLife++;
+
+		player.ToggleInvulnerability();
+
 		PushAsteroids();
+
+
 	}
 
 }
@@ -274,14 +286,13 @@ void Game::RespawnShip()
 void Game::PushAsteroids()
 {
 	asteroids.clear();
-	//que utiliza asteroidCount y asteroidLevel ._.
-	//que valores tienen???
+
 	for (int i = 0; i < asteroidCount+asteroidLevel; i++)
 	{
-		asteroids.push_back(Asteroid());//<-
-		asteroids[i].UpdateFrameSize(height, width);//<-
+		asteroids.push_back(Asteroid());
+		asteroids[i].UpdateFrameSize(height, width);
 	}
-	//cuanto apostar de seguro por tar haciendo loqueras como esa
+
 }
 
 void Game::ResetGame()
@@ -327,6 +338,8 @@ void Game::BulletAsteroidCollision()
 						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
+						score += bigAsteroidScoreValue;
+						std::cout << score << "\n";
 
 						finish = true;
 					}
@@ -336,6 +349,8 @@ void Game::BulletAsteroidCollision()
 						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
+						score += mediumAsteroidScoreValue;
+						std::cout << score << "\n";
 
 						finish = true;
 					}
@@ -343,6 +358,8 @@ void Game::BulletAsteroidCollision()
 					{
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
+						score += smallAsteroidScoreValue;
+						std::cout << score << "\n";
 
 						finish = true;
 					}
@@ -417,6 +434,9 @@ void Game::ManageInput()
 	if (inputManager.GetG() && inputLimiter == 0)
 	{
 		player.ToggleGodMode();
+
+
+
 		ResetLimiter();
 	}
 
@@ -497,7 +517,7 @@ void Game::RenderLives()
 
 		for (int i = 0; i < player.GetEntityVertices().size(); i++)
 		{
-			glVertex2f(liveVertices[i].x * 0.7f, liveVertices[i].y * 0.7f);
+			glVertex2f(lifeVertices[i].x * 0.7f, lifeVertices[i].y * 0.7f);
 		}
 
 		glEnd();
