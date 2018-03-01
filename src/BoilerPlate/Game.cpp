@@ -362,7 +362,7 @@ void Game::BulletAsteroidCollision()
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
 						score += bigAsteroidScoreValue;
-						std::cout << score << "\n";
+						
 
 						finish = true;
 					}
@@ -373,7 +373,7 @@ void Game::BulletAsteroidCollision()
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
 						score += mediumAsteroidScoreValue;
-						std::cout << score << "\n";
+						
 
 						finish = true;
 					}
@@ -382,7 +382,7 @@ void Game::BulletAsteroidCollision()
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
 						score += smallAsteroidScoreValue;
-						std::cout << score << "\n";
+						
 
 						finish = true;
 					}
@@ -458,14 +458,12 @@ void Game::ManageInput()
 	{
 		player.ToggleGodMode();
 
-
-
 		ResetLimiter();
 	}
 
 	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
-		//SoundEngine->play2D("\audio\cartoon004.wav", GL_TRUE);
+		//SoundEngine->play2D("Fire.wav", GL_TRUE);
 		player.Shoot();
 		SoundEngine->stopAllSounds();
 
@@ -568,7 +566,12 @@ void Game::RenderGameGUI()
 
 	if (playerLife == 0 && !player.GetAliveState())
 	{
-		textRenderer.RenderText("GAME OVER", gameFontColor, -100.0f, 0.0f, 40.0f);
-		textRenderer.RenderText("PRESS START TO PLAY AGAIN", gameFontColor, -350.0f, -100.0f, 0.0f);
+		textRenderer.RenderText("GAME OVER", gameFontColor, -150.0f, 0.0f, 40.0f);
+		textRenderer.RenderText("PRESS START TO PLAY AGAIN", gameFontColor, -400.0f, -100.0f, 0.0f);
+	}
+
+	if (!player.GetAliveState() && playerLife != 0)
+	{
+		textRenderer.RenderText("PRESS SELECT TO RESPAWN", gameFontColor, -360.0f, 0.0f, 0.0f);
 	}
 }

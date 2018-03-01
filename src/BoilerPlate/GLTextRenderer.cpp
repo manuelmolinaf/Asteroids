@@ -51,6 +51,7 @@ void GLTextRenderer::RenderText(std::string message, SDL_Color color, float x, f
 
 	glLoadIdentity();
 	glTranslatef(x, y, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 
 	SDL_Surface *surface;
 

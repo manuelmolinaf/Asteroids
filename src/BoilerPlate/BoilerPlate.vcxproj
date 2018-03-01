@@ -240,6 +240,9 @@ copy /Y "$(SolutionDir)\Externals\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\i
     <Font Include="8-BIT WONDER.TTF" />
     <Font Include="From Cartoon Blocks.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="fire.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

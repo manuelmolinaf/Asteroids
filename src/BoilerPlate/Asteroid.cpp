@@ -16,7 +16,7 @@ Asteroid::Asteroid()
 	movementAngle = rand();
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
-	movementRate = 300.f;
+	acceleration = 300.f;
 }
 
 Asteroid::Asteroid(AsteroidSize size)
@@ -44,7 +44,7 @@ Asteroid::Asteroid(AsteroidSize size, Vector2 spawnPosition)
 	movementAngle = rand();
 	PushEntityVertices();
 	hitRadius = CalculateHitRadius();
-	movementRate = 300.0f;
+	acceleration = 300.0f;
 
 }
 
@@ -70,8 +70,8 @@ void Asteroid::Render()
 void Asteroid::ApplyImpulse()
 {
 
-	velocity.x = (movementRate / mass) * -sinf(math_tool.toRadians(movementAngle));
-	velocity.y = (movementRate / mass) * cosf(math_tool.toRadians(movementAngle));
+	velocity.x = (acceleration / mass) * -sinf(math_tool.toRadians(movementAngle));
+	velocity.y = (acceleration / mass) * cosf(math_tool.toRadians(movementAngle));
 
 
 }

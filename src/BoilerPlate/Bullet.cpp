@@ -9,7 +9,7 @@ Bullet::Bullet(float rotationAngle, Vector2 shipPosition)
 {
 	Entity::Entity();
 	position = shipPosition;
-	mass = 0.5f;
+	mass = 0.7f;
 	rotationValue = 0.0f;
 	rotationRate = 800.0f;
 	movementAngle = rotationAngle;

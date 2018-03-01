@@ -40,7 +40,7 @@ protected:
 	float hitRadius;
 	bool debuggingMode;
 	bool isColliding;
-	float movementRate;
+	float acceleration;
 	
 
 	//protected functions

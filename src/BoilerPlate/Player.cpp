@@ -16,7 +16,7 @@ Player::Player()
 	invulnerable = true;
 	rotationAngle = 0.0f;
 	rotationRate = 10.0f;
-	movementRate = 30.0f;
+	acceleration = 13.0f;
 	mass = 1.0f;
 	maxSpeed = 450.0f;
 	frictionCoefficient = 0.97f;
@@ -163,8 +163,8 @@ void Player::RotateRight()
 
 void Player::ApplyImpulse()
 {
-	velocity.x -= (movementRate/mass) * sinf(math_tool.toRadians(rotationAngle));
-	velocity.y += (movementRate/mass) * cosf(math_tool.toRadians(rotationAngle));
+	velocity.x -= (acceleration/mass) * sinf(math_tool.toRadians(rotationAngle));
+	velocity.y += (acceleration/mass) * cosf(math_tool.toRadians(rotationAngle));
 
 }
 

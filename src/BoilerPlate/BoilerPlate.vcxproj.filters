@@ -105,4 +105,7 @@
     <Font Include="From Cartoon Blocks.ttf" />
     <Font Include="8-BIT WONDER.TTF" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="fire.wav" />
+  </ItemGroup>
 </Project>
