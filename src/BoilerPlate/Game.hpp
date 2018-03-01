@@ -3,7 +3,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include <GL/glew.h>
+
 #include <vector>
 #include "Vector2.hpp"
 #include "MathUtilities.hpp"
@@ -11,6 +11,13 @@
 #include "Player.hpp"
 #include "Asteroid.hpp"
 #include "InputManager.hpp"
+
+#include <GL/glew.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_ttf.h>
+#include<irrKlang.h>
+#include<ik_irrKlangTypes.h>
 
 
 const float DESIRED_FRAME_RATE = 60.0f;
@@ -60,8 +67,9 @@ private:
 	int mediumAsteroidScoreValue;
 	int smallAsteroidScoreValue;
 	int maxLife;
-	
-
+	int extraLifeMeter;
+	//TTF_Font *font;
+	//irrklang::ISoundEngine *SoundEngine;
 
 	//private functions
 
@@ -82,6 +90,7 @@ private:
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
 	void RenderLives();
+	//void RenderText(std::string, SDL_Color, float, float, int);
 	
 	
 };
