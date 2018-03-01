@@ -11,11 +11,8 @@
 #include "Player.hpp"
 #include "Asteroid.hpp"
 #include "InputManager.hpp"
-
 #include <GL/glew.h>
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_ttf.h>
+#include "GLTextRenderer.hpp"
 #include<irrKlang.h>
 #include<ik_irrKlangTypes.h>
 
@@ -23,6 +20,8 @@
 const float DESIRED_FRAME_RATE = 60.0f;
 const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
 const int FRAME_LIMIT = 15;
+
+
 
 class Game
 {
@@ -68,8 +67,10 @@ private:
 	int smallAsteroidScoreValue;
 	int maxLife;
 	int extraLifeMeter;
-	//TTF_Font *font;
-	//irrklang::ISoundEngine *SoundEngine;
+	irrklang::ISoundEngine *SoundEngine;
+	GLTextRenderer textRenderer;
+	TTF_Font *gameFont;
+	SDL_Color gameFontColor;
 
 	//private functions
 
@@ -90,7 +91,8 @@ private:
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
 	void RenderLives();
-	//void RenderText(std::string, SDL_Color, float, float, int);
+	void initGameFontColor(int, int,int, int);
+	void RenderGameGUI();
 	
 	
 };

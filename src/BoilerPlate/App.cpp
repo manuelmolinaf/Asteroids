@@ -76,24 +76,9 @@ namespace Engine
 			m_state = GameState::INIT_FAILED;
 			return false;
 		}
+		
 
-		if (TTF_Init() == -1) {
-			SDL_Log("TTF_Init: %s\n", TTF_GetError());
-			return false;
-		}
-		SDL_version compile_version;
-		const SDL_version *link_version = TTF_Linked_Version();
-		SDL_TTF_VERSION(&compile_version);
-
-		SDL_Log("compiled with SDL_ttf version: %d.%d.%d\n",
-			compile_version.major,
-			compile_version.minor,
-			compile_version.patch);
-
-		SDL_Log("running with SDL_ttf version: %d.%d.%d\n",
-			link_version->major,
-			link_version->minor,
-			link_version->patch);
+		// init text rendering
 
 		// Setup the viewport
 		//
@@ -104,10 +89,7 @@ namespace Engine
 		m_state = GameState::INIT_SUCCESSFUL;
 
 		return true;
-		 // neos  phehe
-		//es pa probar que sirva...
-		//
-
+		
 	}
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)

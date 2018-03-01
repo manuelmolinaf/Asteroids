@@ -42,6 +42,9 @@
     <ClCompile Include="InputManagar.cpp">
       <Filter>Engine\Source files</Filter>
     </ClCompile>
+    <ClCompile Include="GLTextRenderer.cpp">
+      <Filter>Engine\Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TimeManager.hpp" />
@@ -83,6 +86,9 @@
     <ClInclude Include="InputManager.hpp">
       <Filter>Engine\Header files</Filter>
     </ClInclude>
+    <ClInclude Include="GLTextRenderer.hpp">
+      <Filter>Engine\Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -94,5 +100,9 @@
     <Filter Include="Engine\Header files">
       <UniqueIdentifier>{da8cc683-e66e-46b9-be58-7d0e16e23f76}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="8-BIT WONDER.TTF" />
+    <Font Include="From Cartoon Blocks.ttf" />
   </ItemGroup>
 </Project>

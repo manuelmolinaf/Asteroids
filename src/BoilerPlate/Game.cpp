@@ -1,16 +1,27 @@
 #include "Game.hpp"
 #include <iostream>
-
+#include <string>
 
 Game::Game(float currentHeight, float currentWidth)
 {
 	height = currentHeight;
 	width = currentWidth;
 	debuggingMode = false;
-	playerLife = 3;
+	playerLife = 0;
 	extraLifeMeter = 1;
-	//font = TTF_OpenFont("font.ttf", 16);
-	//SoundEngine = irrklang::createIrrKlangDevice();
+
+	textRenderer.TextRenderInit();
+	
+	initGameFontColor(225, 225, 225, 225);
+
+	gameFont = TTF_OpenFont("8-BIT WONDER.TTF", 40);
+
+	if (gameFont == NULL) system("PAUSE");
+	textRenderer = GLTextRenderer(gameFont, gameFontColor);
+
+
+
+	SoundEngine = irrklang::createIrrKlangDevice();
 	bigAsteroidScoreValue = 20;
 	mediumAsteroidScoreValue = 50;
 	smallAsteroidScoreValue = 100;
@@ -25,7 +36,6 @@ Game::Game(float currentHeight, float currentWidth)
 	lifePosition = 0;
 	lifeVertices = player.GetEntityVertices();
 	InitializeDeltaArray();
-	
 
 }
 
@@ -82,13 +92,14 @@ void Game::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	//===========================================================================
 
+	glLineWidth(2.0f);
 
-
+	RenderGameGUI();
 
 	//===========================================================================
 	player.Render();
 	//===========================================================================
-
+	//textRenderer.RenderText("test",gameFontColor, 0,0,0);
 
 	//===========================================================================
 	RenderLives();
@@ -454,8 +465,9 @@ void Game::ManageInput()
 
 	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
+		//SoundEngine->play2D("\audio\cartoon004.wav", GL_TRUE);
 		player.Shoot();
-		//SoundEngine->play2D("cartoon004.wav", GL_TRUE);
+		SoundEngine->stopAllSounds();
 
 		if(!player.IsGodMode())ResetLimiter();
 	}
@@ -524,7 +536,7 @@ void Game::RenderLives()
 	for (int i = 0; i < playerLife; i++)
 	{
 		glLoadIdentity();
-		glTranslatef((-(width / 2.0f) + 50.0f) + lifePosition, ((height / 2.0f) - 50.0f), 0.0f);
+		glTranslatef((-(width / 2.0f) + 50.0f) + lifePosition, ((height / 2.0f) - 40.0f), 0.0f);
 		glBegin(GL_LINE_LOOP);
 		glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -541,59 +553,22 @@ void Game::RenderLives()
 
 }
 
-/*
-void Game::RenderText(std::string message, SDL_Color color, float x, float y, int size)
+void Game::initGameFontColor(int R, int G, int B, int A)
 {
-
-	glLoadIdentity();
-	glTranslatef(x, y, 0.f);
-
-	SDL_Surface *surface;
-
-	//Render font to a SDL_Surface
-	if ((surface = TTF_RenderText_Blended(font, message.c_str(), color)) == nullptr)
-	{
-		TTF_CloseFont(font);
-		std::cout << "TTF_RenderText error: " << std::endl;
-		return;
-	}
-
-	GLuint texId;
-
-	//Generate OpenGL texture
-	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
-
-	//Avoid mipmap filtering
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	//Find the first power of two for OpenGL image 
-	//int w = power_two_floor(surface->w) * 2;
-	//int h = power_two_floor(surface->h) * 2;
-
-	//Create a surface to the correct size in RGB format, and copy the old image
-	//SDL_Surface * s = SDL_CreateRGBSurface(0, w, h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-
-//	SDL_BlitSurface(surface, NULL, s, NULL);
-
-	//Copy the created image into OpenGL format
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_BGRA, GL_UNSIGNED_BYTE, s->pixels);
-
-	//Draw the OpenGL texture as a Quad
-	glBegin(GL_QUADS); {
-		glTexCoord2d(0, 1); glVertex3f(0, 0, 0);
-		glTexCoord2d(1, 1); glVertex3f(0 + surface->w, 0, 0);
-		glTexCoord2d(1, 0); glVertex3f(0 + surface->w, 0 + surface->h, 0);
-		glTexCoord2d(0, 0); glVertex3f(0, 0 + surface->h, 0);
-	} glEnd();
-	glDisable(GL_TEXTURE_2D);
-
-	//Cleanup
-	//SDL_FreeSurface(s);
-	SDL_FreeSurface(surface);
-	glDeleteTextures(1, &texId);
+	gameFontColor.r = R;
+	gameFontColor.g = G;
+	gameFontColor.b = B;
+	gameFontColor.a = A;
 
 }
-*/
+
+void Game::RenderGameGUI()
+{
+	textRenderer.RenderText("SCORE  " + std::to_string(score), gameFontColor, (width / 2.0f) - 340.0f, (height / 2.0f) - 60.0f, 40.0f );
+
+	if (playerLife == 0 && !player.GetAliveState())
+	{
+		textRenderer.RenderText("GAME OVER", gameFontColor, -100.0f, 0.0f, 40.0f);
+		textRenderer.RenderText("PRESS START TO PLAY AGAIN", gameFontColor, -350.0f, -100.0f, 0.0f);
+	}
+}

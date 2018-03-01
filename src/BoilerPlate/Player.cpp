@@ -52,7 +52,7 @@ void Player::Render()
 			DrawThruster();
 		}
 
-		if (godMode && !invulnerable)
+		if (godMode)
 		{
 			glLoadIdentity();
 			glTranslatef(position.x, position.y, 0.0f);
