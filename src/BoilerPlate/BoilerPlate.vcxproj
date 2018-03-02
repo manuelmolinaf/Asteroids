@@ -237,11 +237,19 @@ copy /Y "$(SolutionDir)\Externals\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\i
     <ClInclude Include="Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="8-BIT WONDER.TTF" />
-    <Font Include="From Cartoon Blocks.ttf" />
+    <Media Include="audio\bangLarge.wav" />
+    <Media Include="audio\bangMedium.wav" />
+    <Media Include="audio\bangSmall.wav" />
+    <Media Include="audio\beat1.wav" />
+    <Media Include="audio\beat2.wav" />
+    <Media Include="audio\death.wav" />
+    <Media Include="audio\extraShip.wav" />
+    <Media Include="audio\fire.wav" />
+    <Media Include="audio\gameOver.wav" />
+    <Media Include="audio\thrust.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="fire.wav" />
+    <Font Include="fonts\8-BIT WONDER.TTF" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

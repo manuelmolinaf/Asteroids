@@ -7,14 +7,15 @@ Game::Game(float currentHeight, float currentWidth)
 	height = currentHeight;
 	width = currentWidth;
 	debuggingMode = false;
+	gameOver = false;
+	dead = false;
 	playerLife = 3;
 	extraLifeMeter = 1;
-
 	textRenderer.TextRenderInit();
 	
-	initGameFontColor(225, 225, 225, 225);
+	initGameFontColor(255, 255, 255, 255);
 
-	gameFont = TTF_OpenFont("8-BIT WONDER.TTF", 40);
+	gameFont = TTF_OpenFont("fonts/8-BIT WONDER.TTF", 40);
 
 	if (gameFont == NULL) system("PAUSE");
 	textRenderer = GLTextRenderer(gameFont, gameFontColor);
@@ -36,7 +37,7 @@ Game::Game(float currentHeight, float currentWidth)
 	lifePosition = 0;
 	lifeVertices = player.GetEntityVertices();
 	InitializeDeltaArray();
-
+	SoundEngine->setSoundVolume(1.0f);
 }
 
 void Game::Update(float currentHeight, float currentWidth, float deltaTime)
@@ -66,6 +67,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 	if (playerLife < maxLife && score / 3500 == extraLifeMeter)
 	{
 		playerLife++;
+		SoundEngine->play2D("audio/extraShip.wav");
 		extraLifeMeter++;
 	}
 
@@ -99,7 +101,7 @@ void Game::Render()
 	//===========================================================================
 	player.Render();
 	//===========================================================================
-	//textRenderer.RenderText("test",gameFontColor, 0,0,0);
+	
 
 	//===========================================================================
 	RenderLives();
@@ -273,10 +275,10 @@ void Game::DrawDebugCollisionLines()
 
 }
 
-float Game::CalculateDistance(Entity firstEntity, Entity entity2)
+float Game::CalculateDistance(Entity firstEntity, Entity secondEntity)
 {
-	float distance = sqrtf(((entity2.GetPosition().x - firstEntity.GetPosition().x)*(entity2.GetPosition().x - firstEntity.GetPosition().x)) +
-		((entity2.GetPosition().y - firstEntity.GetPosition().y)*(entity2.GetPosition().y - firstEntity.GetPosition().y)));
+	float distance = sqrtf(((secondEntity.GetPosition().x - firstEntity.GetPosition().x)*(secondEntity.GetPosition().x - firstEntity.GetPosition().x)) +
+		((secondEntity.GetPosition().y - firstEntity.GetPosition().y)*(secondEntity.GetPosition().y - firstEntity.GetPosition().y)));
 
 	return distance;
 }
@@ -338,6 +340,21 @@ void Game::PlayerAsteroidCollision()
 		if (DetectCollision(player, asteroids[i]) && !debuggingMode && !player.IsGodMode() && !player.IsInvulnerable())
 		{
 			player.SetAliveState(false);
+
+			if (playerLife == 0 && !player.GetAliveState() && !gameOver)
+			{
+				SoundEngine->play2D("audio/gameOver.wav");
+
+				gameOver = true;
+			}
+
+			if (playerLife >0 && !player.GetAliveState() && !dead)
+			{
+				SoundEngine->play2D("audio/death.wav");
+
+				dead = true;
+			}
+
 		}
 	}
 }
@@ -357,6 +374,7 @@ void Game::BulletAsteroidCollision()
 				{
 					if (asteroids[i].GetAsteroidSize() == 3)
 					{
+						SoundEngine->play2D("audio/bangLarge.wav");
 						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
 						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
@@ -368,6 +386,7 @@ void Game::BulletAsteroidCollision()
 					}
 					else if (asteroids[i].GetAsteroidSize() == 2)
 					{
+						SoundEngine->play2D("audio/bangMedium.wav");
 						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
 						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
@@ -379,6 +398,7 @@ void Game::BulletAsteroidCollision()
 					}
 					else if (asteroids[i].GetAsteroidSize() == 1)
 					{
+						SoundEngine->play2D("audio/bangSmall.wav");
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
 						score += smallAsteroidScoreValue;
@@ -401,6 +421,7 @@ void Game::ManageInput()
 	if (inputManager.GetW())
 	{
 		player.MoveForward();
+		if(player.GetAliveState()) SoundEngine->play2D("audio/thrust.wav");
 		player.SetMovingForward(true);
 	}
 	else
@@ -443,14 +464,14 @@ void Game::ManageInput()
 	if (inputManager.GetR() && inputLimiter == 0)
 	{
 		RespawnShip();
-
+		dead = false;
 		ResetLimiter();
 	}
 
 	if (inputManager.GetZ() && inputLimiter == 0)
 	{
 		ResetGame();
-		
+		gameOver = false;
 		ResetLimiter();
 	}
 
@@ -463,9 +484,9 @@ void Game::ManageInput()
 
 	if (inputManager.GetSpace() && inputLimiter == 0)
 	{
-		//SoundEngine->play2D("Fire.wav", GL_TRUE);
+		if(!player.IsInvulnerable() && player.GetAliveState())SoundEngine->play2D("audio/fire.wav");
+
 		player.Shoot();
-		SoundEngine->stopAllSounds();
 
 		if(!player.IsGodMode())ResetLimiter();
 	}
@@ -572,6 +593,6 @@ void Game::RenderGameGUI()
 
 	if (!player.GetAliveState() && playerLife != 0)
 	{
-		textRenderer.RenderText("PRESS SELECT TO RESPAWN", gameFontColor, -360.0f, 0.0f, 0.0f);
+		textRenderer.RenderText("PRESS SELECT TO RESPAWN", gameFontColor, -380.0f, 0.0f, 0.0f);
 	}
 }

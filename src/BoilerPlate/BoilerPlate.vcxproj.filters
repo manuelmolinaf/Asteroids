@@ -102,10 +102,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="From Cartoon Blocks.ttf" />
-    <Font Include="8-BIT WONDER.TTF" />
+    <Media Include="audio\bangLarge.wav" />
+    <Media Include="audio\bangMedium.wav" />
+    <Media Include="audio\bangSmall.wav" />
+    <Media Include="audio\beat1.wav" />
+    <Media Include="audio\beat2.wav" />
+    <Media Include="audio\extraShip.wav" />
+    <Media Include="audio\fire.wav" />
+    <Media Include="audio\gameOver.wav" />
+    <Media Include="audio\thrust.wav" />
+    <Media Include="audio\death.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="fire.wav" />
+    <Font Include="fonts\8-BIT WONDER.TTF" />
   </ItemGroup>
 </Project>
