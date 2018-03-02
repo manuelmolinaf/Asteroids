@@ -32,6 +32,7 @@ public:
 	bool IsGodMode();
 	void ToggleInvulnerability();
 	bool IsInvulnerable();
+	int GetBulletLimit();
 	std::vector<Bullet> GetBullets();
 	
 

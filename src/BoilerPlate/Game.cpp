@@ -9,11 +9,11 @@ Game::Game(float currentHeight, float currentWidth)
 	debuggingMode = false;
 	gameOver = false;
 	dead = false;
+	paused = false;
 	playerLife = 3;
 	extraLifeMeter = 1;
 	textRenderer.TextRenderInit();
-	
-	initGameFontColor(255, 255, 255, 255);
+	InitGameFontColor(255, 255, 255, 255);
 
 	gameFont = TTF_OpenFont("fonts/8-BIT WONDER.TTF", 40);
 
@@ -22,7 +22,7 @@ Game::Game(float currentHeight, float currentWidth)
 
 
 
-	SoundEngine = irrklang::createIrrKlangDevice();
+	soundEngine = irrklang::createIrrKlangDevice();
 	bigAsteroidScoreValue = 20;
 	mediumAsteroidScoreValue = 50;
 	smallAsteroidScoreValue = 100;
@@ -37,50 +37,57 @@ Game::Game(float currentHeight, float currentWidth)
 	lifePosition = 0;
 	lifeVertices = player.GetEntityVertices();
 	InitializeDeltaArray();
-	SoundEngine->setSoundVolume(1.0f);
+	soundEngine->setSoundVolume(1.0f);
 }
 
 void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 {
-	ManageInput();
 
-	UpdateCollisionEvents();
-
-	
+	PauseInput();
 	if (inputLimiter != 0)
 	{
 		inputLimiter--;
 	}
 
-	UpdateFrameSize(currentHeight, currentWidth);
 
-	player.Update(deltaTime);
-	player.UpdateFrameSize(currentHeight, currentWidth);
-
-	for (int i = 0; i < asteroids.size(); i++)
+	if (!paused)
 	{
-		asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
-		asteroids[i].Update(deltaTime);
-	}
+
+		ManageInput();
+
+		UpdateCollisionEvents();
 
 
-	if (playerLife < maxLife && score / 3500 == extraLifeMeter)
-	{
-		playerLife++;
-		SoundEngine->play2D("audio/extraShip.wav");
-		extraLifeMeter++;
-	}
+		UpdateFrameSize(currentHeight, currentWidth);
+
+		player.Update(deltaTime);
+		player.UpdateFrameSize(currentHeight, currentWidth);
+
+		for (int i = 0; i < asteroids.size(); i++)
+		{
+			asteroids[i].UpdateFrameSize(currentHeight, currentWidth);
+			asteroids[i].Update(deltaTime);
+		}
 
 
-	if (asteroids.size() == 0 && !debuggingMode)
-	{
-		asteroidLevel++;
+		if (playerLife < maxLife && score / 3500 == extraLifeMeter)
+		{
+			playerLife++;
+			soundEngine->play2D("audio/extraShip.wav");
+			extraLifeMeter++;
+		}
 
-		player.ToggleInvulnerability();
 
-		PushAsteroids();
+		if (asteroids.size() == 0 && !debuggingMode)
+		{
+			asteroidLevel++;
+
+			player.ToggleInvulnerability();
+
+			PushAsteroids();
 
 
+		}
 	}
 
 }
@@ -343,14 +350,14 @@ void Game::PlayerAsteroidCollision()
 
 			if (playerLife == 0 && !player.GetAliveState() && !gameOver)
 			{
-				SoundEngine->play2D("audio/gameOver.wav");
+				soundEngine->play2D("audio/gameOver.wav");
 
 				gameOver = true;
 			}
 
 			if (playerLife >0 && !player.GetAliveState() && !dead)
 			{
-				SoundEngine->play2D("audio/death.wav");
+				soundEngine->play2D("audio/death.wav");
 
 				dead = true;
 			}
@@ -374,7 +381,7 @@ void Game::BulletAsteroidCollision()
 				{
 					if (asteroids[i].GetAsteroidSize() == 3)
 					{
-						SoundEngine->play2D("audio/bangLarge.wav");
+						soundEngine->play2D("audio/bangLarge.wav");
 						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
 						asteroids.push_back(Asteroid(Asteroid::MEDIUM, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
@@ -386,7 +393,7 @@ void Game::BulletAsteroidCollision()
 					}
 					else if (asteroids[i].GetAsteroidSize() == 2)
 					{
-						SoundEngine->play2D("audio/bangMedium.wav");
+						soundEngine->play2D("audio/bangMedium.wav");
 						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
 						asteroids.push_back(Asteroid(Asteroid::SMALL, asteroids[i].GetPosition()));
 						asteroids.erase(asteroids.begin() + i);
@@ -398,7 +405,7 @@ void Game::BulletAsteroidCollision()
 					}
 					else if (asteroids[i].GetAsteroidSize() == 1)
 					{
-						SoundEngine->play2D("audio/bangSmall.wav");
+						soundEngine->play2D("audio/bangSmall.wav");
 						asteroids.erase(asteroids.begin() + i);
 						player.DestroyBullet(j);
 						score += smallAsteroidScoreValue;
@@ -421,7 +428,7 @@ void Game::ManageInput()
 	if (inputManager.GetW())
 	{
 		player.MoveForward();
-		if(player.GetAliveState()) SoundEngine->play2D("audio/thrust.wav");
+		if(player.GetAliveState()) soundEngine->play2D("audio/thrust.wav");
 		player.SetMovingForward(true);
 	}
 	else
@@ -482,9 +489,13 @@ void Game::ManageInput()
 		ResetLimiter();
 	}
 
-	if (inputManager.GetSpace() && inputLimiter == 0)
+	if (inputManager.GetSPACE() && inputLimiter == 0)
 	{
-		if(!player.IsInvulnerable() && player.GetAliveState())SoundEngine->play2D("audio/fire.wav");
+		if (!player.IsInvulnerable() && player.GetAliveState() &&
+			player.GetBullets().size() < player.GetBulletLimit())
+		{
+			soundEngine->play2D("audio/fire.wav");
+		}
 
 		player.Shoot();
 
@@ -572,7 +583,7 @@ void Game::RenderLives()
 
 }
 
-void Game::initGameFontColor(int R, int G, int B, int A)
+void Game::InitGameFontColor(int R, int G, int B, int A)
 {
 	gameFontColor.r = R;
 	gameFontColor.g = G;
@@ -594,5 +605,25 @@ void Game::RenderGameGUI()
 	if (!player.GetAliveState() && playerLife != 0)
 	{
 		textRenderer.RenderText("PRESS SELECT TO RESPAWN", gameFontColor, -380.0f, 0.0f, 0.0f);
+	}
+
+	if (paused)
+	{
+		textRenderer.RenderText("game paused", gameFontColor, -160.0f, 0.0f, 0.0f);
+	}
+}
+
+void Game::TogglePause()
+{
+	paused = !paused;
+}
+
+void Game::PauseInput()
+{
+	if (inputManager.GetENTER() && inputLimiter == 0)
+	{
+		TogglePause();
+
+		ResetLimiter();
 	}
 }

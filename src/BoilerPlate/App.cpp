@@ -129,8 +129,11 @@ namespace Engine
 		case SDL_SCANCODE_M:
 			ToggleFullScreen(m_mainWindow);
 			break;
+		case SDL_SCANCODE_RETURN:
+			m_game.inputManager.SetENTER(true);
+			break;
 		case SDL_SCANCODE_SPACE:
-			m_game.inputManager.SetSpace(true);
+			m_game.inputManager.SetSPACE(true);
 			break;
 		}
 	}
@@ -170,8 +173,11 @@ namespace Engine
 		case SDL_SCANCODE_G:
 			m_game.inputManager.SetG(false);
 			break;
+		case SDL_SCANCODE_RETURN:
+			m_game.inputManager.SetENTER(false);
+			break;
 		case SDL_SCANCODE_SPACE:
-			m_game.inputManager.SetSpace(false);
+			m_game.inputManager.SetSPACE(false);
 			break;
 		}
 

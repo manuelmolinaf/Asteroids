@@ -332,3 +332,8 @@ void Player::DrawInvulnerability()
 	}
 	glEnd();
 }
+
+int Player::GetBulletLimit()
+{
+	return bulletLimit;
+}

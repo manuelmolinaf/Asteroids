@@ -25,7 +25,8 @@ public:
 	void SetR(bool);
 	void SetZ(bool);
 	void SetG(bool);
-	void SetSpace(bool);
+	void SetENTER(bool);
+	void SetSPACE(bool);
 
 	bool GetW();
 	bool GetA();
@@ -37,8 +38,8 @@ public:
 	bool GetR();
 	bool GetZ();
 	bool GetG();
-	bool GetSpace();
-
+	bool GetSPACE();
+	bool GetENTER();
 
 private:
 
@@ -52,6 +53,7 @@ private:
 	bool R_KEY;
 	bool Z_KEY;
 	bool G_KEY;
+	bool ENTER_KEY;
 	bool SPACE_KEY;
 
 	

@@ -70,7 +70,7 @@ private:
 	int smallAsteroidScoreValue;
 	int maxLife;
 	int extraLifeMeter;
-	irrklang::ISoundEngine *SoundEngine;
+	irrklang::ISoundEngine *soundEngine;
 	GLTextRenderer textRenderer;
 	TTF_Font *gameFont;
 	SDL_Color gameFontColor;
@@ -94,9 +94,10 @@ private:
 	void InitializeDeltaArray();
 	void DrawFrameRateMeter();
 	void RenderLives();
-	void initGameFontColor(int, int,int, int);
+	void InitGameFontColor(int, int,int, int);
 	void RenderGameGUI();
 	void TogglePause();
+	void PauseInput();
 	
 	
 };

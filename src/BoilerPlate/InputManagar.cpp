@@ -12,6 +12,7 @@ InputManager::InputManager()
 	R_KEY = false;
 	Z_KEY = false;
 	G_KEY = false;
+	ENTER_KEY = false;
 	SPACE_KEY = false;
 }
 
@@ -65,10 +66,16 @@ void InputManager::SetG(bool value)
 	G_KEY = value;
 }
 
-void InputManager::SetSpace(bool value)
+void InputManager::SetENTER(bool value)
+{
+	ENTER_KEY = value;
+}
+
+void InputManager::SetSPACE(bool value)
 {
 	SPACE_KEY = value;
 }
+
 
 
 
@@ -123,7 +130,12 @@ bool InputManager::GetG()
 	return G_KEY;
 }
 
-bool InputManager::GetSpace()
+bool InputManager::GetENTER()
+{
+	return ENTER_KEY;
+}
+
+bool InputManager::GetSPACE()
 {
 	return SPACE_KEY;
 }
