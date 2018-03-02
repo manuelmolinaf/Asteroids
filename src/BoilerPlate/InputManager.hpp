@@ -28,18 +28,18 @@ public:
 	void SetENTER(bool);
 	void SetSPACE(bool);
 
-	bool GetW();
-	bool GetA();
-	bool GetS();
-	bool GetD();
-	bool GetQ();
-	bool GetE();
-	bool GetF();
-	bool GetR();
-	bool GetZ();
-	bool GetG();
-	bool GetSPACE();
-	bool GetENTER();
+	bool W_IsPressed();
+	bool A_IsPressed();
+	bool S_IsPressed();
+	bool D_IsPressed();
+	bool Q_IsPressed();
+	bool E_IsPressed();
+	bool F_IsPressed();
+	bool R_IsPressed();
+	bool Z_IsPressed();
+	bool G_IsPressed();
+	bool SPACE_IsPressed();
+	bool ENTER_IsPrerssed();
 
 private:
 

@@ -8,7 +8,7 @@
 #include "Vector2.hpp"
 #include <vector>
 
-class Player: public Entity
+class Player : public Entity
 {
 public:
 

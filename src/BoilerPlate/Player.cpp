@@ -163,8 +163,8 @@ void Player::RotateRight()
 
 void Player::ApplyImpulse()
 {
-	velocity.x -= (acceleration/mass) * sinf(math_tool.toRadians(rotationAngle));
-	velocity.y += (acceleration/mass) * cosf(math_tool.toRadians(rotationAngle));
+	velocity.x -= static_cast<float>(acceleration/mass * sinf(math_tool.toRadians(rotationAngle)));
+	velocity.y += static_cast<float>(acceleration / mass * cosf(math_tool.toRadians(rotationAngle)));
 
 }
 
@@ -213,7 +213,7 @@ void Player::DrawThruster()
 {
 	glBegin(GL_LINE_LOOP);
 
-	glColor3f(1.0f, 0.271, 0.0f);
+	glColor3f(1.0f, 0.271f, 0.0f);
 
 	for (int i = 0; i < thrusterVertices.size(); i++)
 	{
@@ -324,7 +324,7 @@ void Player::DrawInvulnerability()
 {
 	glBegin(GL_LINE_LOOP);
 
-	glColor3f(0.000, 0.980, 0.604);
+	glColor3f(0.000f, 0.980f, 0.604f);
 
 	for (int i = 0; i < godlyVertices.size(); i++)
 	{

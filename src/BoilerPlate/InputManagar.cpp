@@ -80,62 +80,62 @@ void InputManager::SetSPACE(bool value)
 
 
 
-bool InputManager::GetW()
+bool InputManager::W_IsPressed()
 {
 	return W_KEY;
 }
 
-bool InputManager::GetA()
+bool InputManager::A_IsPressed()
 {
 	return A_KEY;
 }
 
-bool InputManager::GetS()
+bool InputManager::S_IsPressed()
 {
 	return S_KEY;
 }
 
-bool InputManager::GetD()
+bool InputManager::D_IsPressed()
 {
 	return D_KEY;
 }
 
-bool InputManager::GetQ()
+bool InputManager::Q_IsPressed()
 {
 	return Q_KEY;
 }
 
-bool InputManager::GetE()
+bool InputManager::E_IsPressed()
 {
 	return E_KEY;
 }
 
-bool InputManager::GetF()
+bool InputManager::F_IsPressed()
 {
 	return F_KEY;
 }
 
-bool InputManager::GetR()
+bool InputManager::R_IsPressed()
 {
 	return R_KEY;
 }
 
-bool InputManager::GetZ()
+bool InputManager::Z_IsPressed()
 {
 	return Z_KEY;
 }
 
-bool InputManager::GetG()
+bool InputManager::G_IsPressed()
 {
 	return G_KEY;
 }
 
-bool InputManager::GetENTER()
+bool InputManager::ENTER_IsPrerssed()
 {
 	return ENTER_KEY;
 }
 
-bool InputManager::GetSPACE()
+bool InputManager::SPACE_IsPressed()
 {
 	return SPACE_KEY;
 }

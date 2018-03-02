@@ -435,7 +435,7 @@ void Game::BulletAsteroidCollision()
 
 void Game::ManageInput()
 {
-	if (inputManager.GetW())
+	if (inputManager.W_IsPressed())
 	{
 		player.MoveForward();
 		if(player.GetAliveState()) soundEngine->play2D("audio/thrust.wav");
@@ -447,38 +447,38 @@ void Game::ManageInput()
 	}
 
 
-	if (inputManager.GetA())
+	if (inputManager.A_IsPressed())
 	{
 		player.RotateLeft();
 	}
 
-	if (inputManager.GetD())
+	if (inputManager.D_IsPressed())
 	{
 		player.RotateRight();
 	}
 
-	if (inputManager.GetQ() && inputLimiter == 0)
+	if (inputManager.Q_IsPressed() && inputLimiter == 0)
 	{
 		DecreaseAsteroids();
 
 		ResetLimiter();
 	}
 
-	if (inputManager.GetE() && inputLimiter == 0)
+	if (inputManager.E_IsPressed() && inputLimiter == 0)
 	{
 		IncreaseAsteroids();
 
 		ResetLimiter();
 	}
 
-	if (inputManager.GetF() && inputLimiter == 0)
+	if (inputManager.F_IsPressed() && inputLimiter == 0)
 	{
 		ToggleDebuggingMode();
 
 		ResetLimiter();
 	}
 
-	if (inputManager.GetR() && inputLimiter == 0)
+	if (inputManager.R_IsPressed() && inputLimiter == 0)
 	{
 		if (!player.GetAliveState() && !gameOver)
 		{
@@ -496,21 +496,21 @@ void Game::ManageInput()
 		
 	}
 
-	if (inputManager.GetZ() && inputLimiter == 0)
+	if (inputManager.Z_IsPressed() && inputLimiter == 0)
 	{
 		ResetGame();
 		gameOver = false;
 		ResetLimiter();
 	}
 
-	if (inputManager.GetG() && inputLimiter == 0)
+	if (inputManager.G_IsPressed() && inputLimiter == 0)
 	{
 		player.ToggleGodMode();
 
 		ResetLimiter();
 	}
 
-	if (inputManager.GetSPACE() && inputLimiter == 0)
+	if (inputManager.SPACE_IsPressed() && inputLimiter == 0)
 	{
 		if (!player.IsInvulnerable() && player.GetAliveState() &&
 			player.GetBullets().size() < player.GetBulletLimit() && !player.IsGodMode())
@@ -666,7 +666,7 @@ void Game::TogglePause()
 
 void Game::StartButtonInput()
 {
-	if (inputManager.GetENTER() && inputLimiter == 0)
+	if (inputManager.ENTER_IsPrerssed() && inputLimiter == 0)
 	{
 		if (onTitleScreen)
 		{
@@ -706,6 +706,5 @@ void Game::ToggleTitleScreen()
 		onTitleScreen = !onTitleScreen;
 		soundEngine->play2D("audio/mainScreenTheme.wav", GL_TRUE);
 	}
-	
 
 }
