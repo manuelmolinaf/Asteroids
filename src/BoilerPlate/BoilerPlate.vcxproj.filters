@@ -112,6 +112,9 @@
     <Media Include="audio\gameOver.wav" />
     <Media Include="audio\thrust.wav" />
     <Media Include="audio\death.wav" />
+    <Media Include="audio\respawn.wav" />
+    <Media Include="audio\pause.wav" />
+    <Media Include="audio\unpause.wav" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\8-BIT WONDER.TTF" />

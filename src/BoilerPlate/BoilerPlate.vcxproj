@@ -246,7 +246,10 @@ copy /Y "$(SolutionDir)\Externals\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\i
     <Media Include="audio\extraShip.wav" />
     <Media Include="audio\fire.wav" />
     <Media Include="audio\gameOver.wav" />
+    <Media Include="audio\pause.wav" />
+    <Media Include="audio\respawn.wav" />
     <Media Include="audio\thrust.wav" />
+    <Media Include="audio\unpause.wav" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\8-BIT WONDER.TTF" />

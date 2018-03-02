@@ -51,7 +51,8 @@ private:
 	std::vector<Vector2> lifeVertices;
 	bool paused;
 	bool gameOver;
-	bool dead;
+	bool playerIsDead;
+	bool onMainScreen;
 	int asteroidCount;
 	float height;
 	float width;
@@ -97,9 +98,8 @@ private:
 	void InitGameFontColor(int, int,int, int);
 	void RenderGameGUI();
 	void TogglePause();
-	void PauseInput();
-	
-	
+	void ToggleMainScreen();
+	void StartButtonInput();
 };
 
 #endif
