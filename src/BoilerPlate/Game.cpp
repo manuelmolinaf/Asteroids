@@ -4,23 +4,21 @@
 
 Game::Game(float currentHeight, float currentWidth)
 {
+	soundEngine = irrklang::createIrrKlangDevice();
 	height = currentHeight;
 	width = currentWidth;
 	debuggingMode = false;
 	gameOver = false;
 	playerIsDead = false;
 	paused = false;
-	onMainScreen = false;
-	ToggleMainScreen();
+	onTitleScreen = false;
+	ToggleTitleScreen();
 	playerLife = 3;
 	extraLifeMeter = 1;
 	textRenderer.TextRenderInit();
 	InitGameFontColor(255, 255, 255, 255);
-
 	gameFont = TTF_OpenFont("fonts/8-BIT WONDER.TTF", 40);
 	textRenderer = GLTextRenderer(gameFont, gameFontColor);
-
-	soundEngine = irrklang::createIrrKlangDevice();
 	bigAsteroidScoreValue = 20;
 	mediumAsteroidScoreValue = 50;
 	smallAsteroidScoreValue = 100;
@@ -51,7 +49,7 @@ void Game::Update(float currentHeight, float currentWidth, float deltaTime)
 	
 	if (!paused)
 	{
-		if (!onMainScreen)
+		if (!onTitleScreen)
 		{
 			ManageInput();
 
@@ -110,12 +108,12 @@ void Game::Render()
 	RenderGameGUI();
 
 	//===========================================================================
-	if(!onMainScreen) player.Render();
+	if(!onTitleScreen) player.Render();
 	//===========================================================================
 	
 
 	//===========================================================================
-	if (!onMainScreen) RenderLives();
+	if (!onTitleScreen) RenderLives();
 	//===========================================================================
 
 
@@ -334,6 +332,7 @@ void Game::ResetGame()
 {
 	playerLife = 3;
 	score = 0;
+	gameOver = false;
 	if (player.IsGodMode()) player.ToggleGodMode();
 	player.SetDebuggingMode(false);
 	debuggingMode = false;
@@ -341,6 +340,9 @@ void Game::ResetGame()
 
 	asteroidLevel = 0;
 	PushAsteroids();
+	soundEngine->stopAllSounds();
+	soundEngine->play2D("audio/respawn.wav");
+	soundEngine->play2D("audio/spaceAdventures.wav", GL_TRUE);
 	
 }
 
@@ -354,7 +356,11 @@ void Game::PlayerAsteroidCollision()
 
 			if (playerLife == 0 && !player.GetAliveState() && !gameOver)
 			{
+				soundEngine->stopAllSounds();
 				soundEngine->play2D("audio/gameOver.wav");
+				soundEngine->play2D("audio/gameOverMusic.wav", GL_TRUE);
+
+
 
 				gameOver = true;
 			}
@@ -474,12 +480,20 @@ void Game::ManageInput()
 
 	if (inputManager.GetR() && inputLimiter == 0)
 	{
-		if(!player.GetAliveState())
+		if (!player.GetAliveState() && !gameOver)
+		{
 			soundEngine->play2D("audio/respawn.wav");
+			RespawnShip();
+			playerIsDead = false;
+			ResetLimiter();
+		}
 
-		RespawnShip();
-		playerIsDead = false;
-		ResetLimiter();
+		if (gameOver)
+		{
+			ToggleTitleScreen();
+			ResetLimiter();
+		}
+		
 	}
 
 	if (inputManager.GetZ() && inputLimiter == 0)
@@ -502,15 +516,15 @@ void Game::ManageInput()
 			player.GetBullets().size() < player.GetBulletLimit() && !player.IsGodMode())
 		{
 			soundEngine->play2D("audio/fire.wav");
+			player.Shoot();
+			ResetLimiter();
 		}
 		else if (player.IsGodMode())
 		{
 			soundEngine->play2D("audio/fire.wav");
+			player.Shoot();
 		}
 
-		player.Shoot();
-
-		if(!player.IsGodMode())ResetLimiter();
 	}
 
 }
@@ -605,20 +619,20 @@ void Game::InitGameFontColor(int R, int G, int B, int A)
 
 void Game::RenderGameGUI()
 {
-	if (!onMainScreen)
+	if (!onTitleScreen)
 	{
 		textRenderer.RenderText("SCORE  " + std::to_string(score), gameFontColor, (width / 2.0f) - 340.0f, (height / 2.0f) - 60.0f, 40.0f);
 	}
 
-	if (playerLife == 0 && !player.GetAliveState())
+	if (playerLife == 0 && !player.GetAliveState() && !onTitleScreen)
 	{
-		textRenderer.RenderText("GAME OVER", gameFontColor, -150.0f, 0.0f, 500.0f);
+		textRenderer.RenderText("GAME OVER", gameFontColor, -125.0f, 100.0f, 500.0f);
 		textRenderer.RenderText("PRESS START TO PLAY AGAIN", gameFontColor, -400.0f, -100.0f, 0.0f);
 	}
 
 	if (!player.GetAliveState() && playerLife != 0)
 	{
-		textRenderer.RenderText("PRESS SELECT TO RESPAWN", gameFontColor, -380.0f, 0.0f, 0.0f);
+		textRenderer.RenderText("PRESS B TO RESPAWN", gameFontColor, -200.0f, 0.0f, 0.0f);
 	}
 
 	if (paused)
@@ -626,20 +640,24 @@ void Game::RenderGameGUI()
 		textRenderer.RenderText("GAME PAUSED", gameFontColor, -160.0f, 0.0f, 0.0f);
 	}
 
-	if (onMainScreen)
+	if (onTitleScreen)
 	{
-		textRenderer.RenderText("PUCMM ASTEROIDS", gameFontColor, -160.0f, 0.0f, 0.0f);
+		textRenderer.RenderText("PUCMM ASTEROIDS                    ", gameFontColor, -260.0f, 0.0f, 0.0f);
+		textRenderer.RenderText("PRESS START", gameFontColor, -160.0f, -100.0f, 0.0f);
 	}
 }
 
 void Game::TogglePause()
 {
-	if (!paused)
+	if (!paused && !onTitleScreen)
 	{
+		
 		soundEngine->play2D("audio/pause.wav");
+		soundEngine->setSoundVolume(0);
 	}
 	else
 	{
+		soundEngine->setSoundVolume(100);
 		soundEngine->play2D("audio/unpause.wav");
 	}
 
@@ -650,12 +668,22 @@ void Game::StartButtonInput()
 {
 	if (inputManager.GetENTER() && inputLimiter == 0)
 	{
-		if (onMainScreen)
+		if (onTitleScreen)
 		{
-			ToggleMainScreen();
+			ToggleTitleScreen();
+			
 		}
-		else if(player.GetAliveState())
+		else if (gameOver)
+		{
+			gameOver = false;
+			ResetGame();
+		}
+		else if (player.GetAliveState())
+		{
 			TogglePause();
+		}
+
+			
 
 		ResetLimiter();
 	}
@@ -663,17 +691,21 @@ void Game::StartButtonInput()
 }
 
 
-void Game::ToggleMainScreen()
+void Game::ToggleTitleScreen()
 {
-	if (onMainScreen)
+	if (onTitleScreen)
 	{
+		soundEngine->stopAllSounds();
+		onTitleScreen = !onTitleScreen;
 		ResetGame();
+		
 	}
 	else
 	{
-
+		soundEngine->stopAllSounds();
+		onTitleScreen = !onTitleScreen;
+		soundEngine->play2D("audio/mainScreenTheme.wav", GL_TRUE);
 	}
-
-	onMainScreen = !onMainScreen;
+	
 
 }

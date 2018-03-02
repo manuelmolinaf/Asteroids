@@ -115,6 +115,9 @@
     <Media Include="audio\respawn.wav" />
     <Media Include="audio\pause.wav" />
     <Media Include="audio\unpause.wav" />
+    <Media Include="audio\mainScreenTheme.wav" />
+    <Media Include="audio\spaceAdventures.wav" />
+    <Media Include="audio\gameOverMusic.wav" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\8-BIT WONDER.TTF" />

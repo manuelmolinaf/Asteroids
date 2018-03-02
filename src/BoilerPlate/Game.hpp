@@ -52,7 +52,7 @@ private:
 	bool paused;
 	bool gameOver;
 	bool playerIsDead;
-	bool onMainScreen;
+	bool onTitleScreen;
 	int asteroidCount;
 	float height;
 	float width;
@@ -72,9 +72,10 @@ private:
 	int maxLife;
 	int extraLifeMeter;
 	irrklang::ISoundEngine *soundEngine;
-	GLTextRenderer textRenderer;
 	TTF_Font *gameFont;
 	SDL_Color gameFontColor;
+	GLTextRenderer textRenderer;
+
 
 	//private functions
 
@@ -98,7 +99,7 @@ private:
 	void InitGameFontColor(int, int,int, int);
 	void RenderGameGUI();
 	void TogglePause();
-	void ToggleMainScreen();
+	void ToggleTitleScreen();
 	void StartButtonInput();
 };
 
