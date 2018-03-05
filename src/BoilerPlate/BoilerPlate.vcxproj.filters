@@ -7,43 +7,43 @@
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="Vector2.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="MathUtilities.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="ColorPalette.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Asteroid.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="InputManagar.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="GLTextRenderer.cpp">
-      <Filter>Engine\Source files</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,11 +94,11 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{6f9fb37f-e47b-46c3-8209-dbf486018555}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Source files">
-      <UniqueIdentifier>{0a3ec513-922c-4b14-83e3-98e1934fea74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Header files">
       <UniqueIdentifier>{da8cc683-e66e-46b9-be58-7d0e16e23f76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{0a3ec513-922c-4b14-83e3-98e1934fea74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

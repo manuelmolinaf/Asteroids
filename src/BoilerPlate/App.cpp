@@ -44,7 +44,6 @@ namespace Engine
 	{
 		if (m_state != GameState::INIT_SUCCESSFUL)
 		{
-			std::cerr << "Game INIT was not successful." << std::endl;
 			return;
 		}
 
@@ -96,9 +95,6 @@ namespace Engine
 	{
 		switch (keyBoardEvent.keysym.scancode)
 		{
-		default:
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-			break;
 		case SDL_SCANCODE_W:
 			m_game.inputManager.SetW(true);
 			break;
@@ -143,9 +139,6 @@ namespace Engine
 
 		switch (keyBoardEvent.keysym.scancode)
 		{
-		default:
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-			break;
 		case SDL_SCANCODE_W:
 			m_game.inputManager.SetW(false);
 			break;
@@ -226,7 +219,6 @@ namespace Engine
 		//
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
-			std::cerr << "Failed to init SDL" << std::endl;
 			return false;
 		}
 
@@ -248,7 +240,6 @@ namespace Engine
 
 		if (!m_mainWindow)
 		{
-			std::cerr << "Failed to create window!" << std::endl;
 			SDL_Quit();
 			TTF_Quit();
 			return false;
@@ -293,7 +284,6 @@ namespace Engine
 		GLenum err = glewInit();
 		if (GLEW_OK != err)
 		{
-			std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
 			return false;
 		}
 

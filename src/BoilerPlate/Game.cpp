@@ -314,6 +314,7 @@ void Game::RespawnShip()
 	{
 		player.Respawn();
 		playerLife--;
+		playerIsDead = false;
 	}
 }
 void Game::PushAsteroids()
@@ -332,6 +333,7 @@ void Game::ResetGame()
 {
 	playerLife = 3;
 	score = 0;
+	extraLifeMeter = 1;
 	gameOver = false;
 	if (player.IsGodMode()) player.ToggleGodMode();
 	player.SetDebuggingMode(false);
@@ -482,10 +484,12 @@ void Game::ManageInput()
 	{
 		if (!player.GetAliveState() && !gameOver)
 		{
+			
 			soundEngine->play2D("audio/respawn.wav");
 			RespawnShip();
-			playerIsDead = false;
 			ResetLimiter();
+
+			
 		}
 
 		if (gameOver)

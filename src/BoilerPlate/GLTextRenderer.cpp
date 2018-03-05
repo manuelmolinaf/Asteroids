@@ -17,22 +17,14 @@ GLTextRenderer::GLTextRenderer(TTF_Font* newFont, SDL_Color newColor)
 void GLTextRenderer::TextRenderInit()
 {
 	if (TTF_Init() == -1) {
-		SDL_Log("TTF_Init: %s\n", TTF_GetError());
+		SDL_Log("", TTF_GetError());
 
 	}
 	SDL_version compile_version;
 	const SDL_version *link_version = TTF_Linked_Version();
 	SDL_TTF_VERSION(&compile_version);
 
-	SDL_Log("compiled with SDL_ttf version: %d.%d.%d\n",
-		compile_version.major,
-		compile_version.minor,
-		compile_version.patch);
-
-	SDL_Log("running with SDL_ttf version: %d.%d.%d\n",
-		link_version->major,
-		link_version->minor,
-		link_version->patch);
+	
 }
 
 unsigned int GLTextRenderer::power_two_floor(unsigned int val)
@@ -58,7 +50,6 @@ void GLTextRenderer::RenderText(std::string message, SDL_Color color, float x, f
 	//Render font to a SDL_Surface
 	if ((surface = TTF_RenderText_Blended(font, message.c_str(), color)) == nullptr) {
 		TTF_CloseFont(font);
-		std::cout << "TTF_RenderText error: " << std::endl;
 		return;
 	}
 
