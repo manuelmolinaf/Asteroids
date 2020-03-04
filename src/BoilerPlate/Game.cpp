@@ -647,8 +647,11 @@ void Game::RenderGameGUI()
 	if (onTitleScreen)
 	{
 		textRenderer.RenderText("PUCMM ASTEROIDS                    ", gameFontColor, -260.0f, 0.0f, 0.0f);
+		textRenderer.RenderText("By Manuel Molina", gameFontColor, -175.0f, -40.0f, 0.0f);
 		textRenderer.RenderText("PRESS START", gameFontColor, -160.0f, -100.0f, 0.0f);
 	}
+
+	//textRenderer.RenderText("By: Manuel Molina", gameFontColor, 0.0f, 0.0f, 0.0f);
 }
 
 void Game::TogglePause()
